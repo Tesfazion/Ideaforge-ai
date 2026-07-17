@@ -52,7 +52,7 @@ export default function LoginPage() {
           <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Welcome back</h1>
           <p className="text-gray-500 dark:text-gray-400 mt-1">Sign in to your account</p>
         </motion.div>
-        <motion.div className="card-base glass-card rounded-2xl p-8 shadow-sm dark:shadow-none" initial={{ opacity: 0, scale: 0.95, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.1 }}>
+        <motion.div className="card-base glass-card rounded-2xl p-8 shadow-sm dark:shadow-none border border-gray-200 dark:border-gray-700" initial={{ opacity: 0, scale: 0.95, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.1 }}>
           {error && (
             <motion.div className="bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/20 text-red-700 dark:text-red-400 text-sm px-4 py-3 rounded-xl mb-6" initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }}>
               {error}

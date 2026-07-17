@@ -77,7 +77,7 @@ export default function Features() {
         </motion.div>
         <motion.div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6" variants={container} initial="hidden" whileInView="show" viewport={{ once: true, margin: "-100px" }}>
           {features.map((f) => (
-            <motion.div key={f.title} className="card-base glass-card rounded-2xl overflow-hidden card-hover group" variants={item} whileHover={{ y: -5, transition: { type: "spring", stiffness: 300 } }}>
+            <motion.div key={f.title} className="card-base glass-card rounded-2xl overflow-hidden card-hover group border border-gray-200 dark:border-gray-700" variants={item} whileHover={{ y: -5, transition: { type: "spring", stiffness: 300 } }}>
                <div className="relative h-40 overflow-hidden">
                  <Image src={f.image} alt={f.alt} fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" className="object-cover group-hover:scale-110 transition-transform duration-500" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />

@@ -20,7 +20,7 @@ export default function FAQ() {
         </div>
         <div className="space-y-3">
           {faqs.map((faq, i) => (
-            <motion.div key={i} className="glass-card rounded-xl border border-white/40 dark:border-white/10 overflow-hidden" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.05 }}>
+            <motion.div key={i} className="card-base glass-card rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.05 }}>
               <motion.button onClick={() => setOpen(open === i ? null : i)} className="w-full flex items-center justify-between px-6 py-4 text-left">
                 <span className="text-sm font-semibold text-heading dark:text-white">{faq.q}</span>
                 <motion.svg className={`w-4 h-4 text-muted`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} animate={{ rotate: open === i ? 180 : 0 }} transition={{ duration: 0.2 }}>

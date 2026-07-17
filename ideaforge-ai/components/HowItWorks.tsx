@@ -69,7 +69,7 @@ export default function HowItWorks() {
                 <div className={`grid lg:grid-cols-2 gap-12 lg:gap-20 items-center ${idx % 2 === 1 ? "" : ""}`}>
                   <div className={`relative ${idx % 2 === 1 ? "lg:order-last" : "lg:order-first"}`}>
                     <div className="absolute -inset-4 bg-gradient-to-r from-primary/5 to-accent/5 rounded-3xl blur-2xl" />
-                    <div className="relative glass-card rounded-2xl overflow-hidden shadow-2xl border border-white/40 dark:border-white/10 h-64 sm:h-80">
+                    <div className="relative glass-card rounded-2xl overflow-hidden shadow-2xl border border-gray-200 dark:border-gray-700 h-64 sm:h-80">
                       <Image src={step.image} alt={step.alt} fill sizes="(max-width: 1024px) 100vw, 50vw" className="object-cover" />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                       <div className="absolute bottom-0 left-0 right-0 p-6">
@@ -88,7 +88,7 @@ export default function HowItWorks() {
                         <path strokeLinecap="round" strokeLinejoin="round" d={step.icon} />
                       </svg>
                     </div>
-                    <div className="glass-card rounded-2xl p-6 border border-white/40 dark:border-white/10">
+                    <div className="glass-card rounded-2xl p-6 border border-gray-200 dark:border-gray-700">
                       <span className="text-xs font-bold text-primary bg-primary/10 px-3 py-1 rounded-full">Step {step.num}</span>
                       <h3 className="text-2xl sm:text-3xl font-bold text-heading mt-3 mb-3">{step.title}</h3>
                       <p className="text-body text-base leading-relaxed max-w-lg">{step.desc}</p>

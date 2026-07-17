@@ -19,7 +19,7 @@ export default function ComparisonTable() {
           <h2 className="text-3xl sm:text-4xl font-bold text-heading">Why Choose IdeaForge?</h2>
           <p className="text-body mt-3">See how we compare to traditional validation tools</p>
         </div>
-        <div className="glass-card rounded-2xl border border-white/40 dark:border-white/10 overflow-hidden shadow-sm">
+        <div className="card-base glass-card rounded-2xl overflow-hidden shadow-sm border border-gray-200 dark:border-gray-700">
           <table className="w-full text-sm">
             <thead className="bg-surface-alt">
               <tr>
