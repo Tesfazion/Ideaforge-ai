@@ -69,7 +69,7 @@ export default function Pricing() {
         <motion.div className="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto" variants={container} initial="hidden" whileInView="show" viewport={{ once: true, margin: "-100px" }}>
           {plans.map((plan) => (
             <motion.div key={plan.name} variants={item} whileHover={{ y: -5, transition: { type: "spring", stiffness: 300 } }}>
-              <div className={`relative rounded-2xl p-8 h-full ${plan.popular ? "bg-white border-2 border-indigo-500 shadow-xl shadow-indigo-500/10 dark:bg-gray-800 dark:border-indigo-400" : "bg-white border border-gray-200 dark:bg-gray-800 dark:border-gray-700"}`}>
+               <div className={`relative rounded-2xl p-8 h-full ${plan.popular ? "glass-card border-2 border-indigo-500 shadow-xl shadow-indigo-500/10 dark:border-indigo-400 dark:bg-gray-800" : "glass-card border border-gray-200 dark:bg-gray-800 dark:border-gray-700"}`}>
                 {plan.popular && (
                   <motion.div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 text-white text-xs font-semibold shadow-lg"
                     animate={{ scale: [1, 1.05, 1] }}

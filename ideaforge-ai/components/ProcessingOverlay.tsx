@@ -54,7 +54,7 @@ export default function ProcessingOverlay({
         {subtitle && <p className="text-gray-500 dark:text-gray-400 text-sm">{subtitle}</p>}
       </div>
 
-      <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 p-6 shadow-sm mb-6">
+      <div className="glass-card rounded-2xl border border-gray-200 dark:border-gray-700 p-6 shadow-sm mb-6">
         <div className="relative mb-4">
           <div className="h-2 bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden">
             <div

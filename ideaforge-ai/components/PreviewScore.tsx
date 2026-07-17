@@ -39,7 +39,7 @@ export default function PreviewScore() {
           <p className="mt-3 text-gray-500 dark:text-gray-400">No sign-up required. See your viability score in seconds.</p>
         </div>
 
-        <div className="card-base rounded-2xl p-6 sm:p-8">
+        <div className="card-base glass-card rounded-2xl p-6 sm:p-8 border border-gray-200 dark:border-gray-700">
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-gray-900 dark:text-gray-200 mb-1.5">Idea Title</label>

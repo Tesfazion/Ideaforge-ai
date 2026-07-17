@@ -19,7 +19,7 @@ export default function ContactModal({ open, onClose }: ContactModalProps) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4" onClick={onClose}>
       <div className="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity" />
-      <div className="relative bg-white dark:bg-gray-900 rounded-2xl shadow-2xl border border-gray-100 dark:border-gray-800 p-6 max-w-md w-full animate-slide-up" onClick={(e) => e.stopPropagation()}>
+      <div className="relative glass-card rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-700 p-6 max-w-md w-full animate-slide-up" onClick={(e) => e.stopPropagation()}>
         <div className="flex items-center justify-between mb-4">
           <div>
             <h3 className="text-lg font-bold text-gray-900 dark:text-white">Contact Sales</h3>
