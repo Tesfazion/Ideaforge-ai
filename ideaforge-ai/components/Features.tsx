@@ -73,11 +73,11 @@ export default function Features() {
         <motion.div className="text-center mb-12" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }} transition={{ duration: 0.6 }}>
           <span className="inline-block text-xs font-bold text-primary bg-primary/10 px-4 py-1.5 rounded-full mb-4 tracking-wider uppercase">Features</span>
           <h2 className="text-3xl sm:text-4xl font-bold text-heading">Everything You Need to Validate</h2>
-          <p className="text-body mt-3 max-w-2xl mx-auto">IdeaForge AI goes beyond simple scoring. Get a complete analysis toolkit that helps you understand, test, and refine your business idea.</p>
+          <p className="text-body mt-3 max-w-2xl mx-auto">IdeaForge goes beyond simple scoring. Get a complete analysis toolkit that helps you understand, test, and refine your business idea.</p>
         </motion.div>
         <motion.div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6" variants={container} initial="hidden" whileInView="show" viewport={{ once: true, margin: "-100px" }}>
           {features.map((f) => (
-            <motion.div key={f.title} className="card-base rounded-2xl overflow-hidden card-hover group" variants={item} whileHover={{ y: -5, transition: { type: "spring", stiffness: 300 } }}>
+            <motion.div key={f.title} className="card-base glass-card rounded-2xl overflow-hidden card-hover group" variants={item} whileHover={{ y: -5, transition: { type: "spring", stiffness: 300 } }}>
                <div className="relative h-40 overflow-hidden">
                  <Image src={f.image} alt={f.alt} fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" className="object-cover group-hover:scale-110 transition-transform duration-500" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />

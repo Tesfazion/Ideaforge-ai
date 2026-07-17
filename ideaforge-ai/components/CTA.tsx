@@ -18,7 +18,7 @@ export default function CTA() {
               Ready to Validate Your Next Big Idea?
             </motion.h2>
             <motion.p className="text-white/80 mt-3 max-w-xl mx-auto" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.3 }}>
-              Join thousands of entrepreneurs who trust IdeaForge AI to validate their business concepts before investing time and money.
+              Join thousands of entrepreneurs who trust IdeaForge to validate their business concepts before investing time and money.
             </motion.p>
             <motion.div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.4 }}>
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>

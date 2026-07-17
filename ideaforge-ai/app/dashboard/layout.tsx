@@ -27,7 +27,7 @@ function Sidebar({ open, onClose }: { open: boolean; onClose: () => void }) {
               </svg>
             </div>
             <div>
-              <span className="text-lg font-bold text-gray-900 dark:text-white">IdeaForge<span className="gradient-text"> AI</span></span>
+               <span className="text-lg font-bold text-gray-900 dark:text-white">IdeaForge</span>
               <p className="text-[10px] text-gray-400 dark:text-gray-600 -mt-0.5">Business Intelligence Platform</p>
             </div>
           </Link>

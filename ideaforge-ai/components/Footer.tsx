@@ -27,7 +27,7 @@ export default function Footer() {
                   <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
                 </svg>
               </div>
-              <span className="text-lg font-bold text-heading dark:text-white">IdeaForge AI</span>
+              <span className="text-lg font-bold text-heading dark:text-white">IdeaForge</span>
             </Link>
             <p className="text-sm text-body dark:text-gray-400 leading-relaxed">AI-powered business idea validation for entrepreneurs and innovators.</p>
           </motion.div>
@@ -58,7 +58,7 @@ export default function Footer() {
         <motion.div className="border-t border-gray-100 dark:border-gray-800 mt-8 pt-8 text-center text-sm text-muted"
           initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.3 }}
         >
-          &copy; {new Date().getFullYear()} IdeaForge AI. All rights reserved.
+          &copy; {new Date().getFullYear()} IdeaForge. All rights reserved.
         </motion.div>
       </div>
     </footer>

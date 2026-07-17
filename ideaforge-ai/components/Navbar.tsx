@@ -21,7 +21,7 @@ export default function Navbar() {
 
   return (
     <motion.nav 
-      className="sticky top-0 z-50 backdrop-blur-lg border-b theme-transition"
+      className="sticky top-0 z-50 backdrop-blur-xl border-b theme-transition"
       style={{ backgroundColor, borderColor, boxShadow }}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -36,7 +36,7 @@ export default function Navbar() {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
               </svg>
             </motion.div>
-            <span className="text-xl font-bold text-heading dark:text-white">IdeaForge<span className="gradient-text"> AI</span></span>
+             <span className="text-xl font-bold text-heading dark:text-white">IdeaForge</span>
           </Link>
           <div className="flex items-center gap-3">
             <motion.button

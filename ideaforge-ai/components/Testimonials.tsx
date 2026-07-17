@@ -30,7 +30,7 @@ export default function Testimonials() {
         </motion.div>
         <motion.div className="grid md:grid-cols-3 gap-6" variants={container} initial="hidden" whileInView="show" viewport={{ once: true, margin: "-100px" }}>
           {testimonials.map((t) => (
-            <motion.div key={t.name} className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 p-6 card-hover" variants={item} whileHover={{ y: -5, transition: { type: "spring", stiffness: 300 } }}>
+            <motion.div key={t.name} className="glass-card rounded-2xl border border-white/40 dark:border-white/10 p-6 card-hover" variants={item} whileHover={{ y: -5, transition: { type: "spring", stiffness: 300 } }}>
               <motion.div className="flex gap-1 mb-4">
                 {Array.from({ length: t.rating }).map((_, i) => (
                   <motion.svg key={i} className="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20"

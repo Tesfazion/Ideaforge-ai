@@ -8,7 +8,7 @@ const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "IdeaForge AI - Validate Your Business Idea with AI",
+   title: "IdeaForge - Validate Your Business Idea with AI",
   description: "Get AI-powered validation feedback on your business ideas including market potential, competitor analysis, monetization suggestions, and risk assessment.",
 };
 

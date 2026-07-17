@@ -73,7 +73,7 @@ export default function Hero() {
               <span className="gradient-text block mt-2">With AI Precision</span>
             </h1>
             <p className="mt-6 text-lg text-body max-w-xl">
-              Get a comprehensive 9-dimension analysis of your business idea in 30 seconds. Market research, SWOT analysis, competitor mapping, risk assessment, and a 7-day action plan — all powered by IdeaForge AI.
+               Get a comprehensive 9-dimension analysis of your business idea in 30 seconds. Market research, SWOT analysis, competitor mapping, risk assessment, and a 7-day action plan — all powered by IdeaForge.
             </p>
             <div className="mt-8 flex flex-col sm:flex-row gap-3">
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
@@ -110,7 +110,7 @@ export default function Hero() {
           </motion.div>
           <motion.div className="hidden lg:block relative" variants={item}>
             <motion.div
-              className="relative bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-2xl p-6 max-w-md ml-auto"
+              className="relative glass-card rounded-2xl border border-white/40 dark:border-white/10 shadow-2xl p-6 max-w-md ml-auto"
               whileHover={{ y: -5, rotateY: 5, rotateX: 5 }}
               transition={{ type: "spring", stiffness: 300 }}
             >
@@ -125,7 +125,7 @@ export default function Hero() {
                   <p className="text-xs text-gray-500">Just now</p>
                 </div>
               </div>
-              <div className="bg-gray-50 dark:bg-gray-900/50 rounded-xl p-4 mb-3">
+              <div className="bg-white/70 dark:bg-gray-900/70 rounded-xl p-4 mb-3">
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-xs font-medium text-gray-500">Viability Score</span>
                   <span className="text-lg font-bold text-emerald-600">{activity.score || "—"}%</span>
@@ -150,7 +150,7 @@ export default function Hero() {
                 <span className="text-xs text-gray-400 whitespace-nowrap">{activity.time}</span>
               </div>
               <motion.div
-                className="absolute -bottom-4 -right-4 bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 shadow-lg p-3 flex items-center gap-2"
+                className="absolute -bottom-4 -right-4 bg-white/80 dark:bg-gray-800/80 rounded-xl border border-white/50 dark:border-white/10 shadow-lg p-3 flex items-center gap-2"
                 animate={{ y: [0, -5, 0] }}
                 transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
               >

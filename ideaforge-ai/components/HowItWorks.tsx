@@ -13,7 +13,7 @@ const steps = [
   },
   {
     num: "02",
-    title: "IdeaForge AI Analysis",
+    title: "IdeaForge Analysis",
     desc: "Our AI engine performs a 9-dimension deep dive: market sizing, SWOT, skeptic stress-test, GTM experiments, and competitive landscape mapping.",
     icon: "M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z",
     image: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=800&h=500&fit=crop&auto=format&q=80",
@@ -69,7 +69,7 @@ export default function HowItWorks() {
                 <div className={`grid lg:grid-cols-2 gap-12 lg:gap-20 items-center ${idx % 2 === 1 ? "" : ""}`}>
                   <div className={`relative ${idx % 2 === 1 ? "lg:order-last" : "lg:order-first"}`}>
                     <div className="absolute -inset-4 bg-gradient-to-r from-primary/5 to-accent/5 rounded-3xl blur-2xl" />
-                    <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-gray-100 dark:border-gray-700/50 bg-white dark:bg-gray-800 h-64 sm:h-80">
+                    <div className="relative glass-card rounded-2xl overflow-hidden shadow-2xl border border-white/40 dark:border-white/10 h-64 sm:h-80">
                       <Image src={step.image} alt={step.alt} fill sizes="(max-width: 1024px) 100vw, 50vw" className="object-cover" />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                       <div className="absolute bottom-0 left-0 right-0 p-6">
@@ -88,7 +88,7 @@ export default function HowItWorks() {
                         <path strokeLinecap="round" strokeLinejoin="round" d={step.icon} />
                       </svg>
                     </div>
-                    <div>
+                    <div className="glass-card rounded-2xl p-6 border border-white/40 dark:border-white/10">
                       <span className="text-xs font-bold text-primary bg-primary/10 px-3 py-1 rounded-full">Step {step.num}</span>
                       <h3 className="text-2xl sm:text-3xl font-bold text-heading mt-3 mb-3">{step.title}</h3>
                       <p className="text-body text-base leading-relaxed max-w-lg">{step.desc}</p>

@@ -1,6 +1,6 @@
 export default function ComparisonTable() {
   const features = [
-    { name: "AI Engine", ideaforge: "IdeaForge AI (9-Dimension)", others: "Generic single-score" },
+    { name: "AI Engine", ideaforge: "IdeaForge (9-Dimension)", others: "Generic single-score" },
     { name: "Analysis Depth", ideaforge: "SWOT + Skeptic + Market Timing", others: "Basic surface-level" },
     { name: "Report Speed", ideaforge: "15-30 seconds", others: "5-10 minutes" },
     { name: "Competitor Data", ideaforge: "Real-time web-sourced analysis", others: "Static/outdated" },
@@ -16,15 +16,15 @@ export default function ComparisonTable() {
     <section className="py-20 bg-surface">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold text-heading">Why Choose IdeaForge AI?</h2>
+          <h2 className="text-3xl sm:text-4xl font-bold text-heading">Why Choose IdeaForge?</h2>
           <p className="text-body mt-3">See how we compare to traditional validation tools</p>
         </div>
-        <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm">
+        <div className="glass-card rounded-2xl border border-white/40 dark:border-white/10 overflow-hidden shadow-sm">
           <table className="w-full text-sm">
             <thead className="bg-surface-alt">
               <tr>
                 <th className="text-left px-6 py-4 font-semibold text-heading">Feature</th>
-                <th className="text-center px-6 py-4 font-semibold text-primary">IdeaForge AI</th>
+                <th className="text-center px-6 py-4 font-semibold text-primary">IdeaForge</th>
                 <th className="text-center px-6 py-4 font-semibold text-muted">Others</th>
               </tr>
             </thead>
