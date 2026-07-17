@@ -5,22 +5,10 @@ import { useState } from "react";
 import ContactModal from "@/components/ContactModal";
 
 export default function UpgradePage() {
-  const { user, token, refreshUser } = useAuth();
-  const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
+  const { user, token } = useAuth();
   const [contactOpen, setContactOpen] = useState(false);
   const [checkoutLoading, setCheckoutLoading] = useState(false);
   const [checkoutError, setCheckoutError] = useState<string | null>(null);
-
-  const handleUpgrade = async () => {
-    if (!token) return;
-    setLoading(true);
-    try {
-      await api.upgrade(token);
-      await refreshUser();
-      setSuccess(true);
-    } catch {} finally { setLoading(false); }
-  };
 
   const handleCheckout = async (plan: "pro" | "enterprise") => {
     if (!token) return;
@@ -29,13 +17,13 @@ export default function UpgradePage() {
     try {
       const data = await api.createCheckoutSession(token, { plan });
       window.location.href = data.url;
-    } catch (err) {
+    } catch {
       setCheckoutError("Failed to start checkout. Please try again.");
       setCheckoutLoading(false);
     }
   };
 
-  if (user?.plan === "pro" || success) {
+  if (user?.plan === "pro") {
     return (
       <div className="max-w-lg mx-auto text-center py-20 animate-slide-up">
         <div className="w-16 h-16 rounded-2xl bg-emerald-500 flex items-center justify-center mx-auto mb-4 shadow-lg shadow-emerald-500/25">
