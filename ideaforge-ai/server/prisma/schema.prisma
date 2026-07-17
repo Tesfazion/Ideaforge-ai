@@ -1,0 +1,72 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+
+model User {
+  id              String   @id @default(cuid())
+  name            String
+  email           String   @unique
+  password        String
+  plan            String   @default("free")
+  verified        Boolean  @default(false)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  tokens          Int      @default(5)
+  monthlyTokens   Int      @default(5)
+  lastTokenRefill  DateTime @default(now())
+  ideas           Idea[]
+}
+
+model Idea {
+  id             String   @id @default(cuid())
+  title          String
+  description    String
+  targetAudience String   @default("")
+  industry       String   @default("")
+  attachments    String   @default("")
+  status         String   @default("pending")
+  marketScope    String   @default("global")
+  userId         String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  report         Report?
+}
+
+model Report {
+  id                  String   @id @default(cuid())
+  viabilityScore      Float
+  marketScore         Float
+  competitorScore     Float
+  monetizationScore   Float
+  riskScore           Float
+  marketAnalysis      String
+  competitorOverview  String
+  monetizationModels  String
+  riskAssessment      String
+  nextSteps           String
+  sources             String   @default("[]")
+  valueHypothesis     String   @default("")
+  riskiestAssumption  String   @default("")
+  pivotSuggestions    String   @default("[]")
+  usedFallback        Boolean  @default(false)
+  problemSeverity     Float    @default(5)
+  marketUrgency       Float    @default(5)
+  easeOfReplica       Float    @default(5)
+  founderIdeaFit      Float    @default(5)
+  executionComplexity Float    @default(5)
+  nineDimensions      String   @default("[]")
+  gtmExperiments      String   @default("{}")
+  skepticAnalysis     String   @default("")
+  marketSizing        String   @default("{}")
+  actionPlan          String   @default("[]")
+  createdAt          DateTime @default(now())
+  ideaId             String   @unique
+  idea               Idea     @relation(fields: [ideaId], references: [id], onDelete: Cascade)
+}
