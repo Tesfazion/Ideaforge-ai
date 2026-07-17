@@ -15,6 +15,9 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`} suppressHydrationWarning>
+      <head>
+        <link rel="preload" href="https://images.unsplash.com/photo-1497366216548-37526070297c?w=1920&h=1080&fit=crop&auto=format&q=80" as="image" type="image/jpeg" />
+      </head>
       <body className="min-h-full flex flex-col theme-transition" suppressHydrationWarning>
         <ThemeProvider>
           <AuthProvider>{children}</AuthProvider>

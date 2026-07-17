@@ -8,23 +8,23 @@ const steps = [
     title: "Describe Your Idea",
     desc: "Tell us about your business concept, target audience, and industry. Add as much detail as possible for deeper analysis.",
     icon: "M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z",
-    image: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&h=400&fit=crop&auto=format&q=80",
-    alt: "Person planning business ideas",
+    image: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&h=500&fit=crop&auto=format&q=80",
+    alt: "Team planning business ideas together",
   },
   {
     num: "02",
     title: "IdeaForge AI Analysis",
     desc: "Our AI engine performs a 9-dimension deep dive: market sizing, SWOT, skeptic stress-test, GTM experiments, and competitive landscape mapping.",
     icon: "M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z",
-    image: "https://images.unsplash.com/photo-1677442136019-21780ecbd995?w=600&h=400&fit=crop&auto=format&q=80",
-    alt: "AI neural network visualization",
+    image: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=800&h=500&fit=crop&auto=format&q=80",
+    alt: "AI and automation concept",
   },
   {
     num: "03",
     title: "Get Your Report",
     desc: "Receive a comprehensive viability report with radar charts, market timing indicators, risk heatmaps, and a 7-day action plan.",
     icon: "M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z",
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop&auto=format&q=80",
+    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=500&fit=crop&auto=format&q=80",
     alt: "Business analytics dashboard",
   },
   {
@@ -32,8 +32,8 @@ const steps = [
     title: "Act & Iterate",
     desc: "Follow the AI-generated action plan, pivot with the assistant, and compare ideas side-by-side to find your best opportunity.",
     icon: "M13 7h8m0 0v8m0-8l-8 8-4-4-6 6",
-    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=400&fit=crop&auto=format&q=80",
-    alt: "Entrepreneur celebrating success",
+    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=500&fit=crop&auto=format&q=80",
+    alt: "Entrepreneur reviewing analytics",
   },
 ];
 
@@ -69,8 +69,8 @@ export default function HowItWorks() {
                 <div className={`grid lg:grid-cols-2 gap-12 lg:gap-20 items-center ${idx % 2 === 1 ? "" : ""}`}>
                   <div className={`relative ${idx % 2 === 1 ? "lg:order-last" : "lg:order-first"}`}>
                     <div className="absolute -inset-4 bg-gradient-to-r from-primary/5 to-accent/5 rounded-3xl blur-2xl" />
-                    <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-gray-100 dark:border-gray-700/50 bg-white dark:bg-gray-800">
-                      <Image src={step.image} alt={step.alt} width={600} height={400} className="w-full h-64 sm:h-80 object-cover" />
+                    <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-gray-100 dark:border-gray-700/50 bg-white dark:bg-gray-800 h-64 sm:h-80">
+                      <Image src={step.image} alt={step.alt} fill sizes="(max-width: 1024px) 100vw, 50vw" className="object-cover" />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                       <div className="absolute bottom-0 left-0 right-0 p-6">
                         <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/20 backdrop-blur-md text-white text-xs font-bold mb-2">

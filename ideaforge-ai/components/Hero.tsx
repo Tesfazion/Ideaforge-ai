@@ -58,7 +58,7 @@ export default function Hero() {
   return (
     <section className="relative overflow-hidden bg-gray-50 dark:bg-[#0B1120]">
       <div className="absolute inset-0">
-        <Image src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=1920&h=1080&fit=crop&auto=format&q=80" alt="Modern startup office" fill className="object-cover opacity-10 dark:opacity-[0.07]" priority />
+        <Image src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=1920&h=1080&fit=crop&auto=format&q=80" alt="Modern startup office" fill className="object-cover opacity-10 dark:opacity-[0.07]" priority sizes="100vw" />
         <div className="absolute inset-0 bg-gradient-to-b from-gray-50/90 via-gray-50/80 to-gray-50 dark:from-[#0B1120]/90 dark:via-[#0B1120]/80 dark:to-[#0B1120]" />
       </div>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 sm:py-32 relative">

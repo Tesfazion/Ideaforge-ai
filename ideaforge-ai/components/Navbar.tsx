@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useAuth } from "@/lib/auth";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useTheme } from "./ThemeProvider";
+import { useEffect, useState } from "react";
 
 export default function Navbar() {
   const { user } = useAuth();
@@ -11,6 +12,12 @@ export default function Navbar() {
   const backgroundColor = useTransform(scrollY, [0, 100], ["rgba(255,255,255,0.8)", "rgba(255,255,255,0.95)"]);
   const borderColor = useTransform(scrollY, [0, 100], ["rgba(229,231,235,0.5)", "rgba(229,231,235,1)"]);
   const boxShadow = useTransform(scrollY, [0, 100], ["0 0 0 rgba(0,0,0,0)", "0 4px 20px rgba(0,0,0,0.06)"]);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setMounted(true);
+  }, []);
 
   return (
     <motion.nav 
@@ -39,7 +46,7 @@ export default function Navbar() {
               whileTap={{ scale: 0.9 }}
               aria-label="Toggle theme"
             >
-              {theme === "light" ? (
+              {mounted && theme === "light" ? (
                 <svg className="w-5 h-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
                 </svg>
