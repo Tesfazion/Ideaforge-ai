@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 function Counter({ end, suffix = "" }: { end: number; suffix?: string }) {
   const [count, setCount] = useState(0);
@@ -55,11 +56,10 @@ export default function Hero() {
   const activity = ACTIVITIES[activityIdx];
 
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-primary/5 via-white to-white dark:from-primary/10 dark:via-gray-900 dark:to-gray-900">
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <motion.div className="absolute top-20 left-10 w-72 h-72 bg-primary/10 rounded-full blur-3xl animate-float" />
-        <motion.div className="absolute bottom-20 right-10 w-96 h-96 bg-accent/10 rounded-full blur-3xl animate-float-delayed" />
-        <motion.div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-3xl" />
+    <section className="relative overflow-hidden bg-gray-50 dark:bg-[#0B1120]">
+      <div className="absolute inset-0">
+        <Image src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=1920&h=1080&fit=crop&auto=format&q=80" alt="Modern startup office" fill className="object-cover opacity-10 dark:opacity-[0.07]" priority />
+        <div className="absolute inset-0 bg-gradient-to-b from-gray-50/90 via-gray-50/80 to-gray-50 dark:from-[#0B1120]/90 dark:via-[#0B1120]/80 dark:to-[#0B1120]" />
       </div>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 sm:py-32 relative">
         <motion.div className="grid lg:grid-cols-2 gap-12 items-center" variants={container} initial="hidden" animate="show">
@@ -80,13 +80,16 @@ export default function Hero() {
                 <Link href="/register" className="gradient-btn text-white px-8 py-3.5 rounded-xl text-base font-semibold inline-flex items-center gap-2 justify-center shadow-lg">
                   Start Validating Free
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
                   </svg>
                 </Link>
               </motion.div>
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                <Link href="#how-it-works" className="px-8 py-3.5 rounded-xl text-base font-semibold border border-gray-200 text-heading hover:bg-surface-alt transition-colors inline-flex items-center gap-2 justify-center">
+                <Link href="#how-it-works" className="px-8 py-3.5 rounded-xl text-base font-semibold border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-white dark:hover:bg-gray-800 transition-colors inline-flex items-center gap-2 justify-center">
                   See How It Works
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                  </svg>
                 </Link>
               </motion.div>
             </div>
@@ -106,7 +109,7 @@ export default function Hero() {
             </motion.div>
           </motion.div>
           <motion.div className="hidden lg:block relative" variants={item}>
-            <motion.div 
+            <motion.div
               className="relative bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-2xl p-6 max-w-md ml-auto"
               whileHover={{ y: -5, rotateY: 5, rotateX: 5 }}
               transition={{ type: "spring", stiffness: 300 }}
@@ -128,7 +131,7 @@ export default function Hero() {
                   <span className="text-lg font-bold text-emerald-600">{activity.score || "—"}%</span>
                 </div>
                 <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5">
-                  <motion.div 
+                  <motion.div
                     className="bg-gradient-to-r from-emerald-500 to-emerald-400 h-1.5 rounded-full"
                     animate={{ width: `${activity.score || 0}%` }}
                     transition={{ duration: 0.5 }}
@@ -146,7 +149,7 @@ export default function Hero() {
                 </div>
                 <span className="text-xs text-gray-400 whitespace-nowrap">{activity.time}</span>
               </div>
-              <motion.div 
+              <motion.div
                 className="absolute -bottom-4 -right-4 bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 shadow-lg p-3 flex items-center gap-2"
                 animate={{ y: [0, -5, 0] }}
                 transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
