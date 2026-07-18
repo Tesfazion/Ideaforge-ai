@@ -13,6 +13,7 @@ export default function Navbar() {
   const borderColor = useTransform(scrollY, [0, 100], ["rgba(229,231,235,0.5)", "rgba(229,231,235,1)"]);
   const boxShadow = useTransform(scrollY, [0, 100], ["0 0 0 rgba(0,0,0,0)", "0 4px 20px rgba(0,0,0,0.06)"]);
   const [mounted, setMounted] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -38,7 +39,8 @@ export default function Navbar() {
             </motion.div>
              <span className="text-xl font-bold text-heading dark:text-white">IdeaForge</span>
           </Link>
-          <div className="flex items-center gap-3">
+          
+          <div className="hidden md:flex items-center gap-3">
             <motion.button
               onClick={toggleTheme}
               className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
@@ -81,7 +83,66 @@ export default function Navbar() {
               </>
             )}
           </div>
+          
+          <div className="flex items-center gap-2 md:hidden">
+            <motion.button
+              onClick={toggleTheme}
+              className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              aria-label="Toggle theme"
+            >
+              {mounted && theme === "light" ? (
+                <svg className="w-5 h-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                </svg>
+              ) : (
+                <svg className="w-5 h-5 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                </svg>
+              )}
+            </motion.button>
+            <button onClick={() => setMobileOpen(!mobileOpen)} className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" aria-label="Toggle menu">
+              {mobileOpen ? (
+                <svg className="w-5 h-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              ) : (
+                <svg className="w-5 h-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              )}
+            </button>
+          </div>
         </div>
+        
+        {mobileOpen && (
+          <motion.div 
+            className="md:hidden pb-4 border-t border-gray-100 dark:border-gray-800 mt-2 pt-4"
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+          >
+            {user ? (
+              <div className="flex flex-col gap-2">
+                {user.plan === "pro" && (
+                  <span className="inline-flex items-center gap-1 text-xs font-semibold px-2 py-1 rounded-lg bg-emerald-50 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 w-fit">
+                    <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                    Pro Plan
+                  </span>
+                )}
+                <Link href="/dashboard" onClick={() => setMobileOpen(false)} className="gradient-btn text-white px-4 py-2.5 rounded-xl text-sm font-semibold text-center">Dashboard</Link>
+              </div>
+            ) : (
+              <div className="flex flex-col gap-2">
+                <Link href="/login" onClick={() => setMobileOpen(false)} className="text-sm font-medium text-body hover:text-heading px-3 py-2.5 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">Sign In</Link>
+                <Link href="/register" onClick={() => setMobileOpen(false)} className="gradient-btn text-white px-4 py-2.5 rounded-xl text-sm font-semibold text-center">Get Started Free</Link>
+              </div>
+            )}
+          </motion.div>
+        )}
       </div>
     </motion.nav>
   );

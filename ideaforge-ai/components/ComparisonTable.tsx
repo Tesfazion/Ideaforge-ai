@@ -20,7 +20,8 @@ export default function ComparisonTable() {
           <p className="text-body mt-3">See how we compare to traditional validation tools</p>
         </div>
         <div className="card-base glass-card rounded-2xl overflow-hidden shadow-sm border border-gray-200 dark:border-gray-700">
-          <table className="w-full text-sm">
+          <div className="overflow-x-auto -mx-4 sm:mx-0">
+            <table className="w-full text-sm min-w-[600px]">
             <thead className="bg-surface-alt">
               <tr>
                 <th className="text-left px-6 py-4 font-semibold text-heading">Feature</th>
@@ -38,6 +39,7 @@ export default function ComparisonTable() {
               ))}
             </tbody>
           </table>
+          </div>
         </div>
       </div>
     </section>

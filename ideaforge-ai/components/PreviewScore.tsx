@@ -75,7 +75,7 @@ export default function PreviewScore() {
                   <p className="text-5xl font-bold text-gray-900 dark:text-white">{result.viabilityScore}<span className="text-xl text-gray-400">/100</span></p>
                   <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Viability Score</p>
                 </div>
-                <div className="flex gap-4">
+                <div className="flex flex-wrap justify-center gap-4">
                   {[
                     { label: "Market", score: result.marketScore, color: "#6366F1" },
                     { label: "Competition", score: result.competitorScore, color: "#8B5CF6" },
