@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 
@@ -20,21 +20,23 @@ function Counter({ end, suffix = "" }: { end: number; suffix?: string }) {
   return <>{count.toLocaleString()}{suffix}</>;
 }
 
-const ACTIVITIES = [
-  { name: "Sarah C.", action: "validated", idea: "AI-Powered Tutoring Platform", score: 87, time: "2m ago" },
-  { name: "Marcus J.", action: "validated", idea: "Sustainable Packaging SaaS", score: 74, time: "5m ago" },
-  { name: "Elena R.", action: "generated", idea: "3 new ideas for HealthTech", score: null, time: "8m ago" },
-  { name: "David K.", action: "validated", idea: "Remote Team Wellness App", score: 91, time: "12m ago" },
-  { name: "Priya M.", action: "validated", idea: "B2B Invoice Automation", score: 82, time: "18m ago" },
-  { name: "Alex T.", action: "generated", idea: "5 new ideas for FinTech", score: null, time: "22m ago" },
-  { name: "Jordan L.", action: "validated", idea: "Carbon Offset Marketplace", score: 79, time: "28m ago" },
+const DIMENSIONS = [
+  { name: "Problem Severity", score: 85, color: "#818cf8" },
+  { name: "Market Urgency", score: 78, color: "#818cf8" },
+  { name: "Market Size", score: 88, color: "#a78bfa" },
+  { name: "Competitive Moat", score: 72, color: "#a78bfa" },
+  { name: "Revenue Potential", score: 76, color: "#c084fc" },
+  { name: "Founder-Idea Fit", score: 90, color: "#c084fc" },
+  { name: "Time to Market", score: 82, color: "#e879f9" },
+  { name: "Scalability", score: 84, color: "#f59e0b" },
+  { name: "Ease of Replica", score: 68, color: "#f59e0b" },
 ];
 
 const container = {
   hidden: { opacity: 0 },
   show: {
     opacity: 1,
-    transition: { staggerChildren: 0.15, delayChildren: 0.3 }
+    transition: { staggerChildren: 0.1, delayChildren: 0.2 }
   }
 };
 
@@ -43,132 +45,178 @@ const item = {
   show: { opacity: 1, y: 0, transition: { type: "spring" as const, stiffness: 100 } }
 };
 
-export default function Hero() {
-  const [activityIdx, setActivityIdx] = useState(0);
-
+function Particles() {
+  const [dots, setDots] = useState<{ id: number; x: number; y: number; size: number; duration: number; delay: number }[]>([]);
   useEffect(() => {
-    const interval = setInterval(() => {
-      setActivityIdx((prev) => (prev + 1) % ACTIVITIES.length);
-    }, 3000);
-    return () => clearInterval(interval);
+    setDots(Array.from({ length: 40 }, (_, i) => ({
+      id: i,
+      x: Math.random() * 100,
+      y: Math.random() * 100,
+      size: Math.random() * 2 + 1,
+      duration: Math.random() * 20 + 15,
+      delay: Math.random() * 10,
+    })));
   }, []);
-
-  const activity = ACTIVITIES[activityIdx];
-
+  if (!dots.length) return <div className="absolute inset-0 overflow-hidden pointer-events-none" />;
   return (
-    <section className="relative overflow-hidden bg-white dark:bg-[#0B1120]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 sm:py-32">
+    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      {dots.map((d) => (
+        <motion.div
+          key={d.id}
+          className="absolute rounded-full bg-white/[0.15]"
+          style={{ left: `${d.x}%`, top: `${d.y}%`, width: d.size, height: d.size }}
+          animate={{ y: [0, -30, 0], opacity: [0, 0.6, 0] }}
+          transition={{ duration: d.duration, delay: d.delay, repeat: Infinity, ease: "easeInOut" }}
+        />
+      ))}
+    </div>
+  );
+}
+
+export default function Hero() {
+  return (
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#060a13]">
+      <div className="absolute inset-0">
+        <Image
+          src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&h=1080&fit=crop&auto=format&q=80"
+          alt=""
+          fill
+          className="object-cover opacity-[0.15]"
+          priority
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#060a13] via-[#060a13]/80 to-[#060a13]" />
+      </div>
+      <div className="absolute inset-0">
+        <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-indigo-600/20 rounded-full blur-[120px] animate-orb" />
+        <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-purple-600/15 rounded-full blur-[100px] animate-orb-delayed" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-amber-500/10 rounded-full blur-[80px] animate-orb-slow" />
+      </div>
+
+      <Particles />
+
+      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wMykiLz48L3N2Zz4=')] opacity-60" />
+
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-20">
         <motion.div className="grid lg:grid-cols-2 gap-16 items-center" variants={container} initial="hidden" animate="show">
-          <motion.div className="text-left max-w-xl" variants={item}>
-            <motion.div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6" variants={item}>
-              <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-              Trusted by 10,000+ entrepreneurs worldwide
+          <motion.div className="max-w-2xl" variants={item}>
+            <motion.div
+              className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-medium mb-8"
+              variants={item}
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              Trusted by 50,000+ entrepreneurs
             </motion.div>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-heading leading-tight">
-              Validate Your Business Idea
-              <span className="gradient-text block mt-2">With AI Precision</span>
-            </h1>
-            <p className="mt-6 text-lg text-body max-w-xl">
-              Get a comprehensive 9-dimension analysis of your business idea in 30 seconds. Market research, SWOT analysis, competitor mapping, risk assessment, and a 7-day action plan — all powered by IdeaForge.
-            </p>
-            <div className="mt-8 flex flex-col sm:flex-row gap-3">
-              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                <Link href="/register" className="gradient-btn text-white px-8 py-3.5 rounded-xl text-base font-semibold inline-flex items-center gap-2 justify-center shadow-lg">
+
+            <motion.h1
+              className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white leading-[1.05] tracking-tight"
+              variants={item}
+            >
+              Validate your idea
+              <br />
+              <span className="inline-block bg-gradient-to-r from-indigo-400 via-purple-400 to-amber-400 bg-[length:200%_auto] bg-clip-text text-transparent animate-shimmer">
+                before you build it.
+              </span>
+            </motion.h1>
+
+            <motion.p className="mt-6 text-lg text-slate-400 max-w-xl leading-relaxed" variants={item}>
+              Get a comprehensive 9-dimension AI analysis of any business idea in 30 seconds. Market research, SWOT, competitor mapping, risk assessment, and a 7-day action plan.
+            </motion.p>
+
+            <motion.div className="mt-10 flex flex-col sm:flex-row gap-3" variants={item}>
+              <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
+                <Link href="/register" className="gradient-btn text-white px-7 py-3.5 rounded-xl text-sm font-semibold inline-flex items-center gap-2 justify-center">
                   Start Validating Free
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
                   </svg>
                 </Link>
               </motion.div>
-              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                <Link href="#how-it-works" className="px-8 py-3.5 rounded-xl text-base font-semibold border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors inline-flex items-center gap-2 justify-center">
+              <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
+                <Link href="#how-it-works" className="px-7 py-3.5 rounded-xl text-sm font-semibold border border-white/10 text-slate-300 hover:bg-white/5 transition-colors inline-flex items-center gap-2 justify-center">
                   See How It Works
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-                  </svg>
                 </Link>
               </motion.div>
-            </div>
-            <motion.div className="mt-10 flex flex-wrap gap-6 text-sm text-muted" variants={item}>
+            </motion.div>
+
+            <motion.div className="mt-12 flex flex-wrap gap-x-8 gap-y-3 text-sm text-slate-500" variants={item}>
               <div className="flex items-center gap-2">
-                <svg className="w-4 h-4 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
+                <svg className="w-4 h-4 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
                 No credit card required
               </div>
               <div className="flex items-center gap-2">
-                <svg className="w-4 h-4 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
-                <Counter end={10000} suffix="+" /> ideas validated
+                <svg className="w-4 h-4 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+                <Counter end={50000} suffix="+" /> ideas validated
               </div>
               <div className="flex items-center gap-2">
-                <svg className="w-4 h-4 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
+                <svg className="w-4 h-4 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
                 9-dimension analysis
               </div>
             </motion.div>
           </motion.div>
 
           <motion.div className="relative hidden lg:block" variants={item}>
-            <div className="relative rounded-3xl overflow-hidden shadow-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
-              <Image
-                src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&h=600&fit=crop&auto=format&q=80"
-                alt="Modern startup office"
-                width={800}
-                height={600}
-                className="w-full h-[420px] object-cover"
-                priority
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-              <div className="absolute bottom-0 left-0 right-0 p-8">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center">
-                    <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-                    </svg>
-                  </div>
-                  <div>
-                    <p className="text-sm font-semibold text-white">Live Validation</p>
-                    <p className="text-xs text-white/70">Just now</p>
-                  </div>
+            <div className="absolute -inset-[1px] rounded-2xl bg-[conic-gradient(from_var(--angle),transparent_25%,#6366f1_50%,transparent_75%)] opacity-40 animate-[spin_6s_linear_infinite]" style={{ "--angle": "0deg" } as React.CSSProperties} />
+            <div className="relative rounded-2xl overflow-hidden border border-white/10 bg-[#0c1222]/90 backdrop-blur-xl p-6 shadow-2xl shadow-indigo-500/5">
+              <div className="flex items-center gap-2 mb-5">
+                <div className="flex gap-1.5">
+                  <div className="w-2.5 h-2.5 rounded-full bg-red-500/80" />
+                  <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/80" />
+                  <div className="w-2.5 h-2.5 rounded-full bg-green-500/80" />
                 </div>
-                <div className="bg-white/90 dark:bg-gray-900/90 backdrop-blur-md rounded-xl p-4">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-xs font-medium text-gray-500">Viability Score</span>
-                    <span className="text-lg font-bold text-emerald-600">{activity.score || "—"}%</span>
-                  </div>
-                  <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5">
-                    <motion.div
-                      className="bg-gradient-to-r from-emerald-500 to-emerald-400 h-1.5 rounded-full"
-                      animate={{ width: `${activity.score || 0}%` }}
-                      transition={{ duration: 0.5 }}
-                    />
-                  </div>
+                <span className="text-xs text-slate-500 ml-2 font-mono">IdeaForge Analysis</span>
+              </div>
+
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-slate-300 font-medium">AI-Powered Tutoring Platform</span>
+                  <span className="text-xs px-2 py-0.5 rounded-md bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-semibold">Score: 87</span>
                 </div>
-                <div className="flex items-center gap-2 text-sm text-white mt-3">
-                  <div className="w-7 h-7 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white text-xs font-bold">
-                    {activity.name.charAt(0)}
+
+                <div className="space-y-2 max-h-[220px] overflow-y-auto pr-1 scrollbar-thin">
+                  {DIMENSIONS.map((d) => (
+                    <div key={d.name} className="flex items-center gap-2.5">
+                      <span className="text-[11px] text-slate-500 w-24 shrink-0 truncate">{d.name}</span>
+                      <div className="flex-1 h-1.5 rounded-full bg-white/5 overflow-hidden">
+                        <motion.div
+                          className="h-full rounded-full"
+                          style={{ backgroundColor: d.color }}
+                          initial={{ width: 0 }}
+                          animate={{ width: `${d.score}%` }}
+                          transition={{ duration: 1.2, delay: 0.5, ease: "easeOut" }}
+                        />
+                      </div>
+                      <span className="text-[11px] font-mono text-slate-400 w-7 text-right">{d.score}</span>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="border-t border-white/5 pt-4 mt-4">
+                  <div className="grid grid-cols-3 gap-3">
+                    <div className="rounded-xl bg-white/[0.03] border border-white/5 p-3 text-center">
+                      <p className="text-lg font-bold text-white">30s</p>
+                      <p className="text-[10px] text-slate-500 uppercase tracking-wider mt-0.5">Analysis Time</p>
+                    </div>
+                    <div className="rounded-xl bg-white/[0.03] border border-white/5 p-3 text-center">
+                      <p className="text-lg font-bold text-white">9</p>
+                      <p className="text-[10px] text-slate-500 uppercase tracking-wider mt-0.5">Dimensions</p>
+                    </div>
+                    <div className="rounded-xl bg-white/[0.03] border border-white/5 p-3 text-center">
+                      <p className="text-lg font-bold text-emerald-400">94%</p>
+                      <p className="text-[10px] text-slate-500 uppercase tracking-wider mt-0.5">Accuracy</p>
+                    </div>
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="truncate">
-                      <span className="font-medium">{activity.name}</span> {activity.action} <span className="font-medium">{activity.idea}</span>
-                    </p>
-                  </div>
-                  <span className="text-xs text-white/70 whitespace-nowrap">{activity.time}</span>
                 </div>
               </div>
             </div>
-            <motion.div
-              className="absolute -bottom-4 -right-4 bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 shadow-lg p-3 flex items-center gap-2"
-              animate={{ y: [0, -5, 0] }}
-              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-            >
-              <div className="w-8 h-8 rounded-lg bg-emerald-50 dark:bg-emerald-900/50 flex items-center justify-center">
-                <svg className="w-4 h-4 text-emerald-600 dark:text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                </svg>
-              </div>
-              <div>
-                <p className="text-xs font-semibold text-gray-900 dark:text-white">94% Accuracy</p>
-                <p className="text-[10px] text-gray-500">Based on user feedback</p>
-              </div>
-            </motion.div>
+
+            <div className="absolute -bottom-3 -right-3 w-24 h-24 bg-indigo-500/20 rounded-full blur-2xl" />
+            <div className="absolute -top-3 -left-3 w-20 h-20 bg-purple-500/15 rounded-full blur-2xl" />
           </motion.div>
         </motion.div>
       </div>

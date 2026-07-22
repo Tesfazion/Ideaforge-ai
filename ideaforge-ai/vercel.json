@@ -7,7 +7,12 @@
     "JWT_SECRET": "@jwt-secret",
     "AI_API_KEY": "@ai-api-key",
     "AI_BASE_URL": "@ai-base-url",
-    "AI_MODEL": "@ai-model"
+    "AI_MODEL": "@ai-model",
+    "EXA_API_KEY": "@exa-api-key",
+    "STRIPE_SECRET_KEY": "@stripe-secret-key",
+    "STRIPE_WEBHOOK_SECRET": "@stripe-webhook-secret",
+    "STRIPE_PRO_PRICE_ID": "@stripe-pro-price-id",
+    "STRIPE_ENTERPRISE_PRICE_ID": "@stripe-enterprise-price-id"
   },
   "regions": ["iad1"],
   "crons": []

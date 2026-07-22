@@ -67,9 +67,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const refreshUser = async () => {
-    if (token) {
-      const data = await api.getMe(token);
-      setUser(data.user);
+    const currentToken = token || localStorage.getItem("ideaforge_token");
+    if (currentToken) {
+      try {
+        const data = await api.getMe(currentToken);
+        setToken(currentToken);
+        setUser(data.user);
+      } catch {
+        localStorage.removeItem("ideaforge_token");
+        deleteCookie("ideaforge_token");
+        setToken(null);
+        setUser(null);
+      }
     }
   };
 

@@ -1,6 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { getUserId } from "@/lib/jwt";
+import { writeFile, mkdir } from "fs/promises";
+import { join } from "path";
+
+const UPLOAD_DIR = join(process.cwd(), "uploads");
+
+async function ensureUploadDir() {
+  try {
+    await mkdir(UPLOAD_DIR, { recursive: true });
+  } catch {}
+}
 
 export async function GET(request: NextRequest) {
   try {
@@ -44,7 +54,11 @@ export async function POST(request: NextRequest) {
       marketScope = (formData.get("marketScope") as string) || undefined;
       const file = formData.get("file") as File | null;
       if (file && file.size > 0) {
-        attachmentFilename = `${Date.now()}-${Math.round(Math.random() * 1e9)}-${file.name}`;
+        await ensureUploadDir();
+        const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
+        attachmentFilename = `${Date.now()}-${Math.round(Math.random() * 1e9)}-${safeName}`;
+        const buffer = Buffer.from(await file.arrayBuffer());
+        await writeFile(join(UPLOAD_DIR, attachmentFilename), buffer);
       }
     } else {
       const body = await request.json();

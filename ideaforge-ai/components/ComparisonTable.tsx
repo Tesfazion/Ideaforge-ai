@@ -1,46 +1,112 @@
+"use client";
+import { motion } from "framer-motion";
+
+const features = [
+  { name: "AI Engine", ideaforge: "9-Dimension", others: "Generic single-score", score: 95 },
+  { name: "Analysis Depth", ideaforge: "SWOT + Skeptic + Timing", others: "Basic surface-level", score: 90 },
+  { name: "Report Speed", ideaforge: "15-30 seconds", others: "5-10 minutes", score: 98 },
+  { name: "Competitor Data", ideaforge: "Real-time web-sourced", others: "Static/outdated", score: 85 },
+  { name: "Market Sizing", ideaforge: "TAM / SAM / SOM", others: "Not available", score: 88 },
+  { name: "GTM Experiments", ideaforge: "4 auto-generated", others: "Not available", score: 82 },
+  { name: "Export Options", ideaforge: "PDF, Share, Compare", others: "PDF only", score: 90 },
+  { name: "Idea Comparison", ideaforge: "Side-by-side radar", others: "No", score: 87 },
+  { name: "Pivot Assistant", ideaforge: "AI chat + 3 directions", others: "Not available", score: 92 },
+  { name: "Action Plan", ideaforge: "7-day step-by-step", others: "Generic advice", score: 85 },
+  { name: "Price", ideaforge: "Free / $19/mo", others: "$49-99/mo", score: 95 },
+];
+
 export default function ComparisonTable() {
-  const features = [
-    { name: "AI Engine", ideaforge: "IdeaForge (9-Dimension)", others: "Generic single-score" },
-    { name: "Analysis Depth", ideaforge: "SWOT + Skeptic + Market Timing", others: "Basic surface-level" },
-    { name: "Report Speed", ideaforge: "15-30 seconds", others: "5-10 minutes" },
-    { name: "Competitor Data", ideaforge: "Real-time web-sourced analysis", others: "Static/outdated" },
-    { name: "Market Sizing", ideaforge: "TAM / SAM / SOM with data", others: "Not available" },
-    { name: "GTM Experiments", ideaforge: "4 auto-generated experiments", others: "Not available" },
-    { name: "Export Options", ideaforge: "PDF, Share, Compare", others: "PDF only" },
-    { name: "Idea Comparison", ideaforge: "Side-by-side radar charts", others: "No" },
-    { name: "Pivot Assistant", ideaforge: "AI chat + 3 pivot directions", others: "Not available" },
-    { name: "Action Plan", ideaforge: "7-day step-by-step plan", others: "Generic advice" },
-    { name: "Price", ideaforge: "Free / $19/mo", others: "$49-99/mo" },
-  ];
   return (
-    <section className="py-20 bg-surface">
+    <section className="py-24 bg-[#060a13] relative">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold text-heading">Why Choose IdeaForge?</h2>
-          <p className="text-body mt-3">See how we compare to traditional validation tools</p>
-        </div>
-        <div className="card-base glass-card rounded-2xl overflow-hidden shadow-sm border border-gray-200 dark:border-gray-700">
-          <div className="overflow-x-auto -mx-4 sm:mx-0">
-            <table className="w-full text-sm min-w-[600px]">
-            <thead className="bg-surface-alt">
-              <tr>
-                <th className="text-left px-6 py-4 font-semibold text-heading">Feature</th>
-                <th className="text-center px-6 py-4 font-semibold text-primary">IdeaForge</th>
-                <th className="text-center px-6 py-4 font-semibold text-muted">Others</th>
-              </tr>
-            </thead>
-            <tbody>
-              {features.map((f, i) => (
-                <tr key={f.name} className={i % 2 === 0 ? "bg-white" : "bg-surface/50"}>
-                  <td className="px-6 py-3.5 font-medium text-heading">{f.name}</td>
-                  <td className="px-6 py-3.5 text-center text-green-600 font-medium">{f.ideaforge}</td>
-                  <td className="px-6 py-3.5 text-center text-muted">{f.others}</td>
+        <motion.div
+          className="text-center mb-12"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          <span className="inline-block text-xs font-semibold text-indigo-400 bg-indigo-500/10 border border-indigo-500/20 px-3 py-1 rounded-full mb-5 tracking-wider uppercase">Comparison</span>
+          <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-tight">Why choose IdeaForge?</h2>
+          <p className="text-slate-400 mt-3">See how we compare to traditional validation tools</p>
+        </motion.div>
+
+        <motion.div
+          className="rounded-2xl border border-white/[0.06] bg-white/[0.02] overflow-hidden"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+        >
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm min-w-[620px]">
+              <thead>
+                <tr className="border-b border-white/[0.06]">
+                  <th className="text-left px-6 py-4 font-semibold text-slate-300">Feature</th>
+                  <th className="text-center px-4 py-4 font-semibold text-indigo-400">
+                    <span className="inline-flex items-center gap-1.5">
+                      <div className="w-5 h-5 rounded-md bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center">
+                        <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        </svg>
+                      </div>
+                      IdeaForge
+                    </span>
+                  </th>
+                  <th className="text-center px-4 py-4 font-semibold text-slate-500 w-24">Score</th>
+                  <th className="text-center px-6 py-4 font-semibold text-slate-500">Others</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {features.map((f, i) => (
+                  <motion.tr
+                    key={f.name}
+                    className={`border-b border-white/[0.03] group hover:bg-white/[0.02] transition-colors ${i % 2 === 0 ? "bg-white/[0.01]" : ""}`}
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.1 + i * 0.03 }}
+                  >
+                    <td className="px-6 py-3.5 font-medium text-slate-300">{f.name}</td>
+                    <td className="px-4 py-3.5 text-center">
+                      <span className="inline-flex items-center gap-1.5 text-indigo-400 font-medium text-xs">
+                        <svg className="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                        </svg>
+                        {f.ideaforge}
+                      </span>
+                    </td>
+                    <td className="px-4 py-3.5">
+                      <div className="flex items-center gap-2">
+                        <div className="flex-1 h-1.5 rounded-full bg-white/5 overflow-hidden">
+                          <motion.div
+                            className="h-full rounded-full bg-gradient-to-r from-indigo-500 to-purple-500"
+                            initial={{ width: 0 }}
+                            whileInView={{ width: `${f.score}%` }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.8, delay: 0.3 + i * 0.05 }}
+                          />
+                        </div>
+                        <span className="text-[11px] font-mono text-slate-500 w-6 text-right">{f.score}</span>
+                      </div>
+                    </td>
+                    <td className="px-6 py-3.5 text-center text-slate-500 text-xs">{f.others}</td>
+                  </motion.tr>
+                ))}
+              </tbody>
+            </table>
           </div>
-        </div>
+
+          <div className="px-6 py-4 border-t border-white/[0.06] bg-white/[0.01]">
+            <div className="flex items-center justify-between text-xs">
+              <span className="text-slate-500">Average score</span>
+              <div className="flex items-center gap-3">
+                <span className="text-slate-500">Others: <span className="text-slate-400 font-mono">~30</span></span>
+                <span className="text-indigo-400 font-semibold">IdeaForge: <span className="font-mono">90.5</span></span>
+              </div>
+            </div>
+          </div>
+        </motion.div>
       </div>
     </section>
   );

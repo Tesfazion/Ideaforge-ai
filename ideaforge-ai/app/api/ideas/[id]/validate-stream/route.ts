@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { getUserId } from "@/lib/jwt";
 import { validateIdeaStream } from "@/lib/ai";
 import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
+import { consumeToken, refundToken } from "@/lib/tokens";
 
 export async function POST(
   request: NextRequest,
@@ -88,10 +89,13 @@ export async function POST(
         });
         await prisma.idea.update({ where: { id: idea.id }, data: { status: "validated" } });
 
+        await consumeToken(userId);
+
         sendEvent({ type: "complete", report: created });
       } catch (err: unknown) {
         console.error(`Streaming validation failed for idea ${ideaId}:`, err);
         await prisma.idea.update({ where: { id: idea.id }, data: { status: "failed" } }).catch(() => {});
+        await refundToken(userId);
         sendEvent({ type: "error", message: "AI validation failed" });
       }
 

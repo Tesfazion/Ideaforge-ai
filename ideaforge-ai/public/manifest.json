@@ -1,0 +1,23 @@
+{
+  "name": "IdeaForge AI",
+  "short_name": "IdeaForge",
+  "description": "AI-powered business idea validation platform — validate any startup idea in 30 seconds.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#060a13",
+  "theme_color": "#060a13",
+  "icons": [
+    {
+      "src": "/logo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

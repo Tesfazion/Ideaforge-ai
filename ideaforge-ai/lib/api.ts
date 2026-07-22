@@ -16,7 +16,12 @@ async function request<T>(endpoint: string, options: RequestOptions = {}): Promi
     headers: { ...headers, ...(fetchOptions.headers as Record<string, string>) },
   });
   const data = await res.json();
-  if (!res.ok) throw { status: res.status, ...data };
+  if (!res.ok) {
+    const err = new Error(data.error || `Request failed with status ${res.status}`);
+    (err as any).status = res.status;
+    Object.assign(err, data);
+    throw err;
+  }
   return data as T;
 }
 

@@ -3,17 +3,19 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --webpack -p 1212",
+    "dev": "next dev -p 1212",
     "build": "npx prisma generate && next build --webpack",
     "start": "next start",
     "lint": "eslint",
     "postinstall": "npx prisma generate",
     "db:push": "npx prisma db push",
     "db:migrate": "npx prisma migrate deploy",
-    "db:studio": "npx prisma studio"
+    "db:studio": "npx prisma studio",
+    "db:seed": "npx tsx prisma/seed.ts"
   },
   "dependencies": {
     "@prisma/client": "^6.19.0",
+    "@stripe/stripe-js": "^9.10.0",
     "bcryptjs": "^2.4.3",
     "framer-motion": "^12.42.2",
     "html2canvas": "^1.4.1",
@@ -21,10 +23,10 @@
     "jspdf": "^2.5.2",
     "next": "16.2.10",
     "openai": "^4.94.0",
-    "prisma": "^6.19.0",
     "react": "19.2.4",
     "react-dom": "19.2.4",
-    "recharts": "^2.15.0"
+    "recharts": "^2.15.0",
+    "stripe": "^22.3.2"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
@@ -33,8 +35,10 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/stripe": "^8.0.416",
     "eslint": "^9",
     "eslint-config-next": "16.2.10",
+    "prisma": "^6.19.0",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

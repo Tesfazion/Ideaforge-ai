@@ -1,5 +1,14 @@
 import OpenAI from "openai";
 
+function sanitizeInput(input: string, maxLength: number = 2000): string {
+  return input
+    .replace(/[<>]/g, "")
+    .replace(/```[\s\S]*?```/g, "[code block removed]")
+    .replace(/<[^>]*>/g, "")
+    .trim()
+    .slice(0, maxLength);
+}
+
 const client = new OpenAI({
   apiKey: process.env.AI_API_KEY,
   baseURL: process.env.AI_BASE_URL || "https://openrouter.ai/api/v1",
@@ -359,13 +368,19 @@ export async function validateIdeaStream(
   onProgress: (event: ProgressEvent) => void,
   skepticMode: boolean = false
 ): Promise<ValidationResult & { usedFallback: boolean }> {
+  const safeTitle = sanitizeInput(idea.title);
+  const safeDesc = sanitizeInput(idea.description, 1000);
+  const safeAudience = idea.targetAudience ? sanitizeInput(idea.targetAudience, 200) : "";
+  const safeIndustry = idea.industry ? sanitizeInput(idea.industry, 100) : "";
+  const safeScope = idea.marketScope ? sanitizeInput(idea.marketScope, 50) : "Global SaaS";
+
   const userMessage = `Please validate this business idea:
 
-**Title:** ${idea.title}
-**Description:** ${idea.description}
-${idea.targetAudience ? `**Target Audience:** ${idea.targetAudience}` : ""}
-${idea.industry ? `**Industry:** ${idea.industry}` : ""}
-${idea.marketScope ? `**Market Scope:** ${idea.marketScope}` : "Global SaaS"}
+**Title:** ${safeTitle}
+**Description:** ${safeDesc}
+${safeAudience ? `**Target Audience:** ${safeAudience}` : ""}
+${safeIndustry ? `**Industry:** ${safeIndustry}` : ""}
+${safeScope ? `**Market Scope:** ${safeScope}` : "Global SaaS"}
 
 Provide a comprehensive validation with all 9 dimensions, live source citations, value hypothesis, pivot suggestions, GTM experiments, adversarial skeptic analysis, TAM/SAM/SOM market sizing, and a 7-day action plan.${skepticMode ? " Activate full Skeptic Mode - be brutal and look for fatal flaws." : ""}`;
 
@@ -400,7 +415,7 @@ Provide a comprehensive validation with all 9 dimensions, live source citations,
         { role: "user", content: userMessage },
       ],
       temperature: 0.7,
-      max_tokens: 6000,
+      max_tokens: 2000,
     });
 
     const content = response.choices[0]?.message?.content || "";
@@ -499,12 +514,12 @@ export async function generatePivotSuggestions(
   report: { viabilityScore: number; riskAssessment: string; marketAnalysis: string },
   onProgress?: (event: ProgressEvent) => void
 ): Promise<PivotSuggestion[]> {
-  const userMessage = `Original idea: "${idea.title}" - ${idea.description}
-Target Audience: ${idea.targetAudience || "Not specified"}
-Industry: ${idea.industry || "Not specified"}
+  const userMessage = `Original idea: "${sanitizeInput(idea.title, 200)}" - ${sanitizeInput(idea.description, 500)}
+Target Audience: ${idea.targetAudience ? sanitizeInput(idea.targetAudience, 200) : "Not specified"}
+Industry: ${idea.industry ? sanitizeInput(idea.industry, 100) : "Not specified"}
 Viability Score: ${report.viabilityScore}/100
-Risk Assessment: ${report.riskAssessment}
-Market Analysis: ${report.marketAnalysis}
+Risk Assessment: ${sanitizeInput(report.riskAssessment, 1000)}
+Market Analysis: ${sanitizeInput(report.marketAnalysis, 1000)}
 
 Generate 3 alternative pivot directions that could improve the viability score. Each should address the key risks.`;
 
@@ -550,18 +565,19 @@ export async function pivotChat(
   context: { idea: { title: string; description: string }; report: { viabilityScore: number; marketAnalysis: string; riskAssessment: string } },
   history: { role: "user" | "assistant"; content: string }[]
 ): Promise<string> {
+  const safeMessage = sanitizeInput(message, 500);
   const systemMsg = `${PIVOT_CHAT_SYSTEM_PROMPT}
 
-Original Idea: "${context.idea.title}" - ${context.idea.description}
+Original Idea: "${sanitizeInput(context.idea.title, 200)}" - ${sanitizeInput(context.idea.description, 500)}
 Current Viability Score: ${context.report.viabilityScore}/100
-Market Analysis: ${context.report.marketAnalysis}
-Risk Assessment: ${context.report.riskAssessment}`;
+Market Analysis: ${sanitizeInput(context.report.marketAnalysis, 1000)}
+Risk Assessment: ${sanitizeInput(context.report.riskAssessment, 1000)}`;
 
   try {
     const messages: OpenAI.Chat.Completions.ChatCompletionMessageParam[] = [
       { role: "system", content: systemMsg },
-      ...history.map((h) => ({ role: h.role as "user" | "assistant", content: h.content })),
-      { role: "user", content: message },
+      ...history.map((h) => ({ role: h.role as "user" | "assistant", content: sanitizeInput(h.content, 500) })),
+      { role: "user", content: safeMessage },
     ];
 
     const response = await client.chat.completions.create({
@@ -614,9 +630,11 @@ export async function generateIdeas(
   industry?: string,
   onProgress?: (event: ProgressEvent) => void
 ): Promise<GeneratedIdea[]> {
+  const safePrompt = sanitizeInput(prompt, 1000);
+  const safeIndustry = industry ? sanitizeInput(industry, 100) : "";
   const userMessage = `Generate business ideas based on:
 
-${industry ? `**Industry:** ${industry}\n` : ""}**Description:** ${prompt}
+${safeIndustry ? `**Industry:** ${safeIndustry}\n` : ""}**Description:** ${safePrompt}
 
 Generate 3 creative, actionable business ideas.`;
 

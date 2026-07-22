@@ -1,0 +1,40 @@
+# Dependencies
+node_modules
+
+# Next.js build
+.next
+out
+
+# Environment files (never commit secrets)
+.env
+.env.local
+.env*.local
+.env.production
+
+# TypeScript
+*.tsbuildinfo
+tsconfig.tsbuildinfo
+
+# Prisma
+.prisma/
+prisma/dev.db
+prisma/dev.db-journal
+
+# Logs
+*.log
+dev.log
+
+# IDE & tooling
+.vscode/
+.idea/
+.playwright-mcp/
+
+# Uploads
+uploads/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Misc
+scripts/

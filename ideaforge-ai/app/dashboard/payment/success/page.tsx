@@ -21,13 +21,13 @@ export default function PaymentSuccessPage() {
   if (!sessionId || !plan) {
     return (
       <div className="max-w-lg mx-auto text-center py-20 animate-slide-up">
-        <div className="w-16 h-16 rounded-2xl bg-gray-100 dark:bg-gray-800 flex items-center justify-center mx-auto mb-4">
-          <svg className="w-8 h-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <div className="w-16 h-16 rounded-2xl bg-white/[0.05] flex items-center justify-center mx-auto mb-4">
+          <svg className="w-8 h-8 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
           </svg>
         </div>
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Invalid Session</h1>
-        <p className="text-gray-500 dark:text-gray-400 mb-6">We could not verify your payment session.</p>
+        <h1 className="text-2xl font-bold text-white mb-2">Invalid Session</h1>
+        <p className="text-slate-400 mb-6">We could not verify your payment session.</p>
         <Link href="/dashboard/upgrade" className="gradient-btn text-white px-6 py-2.5 rounded-xl text-sm font-semibold">View Plans</Link>
       </div>
     );
@@ -44,28 +44,28 @@ export default function PaymentSuccessPage() {
         </div>
       </div>
 
-      <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Payment Successful!</h1>
-      <p className="text-gray-500 dark:text-gray-400 mb-8 max-w-sm mx-auto">Your {planLabel} plan has been activated. Enjoy unlimited access to all premium features.</p>
+      <h1 className="text-3xl font-bold text-white mb-2">Payment Successful!</h1>
+      <p className="text-slate-400 mb-8 max-w-sm mx-auto">Your {planLabel} plan has been activated. Enjoy unlimited access to all premium features.</p>
 
-      <div className="card-base rounded-2xl p-6 max-w-sm mx-auto mb-8 text-left space-y-3">
+      <div className="card-premium rounded-2xl p-6 max-w-sm mx-auto mb-8 text-left space-y-3">
         <div className="flex items-center justify-between">
-          <span className="text-sm text-gray-500 dark:text-gray-400">Plan</span>
-          <span className="text-sm font-semibold text-gray-900 dark:text-white">{planLabel}</span>
+          <span className="text-sm text-slate-400">Plan</span>
+          <span className="text-sm font-semibold text-white">{planLabel}</span>
         </div>
         <div className="flex items-center justify-between">
-          <span className="text-sm text-gray-500 dark:text-gray-400">Amount</span>
-          <span className="text-sm font-semibold text-gray-900 dark:text-white">{amount}</span>
+          <span className="text-sm text-slate-400">Amount</span>
+          <span className="text-sm font-semibold text-white">{amount}</span>
         </div>
         <div className="flex items-center justify-between">
-          <span className="text-sm text-gray-500 dark:text-gray-400">Status</span>
-          <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-emerald-600 dark:text-emerald-400">
+          <span className="text-sm text-slate-400">Status</span>
+          <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-emerald-400">
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
             {verified ? "Verified" : "Verifying..."}
           </span>
         </div>
         <div className="flex items-center justify-between">
-          <span className="text-sm text-gray-500 dark:text-gray-400">Session ID</span>
-          <span className="text-xs font-mono text-gray-500 dark:text-gray-400 break-all text-right max-w-[160px]">{sessionId}</span>
+          <span className="text-sm text-slate-400">Session ID</span>
+          <span className="text-xs font-mono text-slate-500 break-all text-right max-w-[160px]">{sessionId}</span>
         </div>
       </div>
 
@@ -73,7 +73,7 @@ export default function PaymentSuccessPage() {
         <Link href="/dashboard" className="gradient-btn text-white px-6 py-2.5 rounded-xl text-sm font-semibold w-full sm:w-auto text-center">
           Go to Dashboard
         </Link>
-        <Link href="/dashboard/upgrade" className="px-6 py-2.5 rounded-xl text-sm font-semibold border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors w-full sm:w-auto text-center">
+        <Link href="/dashboard/upgrade" className="px-6 py-2.5 rounded-xl text-sm font-semibold border border-white/[0.06] bg-white/[0.05] text-slate-300 hover:bg-white/[0.08] transition-colors w-full sm:w-auto text-center">
           Manage Plan
         </Link>
       </div>

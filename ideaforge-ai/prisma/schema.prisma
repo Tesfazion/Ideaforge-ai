@@ -38,6 +38,21 @@ model Idea {
   report         Report?
 }
 
+model Subscriber {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  createdAt DateTime @default(now())
+}
+
+model ContactInquiry {
+  id        String   @id @default(cuid())
+  email     String
+  company   String
+  teamSize  String   @default("")
+  message   String   @default("")
+  createdAt DateTime @default(now())
+}
+
 model Report {
   id                  String   @id @default(cuid())
   viabilityScore      Float

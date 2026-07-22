@@ -13,7 +13,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
     return NextResponse.json({
-      user: { id: user.id, name: user.name, email: user.email, plan: user.plan, verified: user.verified },
+      user: { id: user.id, name: user.name, email: user.email, plan: user.plan, verified: user.verified, tokens: user.tokens, monthlyTokens: user.monthlyTokens },
     });
   } catch (err: unknown) {
     console.error("Me error:", err);

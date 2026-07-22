@@ -9,6 +9,8 @@ const PUBLIC_PATHS = [
   "/api/auth/check-email",
   "/api/health",
   "/api/preview",
+  "/api/newsletter",
+  "/api/contact",
 ];
 
 const STATIC_PATHS = [
