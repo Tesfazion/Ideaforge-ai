@@ -5,6 +5,7 @@
   "env": {
     "DATABASE_URL": "@database-url",
     "JWT_SECRET": "@jwt-secret",
+    "ENCRYPTION_KEY": "@encryption-key",
     "AI_API_KEY": "@ai-api-key",
     "AI_BASE_URL": "@ai-base-url",
     "AI_MODEL": "@ai-model",
@@ -12,7 +13,8 @@
     "STRIPE_SECRET_KEY": "@stripe-secret-key",
     "STRIPE_WEBHOOK_SECRET": "@stripe-webhook-secret",
     "STRIPE_PRO_PRICE_ID": "@stripe-pro-price-id",
-    "STRIPE_ENTERPRISE_PRICE_ID": "@stripe-enterprise-price-id"
+    "STRIPE_ENTERPRISE_PRICE_ID": "@stripe-enterprise-price-id",
+    "NEXT_PUBLIC_APP_URL": "@next-public-app-url"
   },
   "regions": ["iad1"],
   "crons": []

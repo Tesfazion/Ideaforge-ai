@@ -25,15 +25,17 @@ const STATIC_PATHS = [
   "/sitemap.xml",
 ];
 
-function getJwtSecret(): Uint8Array {
+function getJwtSecret(): Uint8Array | null {
   const secret = process.env.JWT_SECRET;
-  if (!secret) throw new Error("JWT_SECRET is not set");
+  if (!secret) return null;
   return new TextEncoder().encode(secret);
 }
 
 async function verifyJwt(token: string): Promise<boolean> {
+  const secret = getJwtSecret();
+  if (!secret) return false;
   try {
-    await jwtVerify(token, getJwtSecret());
+    await jwtVerify(token, secret);
     return true;
   } catch {
     return false;
