@@ -20,6 +20,14 @@ model User {
   monthlyTokens   Int      @default(5)
   lastTokenRefill  DateTime @default(now())
   ideas           Idea[]
+  teams           TeamMember[]
+  onboardingComplete Boolean @default(false)
+  lastLoginAt     DateTime?
+  loginCount      Int      @default(0)
+  apiKeyEncrypted String?  @default("")
+  aiProvider      String   @default("")
+  aiModel         String   @default("")
+  apiKeys         ApiKey[]
 }
 
 model Idea {
@@ -36,6 +44,10 @@ model Idea {
   updatedAt      DateTime @updatedAt
   user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   report         Report?
+  isPublic       Boolean  @default(false)
+  publicSlug     String?  @unique
+  viewCount      Int      @default(0)
+  shareCount     Int      @default(0)
 }
 
 model Subscriber {
@@ -86,4 +98,49 @@ model Report {
   createdAt          DateTime @default(now())
   ideaId             String   @unique
   idea               Idea     @relation(fields: [ideaId], references: [id], onDelete: Cascade)
+  confidence         Float    @default(70)
+  adversarialVerdict String   @default("")
+}
+
+model Team {
+  id        String   @id @default(cuid())
+  name      String
+  plan      String   @default("enterprise")
+  createdAt DateTime @default(now())
+  members   TeamMember[]
+}
+
+model TeamMember {
+  id        String   @id @default(cuid())
+  role      String   @default("member")
+  userId    String
+  teamId    String
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  team      Team     @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  @@unique([userId, teamId])
+}
+
+model ApiKey {
+  id          String    @id @default(cuid())
+  keyHash     String    @unique
+  keyPreview  String
+  userId      String
+  name        String    @default("API Key")
+  createdAt   DateTime  @default(now())
+  lastUsedAt  DateTime?
+  revoked     Boolean   @default(false)
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@index([keyHash])
+  @@index([userId])
+}
+
+model ValidationBenchmark {
+  id             String   @id @default(cuid())
+  industry       String
+  avgViability   Float
+  avgMarket      Float
+  avgRisk        Float
+  totalValidations Int
+  updatedAt      DateTime @default(now())
 }

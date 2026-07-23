@@ -37,7 +37,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ success: true, message: "Inquiry received. We'll get back to you within 24 hours." });
   } catch (err: unknown) {
-    console.error("Contact error:", err);
+    console.error("Contact error:", err instanceof Error ? err.message : "unknown error");
     return NextResponse.json({ error: "Failed to submit inquiry" }, { status: 500 });
   }
 }

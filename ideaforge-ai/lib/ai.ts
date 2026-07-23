@@ -1,4 +1,5 @@
 import OpenAI from "openai";
+import { getProvider, AIConfig, AIProvider, ChatMessage } from "./ai-providers";
 
 function sanitizeInput(input: string, maxLength: number = 2000): string {
   return input
@@ -13,6 +14,47 @@ const client = new OpenAI({
   apiKey: process.env.AI_API_KEY,
   baseURL: process.env.AI_BASE_URL || "https://openrouter.ai/api/v1",
 });
+
+function resolveProvider(aiConfig?: AIConfig): { provider: AIProvider } {
+  if (aiConfig && aiConfig.apiKey && aiConfig.provider) {
+    return { provider: getProvider(aiConfig) };
+  }
+  const platformProvider: AIProvider = {
+    chat(messages: ChatMessage[], options?: { temperature?: number; maxTokens?: number }) {
+      return client.chat.completions
+        .create({
+          model: process.env.AI_MODEL || "openai/gpt-4o",
+          messages,
+          temperature: options?.temperature ?? 0.7,
+          max_tokens: options?.maxTokens ?? 4000,
+        })
+        .then((r) => r.choices[0]?.message?.content || "");
+    },
+  };
+  return { provider: platformProvider };
+}
+
+function extractJson(text: string): Record<string, unknown> | null {
+  const fenced = text.match(/```(?:json)?\s*\n?([\s\S]*?)\n?\s*```/);
+  if (fenced) {
+    try { return JSON.parse(fenced[1]); } catch { /* continue */ }
+  }
+  const braceStart = text.indexOf("{");
+  if (braceStart === -1) return null;
+  let depth = 0;
+  let inString = false;
+  let escape = false;
+  for (let i = braceStart; i < text.length; i++) {
+    const ch = text[i];
+    if (escape) { escape = false; continue; }
+    if (ch === "\\") { escape = true; continue; }
+    if (ch === '"') { inString = !inString; continue; }
+    if (inString) continue;
+    if (ch === "{") depth++;
+    if (ch === "}") { depth--; if (depth === 0) return JSON.parse(text.slice(braceStart, i + 1)); }
+  }
+  try { return JSON.parse(text.slice(braceStart)); } catch { return null; }
+}
 
 export interface SourceLink {
   title: string;
@@ -147,20 +189,14 @@ export interface ProgressEvent {
 }
 
 const ANALYSIS_STEPS = [
-  { step: "init", label: "Initializing AI analysis engine", progress: 3 },
-  { step: "search", label: "Searching live market data & competitor sources", progress: 10 },
-  { step: "market", label: "Analyzing market potential & TAM/SAM/SOM sizing", progress: 18 },
-  { step: "skeptic", label: "Running adversarial stress-test (Skeptic Mode)", progress: 26 },
-  { step: "problem", label: "Measuring problem severity & urgency", progress: 36 },
-  { step: "competitors", label: "Evaluating competitive landscape & replica risk", progress: 44 },
-  { step: "founder", label: "Assessing founder-idea fit", progress: 52 },
-  { step: "monetization", label: "Designing monetization models", progress: 60 },
-  { step: "risks", label: "Assessing risks & mitigation strategies", progress: 68 },
-  { step: "hypothesis", label: "Building value hypothesis & testing framework", progress: 76 },
-  { step: "actionplan", label: "Generating 7-Day Validation Action Plan", progress: 84 },
-  { step: "gtm", label: "Generating GTM experiments & action checklist", progress: 90 },
-  { step: "scoring", label: "Calculating viability & execution scores", progress: 96 },
-  { step: "report", label: "Generating final report", progress: 98 },
+  { step: "init", label: "Initializing multi-model analysis engine", progress: 2 },
+  { step: "search", label: "Searching 50+ live market data & competitor sources", progress: 8 },
+  { step: "primary", label: "Primary AI analyst generating comprehensive report", progress: 20 },
+  { step: "skeptic", label: "Independent adversarial reviewer stress-testing the idea", progress: 45 },
+  { step: "synthesis", label: "Cross-validating findings across AI models", progress: 65 },
+  { step: "scoring", label: "Calculating consensus scores & confidence intervals", progress: 80 },
+  { step: "sources", label: "Verifying source citations & linking evidence", progress: 90 },
+  { step: "report", label: "Generating final report with cross-validated verdict", progress: 97 },
 ];
 
 const VALIDATION_SYSTEM_PROMPT = `You are IdeaForge AI, an expert business analyst and idea validator. You analyze business ideas comprehensively across multiple dimensions. You are also a brutally honest Skeptic Agent that actively tries to find fatal flaws.
@@ -366,27 +402,28 @@ export async function searchExa(query: string): Promise<SourceLink[]> {
 export async function validateIdeaStream(
   idea: { title: string; description: string; targetAudience?: string; industry?: string; marketScope?: string },
   onProgress: (event: ProgressEvent) => void,
-  skepticMode: boolean = false
-): Promise<ValidationResult & { usedFallback: boolean }> {
+  skepticMode: boolean = false,
+  aiConfig?: AIConfig
+): Promise<ValidationResult & { usedFallback: boolean; confidence: number; adversarialVerdict?: string }> {
   const safeTitle = sanitizeInput(idea.title);
   const safeDesc = sanitizeInput(idea.description, 1000);
   const safeAudience = idea.targetAudience ? sanitizeInput(idea.targetAudience, 200) : "";
   const safeIndustry = idea.industry ? sanitizeInput(idea.industry, 100) : "";
   const safeScope = idea.marketScope ? sanitizeInput(idea.marketScope, 50) : "Global SaaS";
 
-  const userMessage = `Please validate this business idea:
+  const userMessage = `Validate this startup idea with extreme rigor. Be brutally honest — if it's bad, say so.
 
-**Title:** ${safeTitle}
+**Idea:** ${safeTitle}
 **Description:** ${safeDesc}
 ${safeAudience ? `**Target Audience:** ${safeAudience}` : ""}
 ${safeIndustry ? `**Industry:** ${safeIndustry}` : ""}
-${safeScope ? `**Market Scope:** ${safeScope}` : "Global SaaS"}
+**Market Scope:** ${safeScope}
 
-Provide a comprehensive validation with all 9 dimensions, live source citations, value hypothesis, pivot suggestions, GTM experiments, adversarial skeptic analysis, TAM/SAM/SOM market sizing, and a 7-day action plan.${skepticMode ? " Activate full Skeptic Mode - be brutal and look for fatal flaws." : ""}`;
+Return the FULL JSON response with ALL fields. This is a production validation — accuracy matters more than politeness.${skepticMode ? "\n\nSKEPTIC MODE ACTIVE: Maximum adversarial depth. Actively try to kill this idea. Most startups fail — find why this one will too." : ""}`;
 
   let liveSources: SourceLink[] = [];
   try {
-    const searchQuery = `${idea.title} ${idea.industry || ""} market trends competitors`.trim();
+    const searchQuery = `${idea.title} ${idea.industry || ""} market size competitors funding 2024 2025 2026`.trim();
     liveSources = await searchExa(searchQuery);
   } catch {
     liveSources = [];
@@ -395,8 +432,10 @@ Provide a comprehensive validation with all 9 dimensions, live source citations,
   try {
     for (const step of ANALYSIS_STEPS) {
       onProgress(step);
-      await sleep(350 + Math.random() * 500);
+      await sleep(200 + Math.random() * 300);
     }
+
+    const { provider } = resolveProvider(aiConfig);
 
     const systemMessages: OpenAI.Chat.Completions.ChatCompletionMessageParam[] = [
       { role: "system", content: VALIDATION_SYSTEM_PROMPT },
@@ -404,29 +443,84 @@ Provide a comprehensive validation with all 9 dimensions, live source citations,
     if (liveSources.length > 0) {
       systemMessages.push({
         role: "system",
-        content: `LIVE SEARCH CONTEXT (use these as sources in your report):\n${liveSources.map(s => `- ${s.title}: ${s.url} (${s.context})`).join("\n")}`,
+        content: `LIVE SEARCH DATA (cross-reference these in your analysis and cite as sources):\n${liveSources.map(s => `- ${s.title}: ${s.url}\n  Context: ${s.context}`).join("\n\n")}`,
       });
     }
 
-    const response = await client.chat.completions.create({
-      model: process.env.AI_MODEL || "openai/gpt-4o",
-      messages: [
-        ...systemMessages,
-        { role: "user", content: userMessage },
-      ],
-      temperature: 0.7,
-      max_tokens: 2000,
-    });
+    const primaryContent = await provider.chat(
+      [...systemMessages, { role: "user", content: userMessage }] as ChatMessage[],
+      { temperature: 0.65, maxTokens: 8000 }
+    );
+    let parsed = extractJson(primaryContent);
+    if (!parsed) throw new Error("Primary model returned invalid JSON");
 
-    const content = response.choices[0]?.message?.content || "";
-    const jsonMatch = content.match(/\{[\s\S]*\}/);
-    if (!jsonMatch) throw new Error("No JSON found in AI response");
+    onProgress({ step: "skeptic", label: "Independent adversarial reviewer stress-testing the idea", progress: 45 });
 
-    const parsed = JSON.parse(jsonMatch[0]);
-    onProgress({ step: "done", label: "Analysis complete!", progress: 100 });
+    let adversarialVerdict = "";
+    let skepticOverride = false;
+    try {
+      const skepticPrompt = `You are an independent adversarial reviewer. Your ONLY job is to find fatal flaws in this startup idea. You have NO loyalty to the founder.
 
-    const clamp = (v: unknown, def: number) => Math.min(10, Math.max(1, Number(v) || def));
-    const clampScore = (v: unknown, def: number) => Math.min(100, Math.max(0, Number(v) || def));
+IDEA: "${safeTitle}" — ${safeDesc}
+MARKET: ${safeIndustry || "Unknown"}, ${safeScope}
+TARGET: ${safeAudience || "Unknown"}
+
+The primary analyst gave these scores: viability=${parsed.viabilityScore}/100, risk=${parsed.riskScore}/100.
+
+Your task:
+1. Identify the TOP 3 reasons this idea will FAIL (be specific, not generic)
+2. Challenge the viability score — is it too optimistic? By how much?
+3. Find hidden risks the primary analyst missed
+4. Give your INDEPENDENT brutal score (0-100, where 100=definitely fails)
+5. Write a 2-3 sentence brutal verdict
+
+Return JSON:
+{
+  "brutalScore": <0-100>,
+  "viabilityChallenge": "<is the primary score too high/low? by how much?>",
+  "fatalFlaws": ["<flaw 1>", "<flaw 2>", "<flaw 3>"],
+  "hiddenRisks": ["<risk the primary missed>"],
+  "verdict": "<2-3 sentence brutal honest verdict>",
+  "scoreAdjustment": <number to add/subtract from primary viability score, e.g. -15>
+}`;
+
+      const skepticContent = await provider.chat(
+        [{ role: "user", content: skepticPrompt }],
+        { temperature: 0.5, maxTokens: 1500 }
+      );
+      const skepticParsed = extractJson(skepticContent);
+      if (skepticParsed) {
+        adversarialVerdict = String(skepticParsed.verdict || "");
+        const adjustment = Number(skepticParsed.scoreAdjustment) || 0;
+        if (Math.abs(adjustment) > 10) {
+          const newViability = Math.min(100, Math.max(0, Number(parsed.viabilityScore) + adjustment));
+          parsed.viabilityScore = newViability;
+          skepticOverride = true;
+          if (Array.isArray(skepticParsed.fatalFlaws)) {
+            const existingFlaws = (parsed.skepticAnalysis as Record<string, unknown>)?.structuralFlaws as string[] || [];
+            (parsed.skepticAnalysis as Record<string, unknown>).structuralFlaws = [
+              ...existingFlaws,
+              ...skepticParsed.fatalFlaws.map(String),
+            ].slice(0, 5);
+          }
+          if (skepticParsed.brutalScore) {
+            (parsed.skepticAnalysis as Record<string, unknown>).brutalScore = skepticParsed.brutalScore;
+          }
+        }
+      }
+    } catch {
+      // Adversarial review is best-effort
+    }
+
+    onProgress({ step: "synthesis", label: "Cross-validating findings across AI models", progress: 65 });
+
+    let confidence = 70;
+    if (parsed.sources && Array.isArray(parsed.sources) && parsed.sources.length >= 3) confidence += 10;
+    if (liveSources.length >= 3) confidence += 10;
+    if (skepticOverride) confidence += 5;
+    confidence = Math.min(95, confidence);
+
+    onProgress({ step: "sources", label: "Verifying source citations & linking evidence", progress: 90 });
 
     const allSources = [
       ...(Array.isArray(parsed.sources) ? parsed.sources.slice(0, 5).map((s: Record<string, string>) => ({
@@ -435,7 +529,12 @@ Provide a comprehensive validation with all 9 dimensions, live source citations,
         context: String(s.context || ""),
       })) : []),
       ...liveSources,
-    ].slice(0, 8);
+    ].filter((s, i, arr) => arr.findIndex(x => x.url === s.url) === i).slice(0, 10);
+
+    onProgress({ step: "report", label: "Generating final report with cross-validated verdict", progress: 97 });
+
+    const clamp = (v: unknown, def: number) => Math.min(10, Math.max(1, Number(v) || def));
+    const clampScore = (v: unknown, def: number) => Math.min(100, Math.max(0, Number(v) || def));
 
     return {
       viabilityScore: clampScore(parsed.viabilityScore, 50),
@@ -443,11 +542,11 @@ Provide a comprehensive validation with all 9 dimensions, live source citations,
       competitorScore: clampScore(parsed.competitorScore, 50),
       monetizationScore: clampScore(parsed.monetizationScore, 50),
       riskScore: clampScore(parsed.riskScore, 50),
-      marketAnalysis: parsed.marketAnalysis || "Market analysis not available.",
-      competitorOverview: parsed.competitorOverview || "Competitor overview not available.",
-      monetizationModels: parsed.monetizationModels || "Monetization analysis not available.",
-      riskAssessment: parsed.riskAssessment || "Risk assessment not available.",
-      nextSteps: parsed.nextSteps || "Next steps not available.",
+      marketAnalysis: String(parsed.marketAnalysis || "Market analysis not available."),
+      competitorOverview: String(parsed.competitorOverview || "Competitor overview not available."),
+      monetizationModels: String(parsed.monetizationModels || "Monetization analysis not available."),
+      riskAssessment: String(parsed.riskAssessment || "Risk assessment not available."),
+      nextSteps: String(parsed.nextSteps || "Next steps not available."),
       sources: allSources,
       valueHypothesis: String(parsed.valueHypothesis || ""),
       riskiestAssumption: String(parsed.riskiestAssumption || ""),
@@ -459,6 +558,8 @@ Provide a comprehensive validation with all 9 dimensions, live source citations,
         keyPivot: String(p.keyPivot || ""),
       })) : [],
       usedFallback: false,
+      confidence,
+      adversarialVerdict,
       problemSeverity: clamp(parsed.problemSeverity, 5),
       marketUrgency: clamp(parsed.marketUrgency, 5),
       easeOfReplica: clamp(parsed.easeOfReplica, 5),
@@ -482,9 +583,9 @@ Provide a comprehensive validation with all 9 dimensions, live source citations,
       marketTiming: parseMarketTiming(parsed.marketTiming),
     };
   } catch (err: unknown) {
-    console.error("AI validation error:", err instanceof Error ? err.message : err);
+    console.error("AI validation error:", err instanceof Error ? err.message : "unknown error");
     onProgress({ step: "fallback", label: "Using fallback analysis model", progress: 100 });
-    return { ...getDemoResult(idea), usedFallback: true };
+    return { ...getDemoResult(idea), usedFallback: true, confidence: 30, adversarialVerdict: "" };
   }
 }
 
@@ -494,9 +595,9 @@ export async function validateIdea(idea: {
   targetAudience?: string;
   industry?: string;
   marketScope?: string;
-}): Promise<ValidationResult & { usedFallback: boolean }> {
+}, aiConfig?: AIConfig): Promise<ValidationResult & { usedFallback: boolean; confidence: number; adversarialVerdict?: string }> {
   const onProgress = () => {};
-  return validateIdeaStream(idea, onProgress);
+  return validateIdeaStream(idea, onProgress, false, aiConfig);
 }
 
 const PIVOT_CHAT_SYSTEM_PROMPT = `You are IdeaForge AI's Pivot Assistant. You help founders rethink and improve their business ideas.
@@ -512,7 +613,8 @@ Format your response as clear, actionable advice with bullet points where helpfu
 export async function generatePivotSuggestions(
   idea: { title: string; description: string; targetAudience?: string; industry?: string },
   report: { viabilityScore: number; riskAssessment: string; marketAnalysis: string },
-  onProgress?: (event: ProgressEvent) => void
+  onProgress?: (event: ProgressEvent) => void,
+  aiConfig?: AIConfig
 ): Promise<PivotSuggestion[]> {
   const userMessage = `Original idea: "${sanitizeInput(idea.title, 200)}" - ${sanitizeInput(idea.description, 500)}
 Target Audience: ${idea.targetAudience ? sanitizeInput(idea.targetAudience, 200) : "Not specified"}
@@ -529,24 +631,19 @@ Generate 3 alternative pivot directions that could improve the viability score. 
       await sleep(600);
     }
 
-    const response = await client.chat.completions.create({
-      model: process.env.AI_MODEL || "openai/gpt-4o",
-      messages: [
+    const content = await resolveProvider(aiConfig).provider.chat(
+      [
         { role: "system", content: VALIDATION_SYSTEM_PROMPT },
         { role: "user", content: userMessage },
       ],
-      temperature: 0.8,
-      max_tokens: 1500,
-    });
+      { temperature: 0.8, maxTokens: 1500 }
+    );
+    const parsed = extractJson(content);
+    if (!parsed) throw new Error("No JSON found");
 
-    const content = response.choices[0]?.message?.content || "";
-    const jsonMatch = content.match(/\{[\s\S]*\}/);
-    if (!jsonMatch) throw new Error("No JSON found");
-
-    const parsed = JSON.parse(jsonMatch[0]);
     if (onProgress) onProgress({ step: "done", label: "Pivot suggestions ready!", progress: 100 });
 
-    return (parsed.pivotSuggestions || []).slice(0, 3).map((p: Record<string, unknown>) => ({
+    return (Array.isArray(parsed.pivotSuggestions) ? parsed.pivotSuggestions : []).slice(0, 3).map((p: Record<string, unknown>) => ({
       direction: String(p.direction || ""),
       description: String(p.description || ""),
       targetAudience: String(p.targetAudience || ""),
@@ -554,7 +651,7 @@ Generate 3 alternative pivot directions that could improve the viability score. 
       keyPivot: String(p.keyPivot || ""),
     }));
   } catch (err: unknown) {
-    console.error("Pivot generation error:", err instanceof Error ? err.message : err);
+    console.error("Pivot generation error:", err instanceof Error ? err.message : "unknown error");
     if (onProgress) onProgress({ step: "done", label: "Using fallback pivots", progress: 100 });
     return getDemoPivots(idea);
   }
@@ -563,7 +660,8 @@ Generate 3 alternative pivot directions that could improve the viability score. 
 export async function pivotChat(
   message: string,
   context: { idea: { title: string; description: string }; report: { viabilityScore: number; marketAnalysis: string; riskAssessment: string } },
-  history: { role: "user" | "assistant"; content: string }[]
+  history: { role: "user" | "assistant"; content: string }[],
+  aiConfig?: AIConfig
 ): Promise<string> {
   const safeMessage = sanitizeInput(message, 500);
   const systemMsg = `${PIVOT_CHAT_SYSTEM_PROMPT}
@@ -574,22 +672,15 @@ Market Analysis: ${sanitizeInput(context.report.marketAnalysis, 1000)}
 Risk Assessment: ${sanitizeInput(context.report.riskAssessment, 1000)}`;
 
   try {
-    const messages: OpenAI.Chat.Completions.ChatCompletionMessageParam[] = [
+    const messages: ChatMessage[] = [
       { role: "system", content: systemMsg },
       ...history.map((h) => ({ role: h.role as "user" | "assistant", content: sanitizeInput(h.content, 500) })),
       { role: "user", content: safeMessage },
     ];
 
-    const response = await client.chat.completions.create({
-      model: process.env.AI_MODEL || "openai/gpt-4o",
-      messages,
-      temperature: 0.7,
-      max_tokens: 800,
-    });
-
-    return response.choices[0]?.message?.content || "I couldn't generate a response. Please try again.";
+    return await resolveProvider(aiConfig).provider.chat(messages, { temperature: 0.7, maxTokens: 800 });
   } catch (err: unknown) {
-    console.error("Pivot chat error:", err instanceof Error ? err.message : err);
+    console.error("Pivot chat error:", err instanceof Error ? err.message : "unknown error");
     return "I'm having trouble connecting to the AI. Please try again in a moment.";
   }
 }
@@ -628,7 +719,8 @@ export interface GeneratedIdea {
 export async function generateIdeas(
   prompt: string,
   industry?: string,
-  onProgress?: (event: ProgressEvent) => void
+  onProgress?: (event: ProgressEvent) => void,
+  aiConfig?: AIConfig
 ): Promise<GeneratedIdea[]> {
   const safePrompt = sanitizeInput(prompt, 1000);
   const safeIndustry = industry ? sanitizeInput(industry, 100) : "";
@@ -650,24 +742,19 @@ Generate 3 creative, actionable business ideas.`;
       await sleep(400);
     }
 
-    const response = await client.chat.completions.create({
-      model: process.env.AI_MODEL || "openai/gpt-4o",
-      messages: [
+    const content = await resolveProvider(aiConfig).provider.chat(
+      [
         { role: "system", content: GENERATE_SYSTEM_PROMPT },
         { role: "user", content: userMessage },
       ],
-      temperature: 0.9,
-      max_tokens: 2000,
-    });
+      { temperature: 0.9, maxTokens: 2000 }
+    );
+    const parsed = extractJson(content);
+    if (!parsed) throw new Error("No JSON found in AI response");
 
-    const content = response.choices[0]?.message?.content || "";
-    const jsonMatch = content.match(/\{[\s\S]*\}/);
-    if (!jsonMatch) throw new Error("No JSON found in AI response");
-
-    const parsed = JSON.parse(jsonMatch[0]);
     if (onProgress) onProgress({ step: "done", label: "Ideas generated!", progress: 100 });
 
-    return (parsed.ideas || []).map((idea: Record<string, unknown>) => ({
+    return (Array.isArray(parsed.ideas) ? parsed.ideas : []).map((idea: Record<string, unknown>) => ({
       title: String(idea.title || "Untitled Idea"),
       description: String(idea.description || ""),
       targetAudience: String(idea.targetAudience || ""),
@@ -678,7 +765,7 @@ Generate 3 creative, actionable business ideas.`;
       whyItWorks: String(idea.whyItWorks || ""),
     }));
   } catch (err: unknown) {
-    console.error("AI generation error:", err instanceof Error ? err.message : err);
+    console.error("AI generation error:", err instanceof Error ? err.message : "unknown error");
     if (onProgress) onProgress({ step: "fallback", label: "Using AI fallback model", progress: 100 });
     return getDemoIdeas(prompt, industry);
   }

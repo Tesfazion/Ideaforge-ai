@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState, useMemo } from "react";
+import { useMemo } from "react";
 
 export function AnimatedRing({ value, max = 100, size = 120, strokeWidth = 8, color = "#6366F1", sublabel }: {
   value: number; max?: number; size?: number; strokeWidth?: number; color?: string; sublabel?: string;
@@ -79,7 +79,7 @@ export function ContributionGrid({ ideas }: { ideas: { createdAt: string }[] }) 
     });
 
     const cells: { date: Date; count: number; dayIdx: number }[][] = [];
-    let current = new Date(startDate);
+    const current = new Date(startDate);
     for (let w = 0; w < weeks; w++) {
       const week: { date: Date; count: number; dayIdx: number }[] = [];
       for (let d = 0; d < 7; d++) {

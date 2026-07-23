@@ -53,7 +53,7 @@ export async function POST(
 
     return NextResponse.json({ reply });
   } catch (err: unknown) {
-    console.error("Pivot chat failed:", err);
+    console.error("Pivot chat failed:", err instanceof Error ? err.message : "unknown error");
     return NextResponse.json({ error: "Pivot chat failed" }, { status: 500 });
   }
 }

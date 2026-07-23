@@ -16,7 +16,7 @@ export async function GET(request: NextRequest) {
       user: { id: user.id, name: user.name, email: user.email, plan: user.plan, verified: user.verified, tokens: user.tokens, monthlyTokens: user.monthlyTokens },
     });
   } catch (err: unknown) {
-    console.error("Me error:", err);
+    console.error("Me error:", err instanceof Error ? err.message : "unknown error");
     return NextResponse.json({ error: "Failed to fetch user" }, { status: 500 });
   }
 }

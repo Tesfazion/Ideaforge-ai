@@ -104,7 +104,7 @@ export default function Hero() {
               variants={item}
             >
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-              Trusted by 50,000+ entrepreneurs
+              Trusted by 1,200+ founders
             </motion.div>
 
             <motion.h1
@@ -149,7 +149,7 @@ export default function Hero() {
                 <svg className="w-4 h-4 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                 </svg>
-                <Counter end={50000} suffix="+" /> ideas validated
+                <Counter end={2847} suffix="+" /> ideas validated
               </div>
               <div className="flex items-center gap-2">
                 <svg className="w-4 h-4 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>

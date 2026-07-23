@@ -29,7 +29,7 @@ export async function GET(
     }
     return NextResponse.json({ report: idea.report, idea: { id: idea.id, title: idea.title, status: idea.status } });
   } catch (err: unknown) {
-    console.error("Get report error:", err);
+    console.error("Get report error:", err instanceof Error ? err.message : "unknown error");
     return NextResponse.json({ error: "Failed to fetch report" }, { status: 500 });
   }
 }

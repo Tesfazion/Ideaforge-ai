@@ -48,7 +48,7 @@ export async function POST(request: NextRequest) {
 
         sendEvent({ type: "complete", ideas });
       } catch (err: unknown) {
-        console.error("Idea generation failed:", err);
+        console.error("Idea generation failed:", err instanceof Error ? err.message : "unknown error");
         sendEvent({ type: "error", message: "AI idea generation failed" });
       }
 

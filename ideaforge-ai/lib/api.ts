@@ -212,7 +212,7 @@ export const api = {
 };
 
 export interface User {
-  id: string; name: string; email: string; plan: string; verified: boolean; createdAt?: string; tokens: number; monthlyTokens: number;
+  id: string; name: string; email: string; plan: string; verified: boolean; createdAt?: string; tokens: number; monthlyTokens: number; onboardingComplete?: boolean;
 }
 
 export interface Idea {

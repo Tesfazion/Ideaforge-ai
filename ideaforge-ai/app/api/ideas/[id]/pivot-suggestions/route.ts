@@ -65,7 +65,7 @@ export async function POST(
 
         sendEvent({ type: "complete", pivots });
       } catch (err: unknown) {
-        console.error("Pivot suggestions failed:", err);
+        console.error("Pivot suggestions failed:", err instanceof Error ? err.message : "unknown error");
         sendEvent({ type: "error", message: "Failed to generate pivot suggestions" });
       }
 

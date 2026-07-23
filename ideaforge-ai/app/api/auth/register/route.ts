@@ -37,12 +37,19 @@ export async function POST(request: NextRequest) {
       data: { name: name.trim(), email: normalizedEmail, password: hashed },
     });
     const token = signToken(user.id);
-    return NextResponse.json({
-      token,
+    const response = NextResponse.json({
       user: { id: user.id, name: user.name, email: user.email, plan: user.plan, verified: user.verified, tokens: user.tokens, monthlyTokens: user.monthlyTokens },
     }, { status: 201 });
+    response.cookies.set("ideaforge_token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      path: "/",
+      maxAge: 7 * 24 * 60 * 60,
+    });
+    return response;
   } catch (err: unknown) {
-    console.error("Register error:", err);
+    console.error("Register error:", err instanceof Error ? err.message : "unknown error");
     return NextResponse.json({ error: "Registration failed" }, { status: 500 });
   }
 }

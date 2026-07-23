@@ -5,14 +5,10 @@ const JWT_SECRET = process.env.JWT_SECRET;
 
 function getSecret(): string {
   if (!JWT_SECRET) {
-    if (process.env.NODE_ENV === "production") {
-      throw new Error("JWT_SECRET environment variable is required in production.");
-    }
-    console.warn("WARNING: JWT_SECRET not set. Using insecure dev secret. Do not use in production.");
-    return "ideaforge-dev-secret-change-in-production";
+    throw new Error("JWT_SECRET environment variable is required.");
   }
-  if (JWT_SECRET.length < 16 && process.env.NODE_ENV === "production") {
-    throw new Error("JWT_SECRET must be at least 16 characters in production.");
+  if (JWT_SECRET.length < 16) {
+    throw new Error("JWT_SECRET must be at least 16 characters.");
   }
   return JWT_SECRET;
 }

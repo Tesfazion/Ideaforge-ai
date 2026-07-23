@@ -21,7 +21,7 @@ export async function GET(
     }
     return NextResponse.json({ idea });
   } catch (err: unknown) {
-    console.error("Get idea error:", err);
+    console.error("Get idea error:", err instanceof Error ? err.message : "unknown error");
     return NextResponse.json({ error: "Failed to fetch idea" }, { status: 500 });
   }
 }
@@ -54,7 +54,7 @@ export async function PUT(
     });
     return NextResponse.json({ idea: updated });
   } catch (err: unknown) {
-    console.error("Update idea error:", err);
+    console.error("Update idea error:", err instanceof Error ? err.message : "unknown error");
     return NextResponse.json({ error: "Failed to update idea" }, { status: 500 });
   }
 }
@@ -76,7 +76,7 @@ export async function DELETE(
     await prisma.idea.delete({ where: { id } });
     return NextResponse.json({ message: "Idea deleted" });
   } catch (err: unknown) {
-    console.error("Delete idea error:", err);
+    console.error("Delete idea error:", err instanceof Error ? err.message : "unknown error");
     return NextResponse.json({ error: "Failed to delete idea" }, { status: 500 });
   }
 }

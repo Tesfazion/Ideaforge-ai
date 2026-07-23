@@ -4,6 +4,15 @@ import { getUserId } from "@/lib/jwt";
 import { validateIdeaStream } from "@/lib/ai";
 import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
 import { consumeToken, refundToken } from "@/lib/tokens";
+import { randomBytes } from "crypto";
+
+function generateSlug(title: string): string {
+  return title
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "")
+    .slice(0, 40) + "-" + randomBytes(8).toString("hex");
+}
 
 export async function POST(
   request: NextRequest,
@@ -32,6 +41,17 @@ export async function POST(
     return Response.json({ error: "Idea already validated" }, { status: 400 });
   }
 
+  let skepticMode = false;
+  try {
+    const body = await request.json();
+    skepticMode = body?.skepticMode === true;
+  } catch {}
+
+  const tokenResult = await consumeToken(userId);
+  if (!tokenResult.success) {
+    return Response.json({ error: "No validation credits remaining. Upgrade to Pro for unlimited validations." }, { status: 403 });
+  }
+
   const stream = new ReadableStream({
     async start(controller) {
       const encoder = new TextEncoder();
@@ -51,8 +71,19 @@ export async function POST(
           },
           (progressEvent) => {
             sendEvent({ type: "progress", ...progressEvent });
-          }
+          },
+          skepticMode
         );
+
+        if (result.usedFallback) {
+          await refundToken(userId);
+          sendEvent({ type: "error", message: "AI analysis unavailable. Token refunded. Please check your API key configuration." });
+          await prisma.idea.update({ where: { id: idea.id }, data: { status: "failed" } }).catch(() => {});
+          controller.close();
+          return;
+        }
+
+        const publicSlug = generateSlug(idea.title);
 
         const created = await prisma.report.create({
           data: {
@@ -84,25 +115,30 @@ export async function POST(
             swotAnalysis: JSON.stringify(result.swotAnalysis),
             competitiveLandscape: JSON.stringify(result.competitiveLandscape),
             marketTiming: JSON.stringify(result.marketTiming),
+            confidence: result.confidence || 70,
+            adversarialVerdict: result.adversarialVerdict || "",
             ideaId: idea.id,
           },
         });
-        await prisma.idea.update({ where: { id: idea.id }, data: { status: "validated" } });
 
-        await consumeToken(userId);
+        await prisma.idea.update({
+          where: { id: idea.id },
+          data: { status: "validated", publicSlug, isPublic: false },
+        });
 
-        sendEvent({ type: "complete", report: created });
+        sendEvent({ type: "complete", report: created, publicUrl: `/r/${publicSlug}` });
       } catch (err: unknown) {
-        console.error(`Streaming validation failed for idea ${ideaId}:`, err);
+        console.error(`Streaming validation failed for idea ${ideaId}:`, err instanceof Error ? err.message : "unknown error");
         await prisma.idea.update({ where: { id: idea.id }, data: { status: "failed" } }).catch(() => {});
         await refundToken(userId);
-        sendEvent({ type: "error", message: "AI validation failed" });
+        sendEvent({ type: "error", message: "AI validation failed. Token refunded." });
       }
 
       controller.close();
     },
     cancel() {
-      // Client disconnected
+      prisma.idea.update({ where: { id: ideaId }, data: { status: "failed" } }).catch(() => {});
+      refundToken(userId).catch(() => {});
     },
   });
 

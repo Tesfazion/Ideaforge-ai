@@ -38,7 +38,7 @@ export async function POST(request: NextRequest) {
     }
     return NextResponse.json({ valid: result.deliverable, deliverable: result.deliverable, is_disposable: false, suggestion: null, message: null });
   } catch (err: unknown) {
-    console.error("Check email error:", err);
+    console.error("Check email error:", err instanceof Error ? err.message : "unknown error");
     return NextResponse.json({ error: "Email check failed" }, { status: 500 });
   }
 }

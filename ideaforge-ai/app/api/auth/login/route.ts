@@ -34,12 +34,19 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Invalid email or password" }, { status: 401 });
     }
     const token = signToken(user.id);
-    return NextResponse.json({
-      token,
+    const response = NextResponse.json({
       user: { id: user.id, name: user.name, email: user.email, plan: user.plan, verified: user.verified, tokens: user.tokens, monthlyTokens: user.monthlyTokens },
     });
+    response.cookies.set("ideaforge_token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      path: "/",
+      maxAge: 7 * 24 * 60 * 60,
+    });
+    return response;
   } catch (err: unknown) {
-    console.error("Login error:", err);
+    console.error("Login error:", err instanceof Error ? err.message : "unknown error");
     return NextResponse.json({ error: "Login failed" }, { status: 500 });
   }
 }

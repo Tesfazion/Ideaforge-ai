@@ -11,10 +11,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (!isStripeConfigured()) {
-      const user = await prisma.user.update({ where: { id: userId }, data: { plan: "pro" } });
-      return NextResponse.json({
-        user: { id: user.id, name: user.name, email: user.email, plan: user.plan, verified: user.verified, tokens: user.tokens, monthlyTokens: user.monthlyTokens },
-      });
+      return NextResponse.json({ error: "Payment system not configured. Please contact support." }, { status: 503 });
     }
 
     let body: { sessionId?: string } = {};
@@ -35,7 +32,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ error: "Session ID required for production upgrades" }, { status: 400 });
   } catch (err: unknown) {
-    console.error("Upgrade error:", err);
+    console.error("Upgrade error:", err instanceof Error ? err.message : "unknown error");
     return NextResponse.json({ error: "Upgrade failed" }, { status: 500 });
   }
 }

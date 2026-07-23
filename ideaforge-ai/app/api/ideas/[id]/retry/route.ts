@@ -29,7 +29,7 @@ export async function POST(
 
     return NextResponse.json({ message: "Idea reset for retry", ideaId: idea.id });
   } catch (err: unknown) {
-    console.error("Retry error:", err);
+    console.error("Retry error:", err instanceof Error ? err.message : "unknown error");
     return NextResponse.json({ error: "Retry failed" }, { status: 500 });
   }
 }

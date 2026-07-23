@@ -1,11 +1,12 @@
 "use client";
-import { useState, useEffect, useCallback, ReactNode } from "react";
+import { useState, useEffect, ReactNode } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { useAuth } from "@/lib/auth";
 import { useTheme } from "@/components/ThemeProvider";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import OnboardingFlow from "@/components/OnboardingFlow";
 
 const NAV_ITEMS = [
   { href: "/dashboard", icon: "M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4", label: "Dashboard", badge: null },
@@ -13,6 +14,8 @@ const NAV_ITEMS = [
   { href: "/dashboard/new", icon: "M12 4v16m8-8H4", label: "Validate Idea", badge: null },
   { href: "/dashboard/compare", icon: "M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2z", label: "Compare", badge: null },
   { href: "/dashboard/insights", icon: "M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2 2z", label: "Insights", badge: null },
+  { href: "/dashboard/api-keys", icon: "M15.75 5.25a3 3 0 013 3m3 0a6 6 0 01-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1121.75 8.25z", label: "API Keys", badge: "ENT" },
+  { href: "/dashboard/settings", icon: "M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z M15 12a3 3 0 11-6 0 3 3 0 016 0z", label: "AI Settings", badge: null },
   { href: "/dashboard/upgrade", icon: "M13 7h8m0 0v8m0-8l-8 8-4-4-6 6", label: "Pricing", badge: "PRO" },
 ];
 
@@ -75,7 +78,7 @@ function Sidebar({ open, onClose }: { open: boolean; onClose: () => void }) {
                 <span className="truncate">{link.label}</span>
                 {link.badge && (
                   <span className={`ml-auto text-[9px] font-bold px-1.5 py-0.5 rounded-md uppercase tracking-wider ${
-                    link.badge === "PRO" ? "bg-amber-500/15 text-amber-400" : "bg-indigo-500/15 text-indigo-400"
+                    link.badge === "PRO" ? "bg-amber-500/15 text-amber-400" : link.badge === "ENT" ? "bg-purple-500/15 text-purple-400" : "bg-indigo-500/15 text-indigo-400"
                   }`}>{link.badge}</span>
                 )}
               </Link>
@@ -120,7 +123,7 @@ function Sidebar({ open, onClose }: { open: boolean; onClose: () => void }) {
 }
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {
-  const { user, token, loading, logout } = useAuth();
+  const { user, token, loading, logout, refreshUser } = useAuth();
   const router = useRouter();
   const { theme, toggleTheme } = useTheme();
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -128,9 +131,9 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
   const [profileOpen, setProfileOpen] = useState(false);
   const [cmdOpen, setCmdOpen] = useState(false);
   const [notifications, setNotifications] = useState<{ id: string; title: string; score: number | null; status: string; createdAt: string }[]>([]);
+  const showOnboarding = !loading && !!user && user.onboardingComplete === false;
   const { scrollY } = useScroll();
   const headerBg = useTransform(scrollY, [0, 100], ["rgba(6,10,19,0.5)", "rgba(6,10,19,0.92)"]);
-  const headerBlur = useTransform(scrollY, [0, 100], ["blur(0px)", "blur(20px)"]);
 
   useEffect(() => {
     if (!loading && !user) router.push("/login");
@@ -295,7 +298,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
                   </div>
                   <div className="hidden sm:block text-left">
                     <p className="text-[13px] font-semibold text-white leading-tight">{user.name}</p>
-                    <p className="text-[10px] text-slate-500 font-medium">{user.plan === "pro" ? "Pro Plan" : "Free Plan"}</p>
+                    <p className="text-[10px] text-slate-500 font-medium">{user.plan === "pro" ? "Pro Plan" : user.plan === "enterprise" ? "Enterprise Plan" : "Free Plan"}</p>
                   </div>
                   <svg className="w-3.5 h-3.5 text-slate-500 hidden sm:block" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
@@ -353,14 +356,25 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
 
       <AnimatePresence>
         {cmdOpen && (
-          <CommandPalette open={cmdOpen} onClose={() => setCmdOpen(false)} user={user} />
+          <CommandPalette key={cmdOpen ? "open" : "closed"} onClose={() => setCmdOpen(false)} />
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {showOnboarding && (
+          <OnboardingFlow
+            open={showOnboarding}
+            onComplete={async () => {
+              await refreshUser();
+            }}
+          />
         )}
       </AnimatePresence>
     </div>
   );
 }
 
-function CommandPalette({ open, onClose, user }: { open: boolean; onClose: () => void; user: any }) {
+function CommandPalette({ onClose }: { onClose: () => void }) {
   const router = useRouter();
   const [query, setQuery] = useState("");
 
@@ -374,10 +388,6 @@ function CommandPalette({ open, onClose, user }: { open: boolean; onClose: () =>
   ];
 
   const filtered = commands.filter((c) => !query || c.label.toLowerCase().includes(query.toLowerCase()));
-
-  useEffect(() => {
-    if (open) setQuery("");
-  }, [open]);
 
   return (
     <motion.div

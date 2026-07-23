@@ -74,7 +74,7 @@ export async function POST(request: NextRequest) {
       });
     }
   } catch (err: unknown) {
-    console.error("Preview error:", err);
+    console.error("Preview error:", err instanceof Error ? err.message : "unknown error");
     return NextResponse.json({ error: "Failed to generate preview" }, { status: 500 });
   }
 }

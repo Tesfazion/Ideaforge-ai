@@ -25,7 +25,7 @@ export async function GET(request: NextRequest) {
     });
     return NextResponse.json({ ideas });
   } catch (err: unknown) {
-    console.error("Get ideas error:", err);
+    console.error("Get ideas error:", err instanceof Error ? err.message : "unknown error");
     return NextResponse.json({ error: "Failed to fetch ideas" }, { status: 500 });
   }
 }
@@ -75,9 +75,14 @@ export async function POST(request: NextRequest) {
 
     const user = await prisma.user.findUnique({ where: { id: userId } });
     if (user?.plan === "free") {
-      const count = await prisma.idea.count({ where: { userId } });
+      const monthStart = new Date();
+      monthStart.setDate(1);
+      monthStart.setHours(0, 0, 0, 0);
+      const count = await prisma.idea.count({
+        where: { userId, createdAt: { gte: monthStart } },
+      });
       if (count >= 1) {
-        return NextResponse.json({ error: "Free plan limited to 1 idea. Upgrade to Pro for unlimited." }, { status: 403 });
+        return NextResponse.json({ error: "Free plan limited to 1 idea per month. Upgrade to Pro for unlimited." }, { status: 403 });
       }
     }
 
@@ -95,7 +100,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ idea: { ...idea, status: "processing" } }, { status: 201 });
   } catch (err: unknown) {
-    console.error("Create idea error:", err);
+    console.error("Create idea error:", err instanceof Error ? err.message : "unknown error");
     return NextResponse.json({ error: "Failed to create idea" }, { status: 500 });
   }
 }
