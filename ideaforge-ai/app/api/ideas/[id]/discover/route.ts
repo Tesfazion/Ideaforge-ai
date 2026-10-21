@@ -2,12 +2,7 @@ import { NextRequest } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { getUserId } from "@/lib/jwt";
 import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
-import OpenAI from "openai";
-
-const client = new OpenAI({
-  apiKey: process.env.AI_API_KEY,
-  baseURL: process.env.AI_BASE_URL || "https://openrouter.ai/api/v1",
-});
+import { getAIClient } from "@/lib/ai-client";
 
 interface ExaResult {
   title: string;
@@ -324,7 +319,7 @@ export async function POST(
           progress: 50,
         });
 
-        const aiResponse = await client.chat.completions.create({
+        const aiResponse = await getAIClient().chat.completions.create({
           model: process.env.AI_MODEL || "openai/gpt-4o",
           messages: [
             { role: "system", content: ANALYSIS_PROMPT },

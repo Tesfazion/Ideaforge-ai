@@ -1,5 +1,6 @@
-import OpenAI from "openai";
+import type OpenAI from "openai";
 import { getProvider, AIConfig, AIProvider, ChatMessage } from "./ai-providers";
+import { getAIClient } from "./ai-client";
 
 function sanitizeInput(input: string, maxLength: number = 2000): string {
   return input
@@ -10,18 +11,13 @@ function sanitizeInput(input: string, maxLength: number = 2000): string {
     .slice(0, maxLength);
 }
 
-const client = new OpenAI({
-  apiKey: process.env.AI_API_KEY,
-  baseURL: process.env.AI_BASE_URL || "https://openrouter.ai/api/v1",
-});
-
 function resolveProvider(aiConfig?: AIConfig): { provider: AIProvider } {
   if (aiConfig && aiConfig.apiKey && aiConfig.provider) {
     return { provider: getProvider(aiConfig) };
   }
   const platformProvider: AIProvider = {
     chat(messages: ChatMessage[], options?: { temperature?: number; maxTokens?: number }) {
-      return client.chat.completions
+      return getAIClient().chat.completions
         .create({
           model: process.env.AI_MODEL || "openai/gpt-4o",
           messages,

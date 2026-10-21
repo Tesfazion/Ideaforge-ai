@@ -1,11 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
-import OpenAI from "openai";
-
-const client = new OpenAI({
-  apiKey: process.env.AI_API_KEY,
-  baseURL: process.env.AI_BASE_URL || "https://openrouter.ai/api/v1",
-});
+import { getAIClient } from "@/lib/ai-client";
 
 const PREVIEW_PROMPT = `You are a quick business idea scorer. Given a title and description, return ONLY a JSON object (no markdown, no explanation) with these exact fields:
 {
@@ -36,7 +31,7 @@ export async function POST(request: NextRequest) {
     const clamp = (v: unknown, def: number) => Math.min(100, Math.max(0, Number(v) || def));
 
     try {
-      const response = await client.chat.completions.create({
+      const response = await getAIClient().chat.completions.create({
         model: process.env.AI_MODEL || "openai/gpt-4o-mini",
         messages: [
           { role: "system", content: PREVIEW_PROMPT },
