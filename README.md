@@ -4,9 +4,9 @@
 
 > Validate any startup idea in 30–60 seconds with GPT-4o. Get a 9-dimension viability index, verified market sources, GTM experiments, pivot suggestions, TAM/SAM/SOM market sizing, skeptic-mode adversarial stress-test, and an investor-ready PDF report.
 
-![Next.js](https://img.shields.io/badge/Next.js-16.2-black?logo=next.js)
-![React](https://img.shields.io/badge/React-19-61DAFB?logo=react)
-![TypeScript](https://img.shields.io/badge/TypeScript-5.8-3178C6?logo=typescript)
+![Next.js](https://img.shields.io/badge/Next.js-16.4-black?logo=next.js)
+![React](https://img.shields.io/badge/React-19.3-61DAFB?logo=react)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind-4.0-06B6D4?logo=tailwindcss)
 ![Prisma](https://img.shields.io/badge/Prisma-6.19-2D3748?logo=prisma)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Database-4169E1?logo=postgresql)
@@ -95,7 +95,7 @@ The app ships with authentication, a credit/quota system, a pricing & upgrade fl
 
 ### Professional Export
 - **Investor-Ready PDF** — Multi-page, styled PDF export of your full validation report
-- **Dark Theme Support** — Full dark/light mode with persistent preference
+- **Night Theme** - Dark interface with glass-style panels and translucent surfaces.
 
 ### AI Idea Generator
 - **Prompt-Based Generation** — Describe your interests and get 3–5 tailored business ideas
@@ -489,12 +489,29 @@ All authenticated endpoints require a `Bearer` token in the `Authorization` head
 
 ### Vercel (Recommended)
 
-1. Push this repository to GitHub
-2. Import the project in [Vercel](https://vercel.com)
-3. Set the **Root Directory** to `ideaforge-ai` in Vercel project settings
-4. Add a PostgreSQL database (Vercel Postgres, Neon, Supabase, or Prisma Postgres)
-5. Set environment variables in the Vercel dashboard (see [Configuration](#configuration))
-6. Deploy — Vercel runs `prisma generate` automatically via the `postinstall` script
+The Next.js app lives in the ideaforge-ai/ subdirectory of this GitHub repository. Use a single Vercel project for this app (recommended name: ideaforge-ai) and set its **Root Directory** to ideaforge-ai in Project Settings > Build and Development Settings.
+
+1. Connect the Tesfazion/Ideaforge-ai GitHub repository to the Vercel project.
+2. Configure a PostgreSQL database and the required environment variables in Vercel Project Settings > Environment Variables: DATABASE_URL, JWT_SECRET, AI_API_KEY, AI_BASE_URL, AI_MODEL, and NEXT_PUBLIC_APP_URL.
+3. Add optional integration values only when those features are enabled: EXA_API_KEY, RESEND_API_KEY, RESEND_FROM_EMAIL, and the STRIPE_* values. Keep secrets in Vercel, never in Git.
+4. Deploy. Vercel installs dependencies, generates Prisma Client through postinstall, and runs the Next.js production build.
+
+#### If GitHub reports "Vercel - Deployment was blocked"
+
+The GitHub check label alone does not include Vercel's detailed reason. Open the deployment details first. If they say the commit author lacks access, this is an authorization block before the build, separate from GitHub Actions. Follow the [Vercel project collaboration guide](https://vercel.com/docs/deployments/troubleshoot-project-collaboration):
+
+1. In Vercel Account Settings > Authentication, connect the GitHub account that owns this repository to the Vercel account that owns the project.
+2. Check that Vercel recognizes the GitHub account that authored the commit. For a Hobby project, that author must map to the project owner's GitHub account; for a Pro team, the author must be a team member.
+3. In each intended Vercel project, open Settings > Git and verify the connected repository and production branch. Several projects connected to the same repository each create their own Vercel status check; keep only the intended project connected if the others are obsolete.
+4. After correcting account access or project settings, trigger a new deployment or push a new commit. Editing application code cannot resolve an access block.
+
+If Vercel reports a build failure instead, inspect that deployment's Build Logs for the specific error.
+
+### Netlify
+
+The repository includes a root `netlify.toml` that sets the app's base directory to `ideaforge-ai`, runs `npm run build`, and publishes `.next`. The app's `.nvmrc` pins the build to Node.js 20, matching the GitHub Actions build. Netlify detects and configures its Next.js runtime automatically.
+
+In Netlify, connect the `main` branch of this repository. The values in `netlify.toml` supply the base directory, build command, and publish directory; leave the Functions directory empty. Add the production environment variables listed in [Configuration](#configuration), including `DATABASE_URL`, `JWT_SECRET`, `AI_API_KEY`, `AI_BASE_URL`, `AI_MODEL`, and `NEXT_PUBLIC_APP_URL`. Add optional integration keys only when using those services. For details, see [Netlify's Next.js guide](https://docs.netlify.com/frameworks/next-js/).
 
 ### Database Migrations (Production)
 
