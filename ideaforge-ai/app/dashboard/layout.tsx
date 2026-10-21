@@ -4,7 +4,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { useAuth } from "@/lib/auth";
-import { useTheme } from "@/components/ThemeProvider";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import OnboardingFlow from "@/components/OnboardingFlow";
 
@@ -78,7 +77,7 @@ function Sidebar({ open, onClose }: { open: boolean; onClose: () => void }) {
                 <span className="truncate">{link.label}</span>
                 {link.badge && (
                   <span className={`ml-auto text-[9px] font-bold px-1.5 py-0.5 rounded-md uppercase tracking-wider ${
-                    link.badge === "PRO" ? "bg-amber-500/15 text-amber-400" : link.badge === "ENT" ? "bg-purple-500/15 text-purple-400" : "bg-indigo-500/15 text-indigo-400"
+                    "bg-indigo-500/15 text-indigo-300"
                   }`}>{link.badge}</span>
                 )}
               </Link>
@@ -101,10 +100,10 @@ function Sidebar({ open, onClose }: { open: boolean; onClose: () => void }) {
         </div>
 
         <div className="px-3 pb-4">
-          <div className="rounded-xl bg-gradient-to-br from-indigo-500/[0.08] via-purple-500/[0.05] to-transparent border border-indigo-500/[0.12] p-3.5">
+          <div className="rounded-xl bg-indigo-500/[0.06] border border-indigo-500/[0.12] p-3.5">
             <div className="flex items-center gap-2 mb-2">
-              <div className="w-6 h-6 rounded-md bg-amber-500/20 flex items-center justify-center">
-                <svg className="w-3.5 h-3.5 text-amber-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" /></svg>
+              <div className="w-6 h-6 rounded-md bg-indigo-500/20 flex items-center justify-center">
+                <svg className="w-3.5 h-3.5 text-indigo-300" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" /></svg>
               </div>
               <div>
                 <p className="text-xs font-semibold text-white">Go Pro</p>
@@ -125,7 +124,6 @@ function Sidebar({ open, onClose }: { open: boolean; onClose: () => void }) {
 export default function DashboardLayout({ children }: { children: ReactNode }) {
   const { user, token, loading, logout, refreshUser } = useAuth();
   const router = useRouter();
-  const { theme, toggleTheme } = useTheme();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [notifOpen, setNotifOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
@@ -193,8 +191,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
     <div className="min-h-screen flex bg-[#060a13] transition-colors duration-300 relative">
       <div className="fixed inset-0 pointer-events-none" aria-hidden="true">
         <div className="absolute -top-40 -left-40 w-[600px] h-[600px] bg-indigo-600/[0.07] rounded-full blur-[150px]" />
-        <div className="absolute -bottom-40 -right-40 w-[500px] h-[500px] bg-purple-600/[0.05] rounded-full blur-[130px]" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-amber-500/[0.03] rounded-full blur-[100px]" />
+        <div className="absolute -bottom-40 -right-40 w-[500px] h-[500px] bg-indigo-600/[0.04] rounded-full blur-[130px]" />
       </div>
 
       <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
@@ -222,18 +219,6 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
             </div>
 
             <div className="flex items-center gap-1">
-              <button onClick={toggleTheme}
-                className="p-2.5 rounded-xl hover:bg-white/[0.05] transition-colors"
-                title={theme === "dark" ? "Light mode" : "Dark mode"}>
-                <svg className="w-[18px] h-[18px] text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                  {theme === "dark" ? (
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-                  ) : (
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-                  )}
-                </svg>
-              </button>
-
               <div className="relative">
                 <button onClick={(e) => { e.stopPropagation(); setNotifOpen(!notifOpen); setProfileOpen(false); }}
                   className="p-2.5 rounded-xl hover:bg-white/[0.05] transition-colors relative">

@@ -7,14 +7,14 @@ const faqs = [
   { q: "How accurate is the AI validation?", a: "IdeaForge uses a multi-layered analysis engine that combines real-time market data with a 9-dimension scoring framework. We achieve a 94% accuracy rate based on user feedback and follow-up validations.", category: "product" },
   { q: "How long does a validation take?", a: "Most validations complete in 15-30 seconds. Complex ideas with detailed descriptions may take up to 60 seconds for a thorough analysis.", category: "product" },
   { q: "Can I validate any type of business idea?", a: "Yes! IdeaForge works across all industries and business models — from SaaS and e-commerce to brick-and-mortar businesses and service companies.", category: "product" },
-  { q: "What's included in the free plan?", a: "The free plan includes 1 idea validation per month with basic AI analysis and a standard report. Upgrade to Pro for unlimited validations, advanced analysis, PDF export, and more.", category: "pricing" },
+  { q: "What's included in the free plan?", a: "The Explorer plan includes 5 idea validations per month and full reports in your workspace. Upgrade to Founder Pro for unlimited validations and report delivery by email as CSV or Word.", category: "pricing" },
   { q: "Can I share my reports?", a: "Pro users can export reports as PDFs and share them via a unique link. Free users can view reports in the dashboard.", category: "product" },
   { q: "Is my idea data secure?", a: "Absolutely. Your ideas are encrypted at rest and in transit. We never share your data with third parties or use it for training. You can delete your data anytime.", category: "security" },
   { q: "Can I cancel my subscription anytime?", a: "Yes, you can cancel your subscription at any time from your dashboard settings. Your access will continue until the end of your current billing period. No cancellation fees.", category: "pricing" },
   { q: "Do you offer refunds?", a: "We offer a 14-day money-back guarantee on all paid plans. If you're not satisfied, contact us within 14 days of your purchase for a full refund.", category: "pricing" },
   { q: "What payment methods do you accept?", a: "We accept all major credit cards (Visa, Mastercard, American Express) and PayPal. Enterprise customers can also pay via invoice with NET 30 terms.", category: "pricing" },
   { q: "Is there an API available?", a: "Yes, our Enterprise plan includes full API access for programmatic idea validation, batch processing, and custom integrations. Documentation is available at docs.ideaforge.ai.", category: "product" },
-  { q: "Can I use IdeaForge with my team?", a: "Our Enterprise plan supports up to 10 team members with a shared workspace, collaborative features, and admin controls. The Founder plan is for individual use.", category: "product" },
+  { q: "What does Enterprise add?", a: "Enterprise includes unlimited validations and API access with up to 10 active API keys. Shared team workspaces are not currently included.", category: "product" },
   { q: "What data sources does IdeaForge use?", a: "IdeaForge analyzes real-time market data from multiple sources including industry reports, funding databases, search trend data, competitor websites, and regulatory filings to provide up-to-date insights.", category: "product" },
 ];
 

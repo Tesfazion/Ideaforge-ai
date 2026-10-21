@@ -451,7 +451,7 @@ Return the FULL JSON response with ALL fields. This is a production validation â
       [...systemMessages, { role: "user", content: userMessage }] as ChatMessage[],
       { temperature: 0.65, maxTokens: 8000 }
     );
-    let parsed = extractJson(primaryContent);
+    const parsed = extractJson(primaryContent);
     if (!parsed) throw new Error("Primary model returned invalid JSON");
 
     onProgress({ step: "skeptic", label: "Independent adversarial reviewer stress-testing the idea", progress: 45 });

@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { useAuth } from "@/lib/auth";
 import { api } from "@/lib/api";
 import { useState } from "react";
@@ -24,7 +25,7 @@ export default function UpgradePage() {
     }
   };
 
-  if (user?.plan === "pro") {
+  if (user?.plan === "pro" || user?.plan === "enterprise") {
     return (
       <div className="max-w-lg mx-auto text-center py-20 animate-slide-up">
         <div className="w-16 h-16 rounded-2xl bg-emerald-500 flex items-center justify-center mx-auto mb-4 shadow-lg shadow-emerald-500/25">
@@ -32,13 +33,13 @@ export default function UpgradePage() {
             <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
           </svg>
         </div>
-        <h1 className="text-2xl font-bold text-white mb-2">You&apos;re on Pro!</h1>
-        <p className="text-slate-400 mb-6">You now have unlimited validations, priority processing, and all premium features.</p>
+        <h1 className="text-2xl font-bold text-white mb-2">You&apos;re on {user.plan === "enterprise" ? "Enterprise" : "Founder Pro"}!</h1>
+        <p className="text-slate-400 mb-6">{user.plan === "enterprise" ? "You have unlimited validations and programmatic access through the IdeaForge API." : "You have unlimited validations and can email full reports as CSV or Word documents."}</p>
         <div className="grid grid-cols-3 gap-4 max-w-sm mx-auto">
           {[
             { label: "Validations", value: "Unlimited tokens", icon: "M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" },
-            { label: "Priority", value: "Enabled", icon: "M13 10V3L4 14h7v7l9-11h-7z" },
-            { label: "Exports", value: "Unlimited", icon: "M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" },
+            { label: user.plan === "enterprise" ? "API access" : "Plan", value: user.plan === "enterprise" ? "REST API" : "Founder Pro", icon: "M13 10V3L4 14h7v7l9-11h-7z" },
+            { label: user.plan === "enterprise" ? "API keys" : "Email reports", value: user.plan === "enterprise" ? "Up to 10" : "CSV / Word", icon: "M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a2 2 0 01.293.707V19a2 2 0 01-2 2z" },
           ].map((item) => (
             <div key={item.label} className="card-base rounded-xl p-3 text-center">
               <div className="w-8 h-8 rounded-lg bg-emerald-500/15 flex items-center justify-center mx-auto mb-2">
@@ -51,6 +52,7 @@ export default function UpgradePage() {
             </div>
           ))}
         </div>
+        {user.plan === "enterprise" && <Link href="/dashboard/api-keys" className="mt-6 inline-block rounded-xl bg-indigo-500 px-5 py-2.5 text-sm font-semibold text-white hover:bg-indigo-400">Manage API keys</Link>}
       </div>
     );
   }
@@ -58,11 +60,11 @@ export default function UpgradePage() {
   return (
     <div className="max-w-5xl mx-auto space-y-10 animate-slide-up">
       <motion.div className="relative rounded-3xl overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 via-indigo-500/10 to-purple-500/10" />
+        <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/10 via-indigo-400/5 to-transparent" />
         <div className="absolute inset-0 bg-[#0c1222]/80 backdrop-blur-xl" />
         <div className="relative px-6 py-8 sm:px-10 text-center">
-          <h1 className="text-3xl font-bold text-white">Progressive Value Pricing</h1>
-          <p className="text-slate-400 mt-2 max-w-lg mx-auto">Pay for the value you get. Start free, upgrade when you&apos;re ready to validate seriously.</p>
+          <h1 className="text-3xl font-bold text-white">Choose your plan</h1>
+          <p className="text-slate-400 mt-2 max-w-lg mx-auto">Start with 5 validations each month. Upgrade for unlimited use and report email delivery.</p>
         </div>
       </motion.div>
 
@@ -75,11 +77,11 @@ export default function UpgradePage() {
           <ul className="mt-5 space-y-2.5 text-sm text-slate-300">
              <li className="flex items-start gap-2">
               <svg className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
-              <div><span className="font-medium">5 tokens</span> per month</div>
+              <div><span className="font-medium">5 validations</span> per month</div>
             </li>
             <li className="flex items-start gap-2">
               <svg className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
-              <div><span className="font-medium">Basic 5-dimension</span> scoring</div>
+              <div><span className="font-medium">Full report access</span> in your workspace</div>
             </li>
             <li className="flex items-start gap-2">
               <svg className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
@@ -87,7 +89,7 @@ export default function UpgradePage() {
             </li>
             <li className="flex items-start gap-2">
               <svg className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
-              <div><span className="font-medium">1 idea</span> generated</div>
+              <div><span className="font-medium">Idea generator</span> with monthly credits</div>
             </li>
             <li className="flex items-start gap-2">
               <svg className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
@@ -99,53 +101,16 @@ export default function UpgradePage() {
           </div>
         </motion.div>
 
-        <motion.div className="rounded-2xl border-2 border-blue-500 bg-white/[0.05] p-6 relative shadow-lg shadow-blue-500/10" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
-          <div className="absolute -top-3 right-4 px-3 py-0.5 rounded-full bg-gradient-to-r from-blue-600 to-amber-500 text-white text-xs font-semibold shadow-sm">Most Popular</div>
-          <div className="text-xs font-semibold uppercase tracking-wider text-blue-400 mb-2">Founder</div>
+        <motion.div className="rounded-2xl border-2 border-indigo-500/70 bg-indigo-500/[0.04] p-6 relative shadow-lg shadow-indigo-500/10" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
+          <div className="absolute -top-3 right-4 px-3 py-0.5 rounded-full bg-indigo-500 text-white text-xs font-semibold shadow-sm">Most Popular</div>
+          <div className="text-xs font-semibold uppercase tracking-wider text-indigo-300 mb-2">Founder</div>
           <h3 className="text-lg font-bold text-white">Pro</h3>
           <p className="text-3xl font-bold text-white mt-1">$19<span className="text-sm text-slate-400 font-normal">/month</span></p>
           <p className="text-xs text-slate-400 mt-1">Everything you need to validate</p>
           <ul className="mt-5 space-y-2.5 text-sm text-slate-300">
-            <li className="flex items-start gap-2">
-              <svg className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
-              <div><span className="font-medium">Unlimited</span> validations</div>
-            </li>
-            <li className="flex items-start gap-2">
-              <svg className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
-              <div><span className="font-medium">Live-Sourced Evidence</span> with real-time web search</div>
-            </li>
-            <li className="flex items-start gap-2">
-              <svg className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
-              <div><span className="font-medium">Skeptic Mode</span> adversarial stress-test</div>
-            </li>
-            <li className="flex items-start gap-2">
-              <svg className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
-              <div><span className="font-medium">TAM/SAM/SOM</span> market sizing</div>
-            </li>
-            <li className="flex items-start gap-2">
-              <svg className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
-              <div><span className="font-medium">7-Day Action Plan</span> with templates</div>
-            </li>
-            <li className="flex items-start gap-2">
-              <svg className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
-              <div><span className="font-medium">Full 9-Dimension Index</span> scoring</div>
-            </li>
-            <li className="flex items-start gap-2">
-              <svg className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
-              <div><span className="font-medium">GTM Experiments</span> & action checklist</div>
-            </li>
-            <li className="flex items-start gap-2">
-              <svg className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
-              <div><span className="font-medium">Pivot Assistant</span> with AI chat</div>
-            </li>
-            <li className="flex items-start gap-2">
-              <svg className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
-              <div><span className="font-medium">PDF export</span> & investor-ready report</div>
-            </li>
-            <li className="flex items-start gap-2">
-              <svg className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
-              <div><span className="font-medium">Unlimited</span> idea generation</div>
-            </li>
+            <li className="flex items-start gap-2"><span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-indigo-400" /><span>Everything in Explorer, plus <strong className="text-white">unlimited validations</strong></span></li>
+            <li className="flex items-start gap-2"><span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-indigo-400" /><span>Email full reports as <strong className="text-white">CSV or Word</strong></span></li>
+            <li className="flex items-start gap-2"><span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-indigo-400" /><span>Use all in-app analysis and PDF export tools</span></li>
           </ul>
           <button onClick={() => handleCheckout("pro")} disabled={checkoutLoading}
             className="mt-6 w-full gradient-btn text-white font-semibold py-2.5 rounded-xl text-sm disabled:opacity-50 flex items-center justify-center gap-2">
@@ -161,11 +126,11 @@ export default function UpgradePage() {
           {checkoutError && <p className="text-xs text-red-500 mt-2 text-center">{checkoutError}</p>}
         </motion.div>
 
-        <motion.div className="card-base rounded-2xl p-6 opacity-75" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
-          <div className="text-xs font-semibold uppercase tracking-wider text-slate-500 mb-2">Team</div>
+        <motion.div className="card-base rounded-2xl p-6" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
+          <div className="text-xs font-semibold uppercase tracking-wider text-slate-500 mb-2">API tier</div>
           <h3 className="text-lg font-bold text-white">Enterprise</h3>
           <p className="text-3xl font-bold text-white mt-1">$49<span className="text-sm text-slate-400 font-normal">/month</span></p>
-          <p className="text-xs text-slate-400 mt-1">For teams validating multiple ideas</p>
+          <p className="text-xs text-slate-400 mt-1">For organizations integrating IdeaForge</p>
           <ul className="mt-5 space-y-2.5 text-sm text-slate-300">
             <li className="flex items-start gap-2">
               <svg className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
@@ -173,19 +138,11 @@ export default function UpgradePage() {
             </li>
             <li className="flex items-start gap-2">
               <svg className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
-              <div><span className="font-medium">5 team members</span></div>
+              <div><span className="font-medium">Up to 10 active API keys</span></div>
             </li>
             <li className="flex items-start gap-2">
               <svg className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
-              <div><span className="font-medium">Shared workspace</span> & comparison</div>
-            </li>
-            <li className="flex items-start gap-2">
-              <svg className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
-              <div><span className="font-medium">API access</span> for integrations</div>
-            </li>
-            <li className="flex items-start gap-2">
-              <svg className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
-              <div><span className="font-medium">Dedicated support</span></div>
+              <div><span className="font-medium">Programmatic validation</span> through the REST API</div>
             </li>
           </ul>
           <button onClick={() => setContactOpen(true)}

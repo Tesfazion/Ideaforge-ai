@@ -8,7 +8,7 @@ export function getStripe(): Stripe {
     if (!key) {
       throw new Error("STRIPE_SECRET_KEY is not set. Payment features are disabled.");
     }
-    stripeInstance = new Stripe(key, { apiVersion: "2026-06-24.dahlia" });
+    stripeInstance = new Stripe(key, { apiVersion: "2026-08-26.dahlia" });
   }
   return stripeInstance;
 }

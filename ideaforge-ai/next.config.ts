@@ -27,7 +27,7 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   devIndicators: false,
-  poweredBy: false,
+  poweredByHeader: false,
   images: {
     remotePatterns: [
       {

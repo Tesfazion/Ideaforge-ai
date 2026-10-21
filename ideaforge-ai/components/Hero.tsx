@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 
@@ -48,14 +48,17 @@ const item = {
 function Particles() {
   const [dots, setDots] = useState<{ id: number; x: number; y: number; size: number; duration: number; delay: number }[]>([]);
   useEffect(() => {
-    setDots(Array.from({ length: 40 }, (_, i) => ({
-      id: i,
-      x: Math.random() * 100,
-      y: Math.random() * 100,
-      size: Math.random() * 2 + 1,
-      duration: Math.random() * 20 + 15,
-      delay: Math.random() * 10,
-    })));
+    const frame = requestAnimationFrame(() => {
+      setDots(Array.from({ length: 40 }, (_, i) => ({
+        id: i,
+        x: Math.random() * 100,
+        y: Math.random() * 100,
+        size: Math.random() * 2 + 1,
+        duration: Math.random() * 20 + 15,
+        delay: Math.random() * 10,
+      })));
+    });
+    return () => cancelAnimationFrame(frame);
   }, []);
   if (!dots.length) return <div className="absolute inset-0 overflow-hidden pointer-events-none" />;
   return (

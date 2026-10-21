@@ -35,6 +35,7 @@ export async function POST(request: NextRequest) {
     }
     const token = signToken(user.id);
     const response = NextResponse.json({
+      token,
       user: { id: user.id, name: user.name, email: user.email, plan: user.plan, verified: user.verified, tokens: user.tokens, monthlyTokens: user.monthlyTokens },
     });
     response.cookies.set("ideaforge_token", token, {

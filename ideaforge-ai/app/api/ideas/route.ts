@@ -4,7 +4,9 @@ import { getUserId } from "@/lib/jwt";
 import { writeFile, mkdir } from "fs/promises";
 import { join } from "path";
 
-const UPLOAD_DIR = join(process.cwd(), "uploads");
+// Vercel functions have an ephemeral writable /tmp directory. Local uploads
+// stay in the ignored project uploads folder during development.
+const UPLOAD_DIR = process.env.VERCEL ? join("/tmp", "ideaforge-uploads") : join(process.cwd(), "uploads");
 
 async function ensureUploadDir() {
   try {
@@ -71,19 +73,6 @@ export async function POST(request: NextRequest) {
 
     if (!title || !description) {
       return NextResponse.json({ error: "Title and description are required" }, { status: 400 });
-    }
-
-    const user = await prisma.user.findUnique({ where: { id: userId } });
-    if (user?.plan === "free") {
-      const monthStart = new Date();
-      monthStart.setDate(1);
-      monthStart.setHours(0, 0, 0, 0);
-      const count = await prisma.idea.count({
-        where: { userId, createdAt: { gte: monthStart } },
-      });
-      if (count >= 1) {
-        return NextResponse.json({ error: "Free plan limited to 1 idea per month. Upgrade to Pro for unlimited." }, { status: 403 });
-      }
     }
 
     const idea = await prisma.idea.create({

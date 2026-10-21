@@ -1,0 +1,35 @@
+name: IdeaForge CI
+
+on:
+  push:
+    paths:
+      - "ideaforge-ai/**"
+      - ".github/workflows/ideaforge-ci.yml"
+  pull_request:
+    paths:
+      - "ideaforge-ai/**"
+      - ".github/workflows/ideaforge-ci.yml"
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ideaforge-ai
+    env:
+      DATABASE_URL: postgresql://ci:ci@localhost:5432/ideaforge
+      JWT_SECRET: ci-only-secret-that-is-long-enough-for-validation
+      AI_API_KEY: ci-placeholder
+      AI_BASE_URL: https://openrouter.ai/api/v1
+      AI_MODEL: openai/gpt-4o
+      NEXT_PUBLIC_APP_URL: https://example.invalid
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: ideaforge-ai/package-lock.json
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run build

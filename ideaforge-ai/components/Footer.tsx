@@ -47,6 +47,12 @@ export default function Footer() {
               <span className="text-base font-bold text-white">IdeaForge</span>
             </Link>
             <p className="text-sm text-slate-500 leading-relaxed max-w-xs">AI-powered business idea validation for entrepreneurs and innovators.</p>
+            <p className="mt-3 text-xs text-slate-500">
+              Made by{" "}
+              <a href="https://sunshinetechsolution.vercel.app/" target="_blank" rel="noreferrer" className="font-medium text-indigo-400 hover:text-indigo-300">
+                Sunshine Tech Solution
+              </a>
+            </p>
             <div className="flex items-center gap-2 mt-4">
               <div className="flex items-center gap-1 text-xs text-slate-600">
                 <svg className="w-3.5 h-3.5 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>

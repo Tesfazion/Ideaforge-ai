@@ -83,7 +83,7 @@ export default function NewIdeaPage() {
 
       {user?.plan === "free" && (
         <div className="bg-amber-500/10 border border-amber-500/20 rounded-xl p-4 mb-6 text-sm text-amber-300">
-          <strong>Free Plan:</strong> You get 1 idea validation per month.{" "}
+          <strong>Explorer plan:</strong> You get 5 validations per month.{" "}
           <a href="/dashboard/upgrade" className="underline font-medium hover:text-amber-200">Upgrade to Pro</a> for unlimited.
         </div>
       )}

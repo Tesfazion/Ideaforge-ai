@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState, useRef, useMemo, useCallback } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { useAuth } from "@/lib/auth";
 import { api, Report, streamValidate, streamPivotSuggestions, SSEProgressEvent, SourceLink, PivotSuggestion, NineDimension, GTMExperiments, MarketSizing, ActionPlanDay, SkepticAnalysis, SWOTAnalysis, CompetitiveLandscape, MarketTiming } from "@/lib/api";
@@ -120,11 +120,15 @@ function PivotCard({ pivot, onPivotTo }: { pivot: PivotSuggestion; onPivotTo: (p
 
 export default function ReportPage() {
   const { id } = useParams();
-  const { token } = useAuth();
+  const router = useRouter();
+  const { token, user } = useAuth();
   const [report, setReport] = useState<Report | null>(null);
   const [ideaTitle, setIdeaTitle] = useState("");
   const [status, setStatus] = useState<"loading" | "processing" | "streaming" | "error" | "done">("loading");
   const [downloading, setDownloading] = useState(false);
+  const [emailFormat, setEmailFormat] = useState<"csv" | "doc">("csv");
+  const [emailSending, setEmailSending] = useState(false);
+  const [emailMessage, setEmailMessage] = useState("");
   const [streamSteps, setStreamSteps] = useState<{ step: string; label: string; progress: number }[]>([]);
   const [retrying, setRetrying] = useState(false);
   const [pivotLoading, setPivotLoading] = useState(false);
@@ -249,8 +253,8 @@ export default function ReportPage() {
   }, [token, report, id]);
 
   const handlePivotTo = useCallback((pivot: PivotSuggestion) => {
-    window.location.href = `/dashboard/new?title=${encodeURIComponent(`${ideaTitle} (${pivot.direction})`)}&desc=${encodeURIComponent(pivot.description)}&audience=${encodeURIComponent(pivot.targetAudience)}`;
-  }, [ideaTitle]);
+    router.push(`/dashboard/new?title=${encodeURIComponent(`${ideaTitle} (${pivot.direction})`)}&desc=${encodeURIComponent(pivot.description)}&audience=${encodeURIComponent(pivot.targetAudience)}`);
+  }, [ideaTitle, router]);
 
   const handleChat = useCallback(async () => {
     if (!chatInput.trim() || !token || chatSending) return;
@@ -294,6 +298,20 @@ export default function ReportPage() {
       pdf.save(`IdeaForge-Report-${ideaTitle.replace(/\s+/g, "-")}.pdf`);
     } finally { setDownloading(false); }
   }, [ideaTitle]);
+
+  const handleEmailReport = useCallback(async () => {
+    if (!token || !id || emailSending) return;
+    setEmailSending(true);
+    setEmailMessage("");
+    try {
+      const result = await api.emailReport(token, id as string, emailFormat);
+      setEmailMessage(result.message);
+    } catch (error) {
+      setEmailMessage(error instanceof Error ? error.message : "Could not email the report.");
+    } finally {
+      setEmailSending(false);
+    }
+  }, [token, id, emailSending, emailFormat]);
 
   if (status === "loading") {
     return (
@@ -372,6 +390,19 @@ export default function ReportPage() {
             </svg>
             {downloading ? "Exporting..." : "Export PDF"}
           </button>
+          {user?.plan === "free" ? (
+            <Link href="/dashboard/upgrade" className="px-4 py-2 rounded-xl border border-indigo-400/20 bg-indigo-400/10 text-sm font-medium text-indigo-200 hover:bg-indigo-400/15 transition-colors">Email report · Pro</Link>
+          ) : (
+            <div className="flex items-center gap-1.5">
+              <label htmlFor="email-report-format" className="sr-only">Email attachment format</label>
+              <select id="email-report-format" value={emailFormat} onChange={(event) => setEmailFormat(event.target.value as "csv" | "doc")} className="rounded-xl border border-white/[0.08] bg-[#0c1222] px-2.5 py-2 text-sm text-slate-200 outline-none focus:border-indigo-400/50">
+                <option value="csv">CSV</option><option value="doc">Word document</option>
+              </select>
+              <button onClick={handleEmailReport} disabled={emailSending} className="px-3 py-2 rounded-xl border border-indigo-400/20 bg-indigo-500/15 text-sm font-medium text-indigo-100 hover:bg-indigo-500/25 disabled:opacity-50 transition-colors">
+                {emailSending ? "Sending…" : "Email me"}
+              </button>
+            </div>
+          )}
           <button onClick={() => setShowPivotPanel(!showPivotPanel)}
             className="px-4 py-2 rounded-xl border border-blue-500/30 bg-blue-500/10 text-sm font-medium text-blue-300 hover:bg-blue-500/20 flex items-center gap-2 transition-colors">
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -381,6 +412,8 @@ export default function ReportPage() {
           </button>
         </div>
       </div>
+
+      {emailMessage && <p role="status" className="rounded-xl border border-indigo-400/20 bg-indigo-400/[0.06] px-4 py-3 text-sm text-indigo-100">{emailMessage}</p>}
 
       {report!.usedFallback && (
         <div className="rounded-xl border border-amber-500/30 bg-amber-500/10 px-4 py-3 flex items-start gap-3">

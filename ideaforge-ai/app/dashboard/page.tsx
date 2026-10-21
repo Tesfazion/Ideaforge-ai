@@ -11,7 +11,7 @@ import { AnimatedRing, MiniSparkline, ScoreRing, ContributionGrid } from "@/comp
 const LazyPieChart = dynamic(() => import("@/components/LazyCharts").then((m) => m.LazyPieChart), { ssr: false, loading: () => <div className="h-[200px] bg-white/[0.03] rounded-xl animate-pulse" /> });
 const LazyDashboardBarChart = dynamic(() => import("@/components/LazyCharts").then((m) => m.LazyDashboardBarChart), { ssr: false, loading: () => <div className="h-[200px] bg-white/[0.03] rounded-xl animate-pulse" /> });
 
-const COLORS = ["#22C55E", "#6366F1", "#F59E0B", "#EF4444", "#8B5CF6", "#EC4899", "#14B8A6", "#F97316"];
+const COLORS = ["#6366F1", "#818CF8", "#A5B4FC", "#C7D2FE"];
 const fadeUp = { hidden: { opacity: 0, y: 16 }, show: { opacity: 1, y: 0 } };
 const stagger = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.04, delayChildren: 0.05 } } };
 const scaleIn = { hidden: { opacity: 0, scale: 0.95 }, show: { opacity: 1, scale: 1, transition: { type: "spring" as const, stiffness: 200, damping: 20 } } };
@@ -113,6 +113,8 @@ export default function DashboardPage() {
   }, [token]);
 
   const getGreeting = () => { const h = new Date().getHours(); return h < 12 ? "Good morning" : h < 17 ? "Good afternoon" : "Good evening"; };
+  const plan = user?.plan || "free";
+  const planLabel = plan === "enterprise" ? "Enterprise" : plan === "pro" ? "Founder Pro" : "Explorer";
 
   const tabs = [
     { id: "overview" as const, label: "Overview", icon: "M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zm0 8a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zm10 0a1 1 0 011-1h4a1 1 0 011 1v6a1 1 0 01-1 1h-4a1 1 0 01-1-1v-6z" },
@@ -129,7 +131,7 @@ export default function DashboardPage() {
   return (
     <div className="max-w-[1400px] mx-auto space-y-6">
       <motion.div variants={scaleIn} initial="hidden" animate="show" className="relative rounded-2xl overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/[0.08] via-purple-500/[0.06] to-amber-500/[0.04]" />
+        <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/[0.10] via-indigo-400/[0.04] to-transparent" />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#060a13]/40" />
         <div className="absolute inset-0 bg-[#0c1222]/60 backdrop-blur-2xl" />
         <div className="relative px-6 py-8 sm:px-8 lg:px-10">
@@ -144,7 +146,8 @@ export default function DashboardPage() {
                   </div>
                 )}
               </div>
-              <p className="text-sm text-slate-400 max-w-lg">Your business validation command center. Track, analyze, and optimize your ideas with AI-powered insights.</p>
+              <p className="text-sm text-slate-400 max-w-lg">Your ideas, research, and next steps in one focused workspace.</p>
+              <span className="inline-flex items-center rounded-full border border-indigo-400/20 bg-indigo-400/10 px-2.5 py-1 text-[11px] font-semibold text-indigo-200">{planLabel} plan</span>
             </div>
             <div className="flex gap-2 flex-wrap">
               <Link href="/dashboard/generate" className="px-4 py-2.5 rounded-xl text-sm font-semibold bg-white/[0.06] border border-white/[0.06] text-slate-300 hover:bg-white/[0.1] transition-all inline-flex items-center gap-2">
@@ -160,6 +163,18 @@ export default function DashboardPage() {
         </div>
       </motion.div>
 
+      <section className="card-premium rounded-2xl border border-indigo-400/15 p-5 sm:p-6">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-indigo-300">{plan === "free" ? "Your monthly allowance" : plan === "enterprise" ? "Your workspace" : "Your founder workspace"}</p>
+            <h2 className="mt-1 text-lg font-semibold text-white">{plan === "free" ? `${user?.tokens ?? 0} of ${user?.monthlyTokens ?? 5} validations left` : plan === "enterprise" ? "Unlimited validations · API access" : "Unlimited validations · full reports"}</h2>
+            <p className="mt-1 text-sm text-slate-400">{plan === "free" ? "Your allowance renews monthly. Upgrade for unlimited validations and report delivery by email." : plan === "enterprise" ? "Manage API keys and analyze ideas from your own tools." : "Export reports as PDF, CSV, or Word document and email them to yourself."}</p>
+          </div>
+          {plan === "enterprise" ? <Link href="/dashboard/api-keys" className="shrink-0 rounded-xl bg-indigo-500 px-4 py-2.5 text-center text-sm font-semibold text-white hover:bg-indigo-400">Manage API keys</Link> : plan === "pro" ? <Link href="/dashboard/upgrade" className="shrink-0 rounded-xl border border-white/10 px-4 py-2.5 text-center text-sm font-semibold text-slate-200 hover:bg-white/5">Manage plan</Link> : <Link href="/dashboard/upgrade" className="shrink-0 rounded-xl bg-indigo-500 px-4 py-2.5 text-center text-sm font-semibold text-white hover:bg-indigo-400">Compare plans</Link>}
+        </div>
+        {plan === "free" && <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-white/10"><div className="h-full rounded-full bg-indigo-400 transition-all" style={{ width: `${Math.min(100, Math.max(0, ((user?.monthlyTokens ?? 5) - (user?.tokens ?? 0)) / Math.max(1, user?.monthlyTokens ?? 5) * 100))}%` }} /></div>}
+      </section>
+
       <div className="flex items-center gap-1 p-1 rounded-xl bg-white/[0.03] border border-white/[0.04] w-fit">
         {tabs.map((tab) => (
           <button key={tab.id} onClick={() => setActiveTab(tab.id)} className={`flex items-center gap-2 px-4 py-2 rounded-lg text-[13px] font-medium transition-all ${activeTab === tab.id ? "bg-white/[0.08] text-white shadow-sm" : "text-slate-500 hover:text-slate-300 hover:bg-white/[0.04]"}`}>
@@ -174,10 +189,10 @@ export default function DashboardPage() {
           <motion.div key="overview" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.2 }} className="space-y-6">
             <motion.div className="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4" variants={stagger} initial="hidden" animate="show">
               {[
-                { label: "Total Ideas", value: ideas.length, sub: `${stats.validated} validated`, icon: "M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10", color: "from-blue-500 to-blue-600" },
-                { label: "Validated", value: stats.validated, sub: `${stats.failed} failed`, icon: "M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z", color: "from-emerald-500 to-emerald-600" },
-                { label: user?.plan !== "pro" ? "Tokens" : "Win Rate", value: user?.plan !== "pro" ? (user?.tokens ?? 0) : stats.winRate, displayValue: user?.plan !== "pro" ? `${user?.tokens ?? 0}` : `${stats.winRate}%`, sub: user?.plan !== "pro" ? "remaining this month" : "success rate", icon: "M13 10V3L4 14h7v7l9-11h-7", color: "from-amber-500 to-orange-500" },
-                { label: "Avg Score", value: stats.avgScore, displayValue: `${stats.avgScore}%`, sub: `Peak: ${stats.topScore}%`, icon: "M13 7h8m0 0v8m0-8l-8 8-4-4-6 6", color: "from-violet-500 to-violet-600" },
+                { label: "Total Ideas", value: ideas.length, sub: `${stats.validated} validated`, icon: "M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10", color: "from-indigo-500 to-indigo-600" },
+                { label: "Validated", value: stats.validated, sub: `${stats.failed} failed`, icon: "M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z", color: "from-indigo-500 to-indigo-600" },
+                { label: plan === "free" ? "Credits left" : "Win Rate", value: plan === "free" ? (user?.tokens ?? 0) : stats.winRate, displayValue: plan === "free" ? `${user?.tokens ?? 0}` : `${stats.winRate}%`, sub: plan === "free" ? "resets monthly" : "success rate", icon: "M13 10V3L4 14h7v7l9-11h-7", color: "from-indigo-500 to-indigo-600" },
+                { label: "Avg Score", value: stats.avgScore, displayValue: `${stats.avgScore}%`, sub: `Peak: ${stats.topScore}%`, icon: "M13 7h8m0 0v8m0-8l-8 8-4-4-6 6", color: "from-indigo-500 to-indigo-600" },
               ].map((stat) => (
                 <motion.div key={stat.label} variants={fadeUp} className="card-premium rounded-xl p-4 lg:p-5 group">
                   <div className="flex items-start justify-between mb-3">
@@ -224,14 +239,14 @@ export default function DashboardPage() {
                 {aiInsights.length > 0 && (
                   <motion.div variants={fadeUp} initial="hidden" animate="show">
                     <div className="flex items-center gap-2 mb-3">
-                      <div className="w-5 h-5 rounded-md bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center"><svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0" /></svg></div>
+                      <div className="w-5 h-5 rounded-md bg-indigo-500 flex items-center justify-center"><svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0" /></svg></div>
                       <h3 className="text-sm font-semibold text-white">AI Insights</h3>
                     </div>
                     <div className="grid sm:grid-cols-2 gap-3">
                       {aiInsights.map((insight, i) => (
                         <div key={i} className="card-premium rounded-xl p-4">
                           <div className="flex items-start gap-3">
-                            <div className={`w-9 h-9 rounded-xl bg-gradient-to-br ${insight.color} flex items-center justify-center shrink-0 shadow-lg opacity-80`}>
+                            <div className="w-9 h-9 rounded-xl bg-indigo-500/15 text-indigo-300 flex items-center justify-center shrink-0">
                               <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d={insight.icon} /></svg>
                             </div>
                             <div className="flex-1 min-w-0">
@@ -294,8 +309,8 @@ export default function DashboardPage() {
                       { href: "/dashboard/generate", label: "AI Idea Generator", desc: "Brainstorm opportunities", icon: "M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3", grad: "from-amber-500/10 to-orange-500/10 hover:from-amber-500/20 hover:to-orange-500/20 border-amber-500/20", ibg: "bg-amber-500/20 text-amber-400" },
                       { href: "/dashboard/compare", label: "Compare Ideas", desc: "Side-by-side analysis", icon: "M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2z", grad: "from-emerald-500/10 to-teal-500/10 hover:from-emerald-500/20 hover:to-teal-500/20 border-emerald-500/20", ibg: "bg-emerald-500/20 text-emerald-400" },
                     ].map((a) => (
-                      <Link key={a.href} href={a.href} className={`flex items-center gap-3 p-3 rounded-xl bg-gradient-to-r ${a.grad} border transition-all group`}>
-                        <div className={`w-9 h-9 rounded-lg ${a.ibg} flex items-center justify-center group-hover:scale-105 transition-transform`}>
+                      <Link key={a.href} href={a.href} className="flex items-center gap-3 p-3 rounded-xl bg-indigo-500/[0.03] hover:bg-indigo-500/[0.08] border border-indigo-400/15 transition-all group">
+                        <div className="w-9 h-9 rounded-lg bg-indigo-500/15 text-indigo-300 flex items-center justify-center group-hover:scale-105 transition-transform">
                           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d={a.icon} /></svg>
                         </div>
                         <div><p className="text-sm font-medium text-white">{a.label}</p><p className="text-[10px] text-slate-400">{a.desc}</p></div>

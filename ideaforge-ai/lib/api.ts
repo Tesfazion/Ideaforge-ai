@@ -15,10 +15,12 @@ async function request<T>(endpoint: string, options: RequestOptions = {}): Promi
     ...fetchOptions,
     headers: { ...headers, ...(fetchOptions.headers as Record<string, string>) },
   });
-  const data = await res.json();
+  const data = (await res.json()) as { error?: string } & Record<string, unknown>;
   if (!res.ok) {
-    const err = new Error(data.error || `Request failed with status ${res.status}`);
-    (err as any).status = res.status;
+    const err = new Error(data.error || `Request failed with status ${res.status}`) as Error & {
+      status?: number;
+    };
+    err.status = res.status;
     Object.assign(err, data);
     throw err;
   }
@@ -209,6 +211,8 @@ export const api = {
     request<{ reply: string }>(`/api/ideas/${ideaId}/pivot-chat`, { method: "POST", body: JSON.stringify({ message, history }), token }),
   getReport: (token: string, ideaId: string) =>
     request<{ report: Report; idea: { id: string; title: string; status: string } }>(`/api/reports/${ideaId}`, { token }),
+  emailReport: (token: string, ideaId: string, format: "csv" | "doc") =>
+    request<{ message: string }>(`/api/reports/${ideaId}/email`, { method: "POST", body: JSON.stringify({ format }), token }),
 };
 
 export interface User {

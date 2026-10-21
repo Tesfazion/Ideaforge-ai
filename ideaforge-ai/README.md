@@ -93,6 +93,7 @@ The app ships with authentication, a credit/quota system, a pricing & upgrade fl
 
 ### Professional Export
 - **Investor-Ready PDF** — Multi-page, styled PDF export of your full validation report
+- **Email Report Delivery** — Founder Pro and Enterprise users can email the full report to their account as CSV or a Word-compatible document (requires Resend configuration)
 - **Dark Theme Support** — Full dark/light mode with persistent preference
 
 ### AI Idea Generator
@@ -103,7 +104,7 @@ The app ships with authentication, a credit/quota system, a pricing & upgrade fl
 
 ### Platform & Security
 - **JWT Authentication** — 7-day tokens with bcryptjs password hashing
-- **Credit/Quota System** — Free (1/mo), Pro (unlimited), Enterprise — credits only consumed on successful validation with auto-refund on failures
+- **Credit/Quota System** — Explorer (5/month), Founder Pro (unlimited), Enterprise (unlimited + API access) — credits are only consumed on successful validation and refunded on failures
 - **Rate Limiting** — In-memory rate limiting on auth, validation, and contact endpoints
 - **Route Protection** — Next.js middleware proxy guarding `/dashboard` and authenticated `/api` routes
 - **Newsletter Subscription** — Email capture with a working `/api/newsletter` endpoint
@@ -221,6 +222,10 @@ AI_MODEL="openai/gpt-4o"
 # Optional: Email validation (Abstract API)
 ABSTRACT_EMAIL_API_KEY=""
 
+# Report delivery by email (Resend)
+RESEND_API_KEY=""
+RESEND_FROM_EMAIL="IdeaForge <reports@your-verified-domain.com>"
+
 # Optional: Web search (Exa API)
 EXA_API_KEY=""
 
@@ -234,7 +239,7 @@ STRIPE_ENTERPRISE_PRICE_ID=""
 NEXT_PUBLIC_APP_URL="http://localhost:1212"
 ```
 
-> **Company email:** Contact, careers, and privacy inquiries route to `tesfazion428@gmail.com`.
+> **Company:** IdeaForge is made by [Sunshine Tech Solution](https://sunshinetechsolution.vercel.app/).
 
 ---
 
@@ -449,9 +454,9 @@ All authenticated endpoints require a `Bearer` token in the `Authorization` head
 
 | Plan | Price | Validations | Features |
 |------|-------|-------------|----------|
-| **Explorer** (Free) | $0/mo | 1/month | Basic 5-dimension scoring, standard report, 1 idea generation |
-| **Founder** (Pro) | $19/mo | Unlimited | Full 9-dimension index, GTM experiments, pivot assistant, verified sources, priority processing, PDF export, unlimited idea generation |
-| **Enterprise** | $49/mo | Unlimited | Everything in Pro + 5 team members, shared workspace, API access |
+| **Explorer** (Free) | $0/mo | 5/month | Full report in the workspace, preview score, PDF export |
+| **Founder Pro** | $19/mo | Unlimited | Full analysis, pivot tools, PDF export, email reports as CSV or Word |
+| **Enterprise** | $49/mo | Unlimited | Everything in Founder Pro + REST API access and up to 10 active API keys |
 
 ### Credit Safeties
 - Credits only consumed on **successful** validation
@@ -509,3 +514,9 @@ MIT
 ---
 
 Built with [IdeaForge AI](https://github.com/Tesfazion/Ideaforge-ai) — Turn your ideas into validated businesses.
+
+### Vercel project settings
+
+If the GitHub repository root is the parent folder, set Vercel **Root Directory** to `ideaforge-ai`. Configure these values in Vercel Project Settings for each environment that needs them: `DATABASE_URL`, `JWT_SECRET` (random and at least 32 characters), `AI_API_KEY`, `AI_BASE_URL`, `AI_MODEL`, and `NEXT_PUBLIC_APP_URL` (the public `https://` URL). Do not add secrets to `vercel.json` or commit a `.env` file.
+
+Optional integrations: `EXA_API_KEY` (market research), `RESEND_API_KEY` and `RESEND_FROM_EMAIL` (report email), and `STRIPE_*` (payments). Set a separate random `ENCRYPTION_KEY` if using encrypted API keys in settings. Run `npm run db:migrate` once against the production database after configuration and before routing users to the deployment; do not run migrations from preview builds.
