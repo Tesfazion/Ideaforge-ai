@@ -304,3 +304,14 @@ img, video, canvas, svg {
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
 }
+
+/* Accessibility: focus-visible rings */
+*:focus-visible {
+  outline: 2px solid rgba(99, 102, 241, 0.8);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible {
+  outline: 2px solid rgba(99, 102, 241, 0.8);
+  outline-offset: 2px;
+}
