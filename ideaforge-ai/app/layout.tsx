@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/lib/auth";
@@ -6,13 +6,30 @@ import { AuthProvider } from "@/lib/auth";
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  userScalable: true,
+  themeColor: "#060a13",
+  viewportFit: "cover",
+};
+
 export const metadata: Metadata = {
-  title: "IdeaForge — Validate Your Business Idea with AI in 30 Seconds",
+  title: "IdeaForge - Validate Your Business Idea with AI in 30 Seconds",
   description: "Get a comprehensive 9-dimension AI analysis of your business idea in 30 seconds. Market research, SWOT, competitor mapping, risk assessment, and a 7-day action plan. Free to start.",
   keywords: ["business idea validation", "AI startup analysis", "market research tool", "SWOT analysis", "idea validation", "startup tool", "business plan validator"],
   manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "IdeaForge",
+  },
+  formatDetection: {
+    telephone: false,
+  },
   openGraph: {
-    title: "IdeaForge — Validate Your Business Idea with AI",
+    title: "IdeaForge - Validate Your Business Idea with AI",
     description: "Get a 9-dimension AI analysis of any business idea in 30 seconds. Market research, SWOT, competitor mapping, and more.",
     url: "https://ideaforge.ai",
     siteName: "IdeaForge",
@@ -29,7 +46,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "IdeaForge — Validate Your Business Idea with AI",
+    title: "IdeaForge - Validate Your Business Idea with AI",
     description: "Get a 9-dimension AI analysis of any business idea in 30 seconds.",
     images: ["https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1200&h=630&fit=crop&auto=format&q=80"],
   },
@@ -75,7 +92,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="en" data-theme="dark" data-scroll-behavior="smooth" className={`dark ${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
       <head>
-        <link rel="preload" href="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&h=1080&fit=crop&auto=format&q=80" as="image" type="image/jpeg" />
+        <link rel="icon" href="/favicon.png" sizes="1024x1024" type="image/png" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}

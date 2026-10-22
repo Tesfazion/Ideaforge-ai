@@ -2,7 +2,6 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import Image from "next/image";
 
 function Counter({ end, suffix = "" }: { end: number; suffix?: string }) {
   const [count, setCount] = useState(0);
@@ -80,27 +79,28 @@ export default function Hero() {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#060a13]">
       <div className="absolute inset-0">
-        <Image
+        <img
           src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&h=1080&fit=crop&auto=format&q=80"
           alt=""
-          fill
-          className="object-cover opacity-[0.15]"
-          priority
+          aria-hidden="true"
+          className="w-full h-full object-cover opacity-[0.15]"
+          loading="lazy"
+          decoding="async"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-[#060a13] via-[#060a13]/80 to-[#060a13]" />
       </div>
       <div className="absolute inset-0">
-        <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-indigo-600/20 rounded-full blur-[120px] animate-orb" />
-        <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-purple-600/15 rounded-full blur-[100px] animate-orb-delayed" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-amber-500/10 rounded-full blur-[80px] animate-orb-slow" />
+        <div className="absolute top-1/4 left-1/4 w-16 h-16 sm:w-20 sm:h-20 md:w-32 md:h-32 bg-indigo-600/20 rounded-full blur-[80px] animate-orb" />
+        <div className="absolute bottom-1/4 right-1/4 w-12 h-12 sm:w-16 sm:h-16 md:w-32 md:h-32 bg-purple-600/15 rounded-full blur-[60px] animate-orb-delayed" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 sm:w-12 sm:h-12 md:w-24 md:h-24 bg-amber-500/10 rounded-full blur-[40px] animate-orb-slow" />
       </div>
 
       <Particles />
 
       <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wMykiLz48L3N2Zz4=')] opacity-60" />
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-20">
-        <motion.div className="grid lg:grid-cols-2 gap-16 items-center" variants={container} initial="hidden" animate="show">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 sm:pt-32 pb-16 sm:pb-20">
+        <motion.div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center" variants={container} initial="hidden" animate="show">
           <motion.div className="max-w-2xl" variants={item}>
             <motion.div
               className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-medium mb-8"
@@ -111,7 +111,7 @@ export default function Hero() {
             </motion.div>
 
             <motion.h1
-              className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white leading-[1.05] tracking-tight"
+              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-[1.05] tracking-tight"
               variants={item}
             >
               Validate your idea
@@ -121,21 +121,21 @@ export default function Hero() {
               </span>
             </motion.h1>
 
-            <motion.p className="mt-6 text-lg text-slate-400 max-w-xl leading-relaxed" variants={item}>
+            <motion.p className="mt-6 text-base sm:text-lg text-slate-400 max-w-xl leading-relaxed" variants={item}>
               Get a comprehensive 9-dimension AI analysis of any business idea in 30 seconds. Market research, SWOT, competitor mapping, risk assessment, and a 7-day action plan.
             </motion.p>
 
-            <motion.div className="mt-10 flex flex-col sm:flex-row gap-3" variants={item}>
-              <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
-                <Link href="/register" className="gradient-btn text-white px-7 py-3.5 rounded-xl text-sm font-semibold inline-flex items-center gap-2 justify-center">
+            <motion.div className="mt-10 flex flex-col sm:flex-row gap-3 w-full sm:w-auto" variants={item}>
+              <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }} className="w-full sm:w-auto">
+                <Link href="/register" className="gradient-btn text-white px-7 py-3.5 rounded-xl text-sm font-semibold inline-flex items-center gap-2 justify-center w-full sm:w-auto">
                   Start Validating Free
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
                   </svg>
                 </Link>
               </motion.div>
-              <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
-                <Link href="#how-it-works" className="px-7 py-3.5 rounded-xl text-sm font-semibold border border-white/10 text-slate-300 hover:bg-white/5 transition-colors inline-flex items-center gap-2 justify-center">
+              <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }} className="w-full sm:w-auto">
+                <Link href="#how-it-works" className="px-7 py-3.5 rounded-xl text-sm font-semibold border border-white/10 text-slate-300 hover:bg-white/5 transition-colors inline-flex items-center gap-2 justify-center w-full sm:w-auto">
                   See How It Works
                 </Link>
               </motion.div>

@@ -89,6 +89,7 @@ function TestimonialCard({ t }: { t: typeof testimonials[0] }) {
             src={t.avatar}
             alt={t.name}
             fill
+            unoptimized
             sizes="40px"
             className="object-cover"
           />
@@ -148,6 +149,7 @@ export default function Testimonials() {
                     src={t.avatar}
                     alt={t.name}
                     fill
+                    unoptimized
                     sizes="40px"
                     className="object-cover"
                   />

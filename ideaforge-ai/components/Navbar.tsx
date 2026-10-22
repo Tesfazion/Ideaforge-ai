@@ -15,7 +15,7 @@ export default function Navbar() {
     <motion.nav className="fixed top-0 left-0 right-0 z-50">
       <div className="absolute inset-0 bg-[#060a13]/80 backdrop-blur-xl border-b border-white/5" />
       <motion.div className="absolute inset-0 bg-indigo-500/5" style={{ opacity }} />
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative max-w-7xl mx-auto px-3 sm:px-4 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <Link href="/" className="flex items-center gap-2.5 group">
              <div className="w-10 h-10 rounded-lg overflow-hidden group-hover:shadow-indigo-500/40 transition-shadow">

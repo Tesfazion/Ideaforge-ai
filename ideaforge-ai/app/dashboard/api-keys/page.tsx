@@ -119,9 +119,9 @@ export default function ApiKeysPage() {
   if (loading || !user || user.plan !== "enterprise") return null;
 
   return (
-    <div className="max-w-4xl mx-auto space-y-8 animate-slide-up">
+    <div className="max-w-4xl mx-auto px-3 sm:px-4 lg:px-0 space-y-6 sm:space-y-8 animate-slide-up">
       <div>
-        <h1 className="text-2xl font-bold text-white">API Keys</h1>
+        <h1 className="text-xl sm:text-2xl font-bold text-white">API Keys</h1>
         <p className="text-sm text-slate-400 mt-1">
           Manage API keys for programmatic access to IdeaForge AI validations.
         </p>
@@ -190,18 +190,18 @@ export default function ApiKeysPage() {
 
       <div className="rounded-2xl bg-white/[0.02] border border-white/[0.06] p-6">
         <h3 className="text-sm font-semibold text-white mb-4">Generate New Key</h3>
-        <div className="flex items-center gap-3">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
           <input
             type="text"
             value={newKeyName}
             onChange={(e) => setNewKeyName(e.target.value)}
             placeholder="Key name (e.g. production, staging)"
-            className="flex-1 bg-white/[0.04] border border-white/[0.08] rounded-xl px-4 py-2.5 text-sm text-white placeholder:text-slate-500 focus:outline-none focus:border-indigo-500/50 transition-colors"
+            className="flex-1 min-w-0 bg-white/[0.04] border border-white/[0.08] rounded-xl px-4 py-2.5 text-sm text-white placeholder:text-slate-500 focus:outline-none focus:border-indigo-500/50 transition-colors"
           />
           <button
             onClick={generateKey}
             disabled={generating}
-            className="shrink-0 px-5 py-2.5 rounded-xl bg-indigo-500 text-white text-sm font-semibold hover:bg-indigo-600 transition-colors disabled:opacity-50 flex items-center gap-2"
+            className="w-full sm:w-auto shrink-0 px-5 py-2.5 rounded-xl bg-indigo-500 text-white text-sm font-semibold hover:bg-indigo-600 transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
           >
             {generating ? (
               <>
@@ -220,8 +220,8 @@ export default function ApiKeysPage() {
         </div>
       </div>
 
-      <div className="rounded-2xl bg-white/[0.02] border border-white/[0.06] overflow-hidden">
-        <div className="px-6 py-4 border-b border-white/[0.06]">
+      <div className="rounded-2xl bg-white/[0.02] border border-white/[0.06] overflow-x-auto">
+        <div className="px-4 sm:px-6 py-4 border-b border-white/[0.06]">
           <h3 className="text-sm font-semibold text-white">Active Keys</h3>
         </div>
         {loadingKeys ? (
@@ -242,7 +242,7 @@ export default function ApiKeysPage() {
         ) : (
           <div className="divide-y divide-white/[0.04]">
             {keys.map((apiKey) => (
-              <div key={apiKey.id} className="px-6 py-4 flex items-center gap-4 hover:bg-white/[0.02] transition-colors">
+              <div key={apiKey.id} className="px-4 sm:px-6 py-4 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 hover:bg-white/[0.02] transition-colors">
                 <div className="w-9 h-9 rounded-lg bg-indigo-500/15 flex items-center justify-center shrink-0">
                   <svg className="w-4 h-4 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 5.25a3 3 0 013 3m3 0a6 6 0 01-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1121.75 8.25z" />
@@ -250,7 +250,7 @@ export default function ApiKeysPage() {
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-medium text-white">{apiKey.name}</p>
-                  <p className="text-xs text-slate-500 font-mono mt-0.5">{apiKey.key}</p>
+                  <p className="text-xs text-slate-500 font-mono mt-0.5 break-all">{apiKey.key}</p>
                 </div>
                 <div className="text-right shrink-0">
                   <p className="text-[10px] text-slate-500">

@@ -21,7 +21,7 @@ export default function MobileCTA() {
       animate={{ y: show ? 0 : 100 }}
       transition={{ type: "spring", stiffness: 300, damping: 30 }}
     >
-      <div className="bg-[#0c1222]/95 backdrop-blur-xl border-t border-white/10 px-4 py-3 safe-area-pb">
+      <div className="bg-[#0c1222]/95 backdrop-blur-xl border-t border-white/10 px-3 sm:px-4 py-3 safe-area-pb">
         <Link
           href="/register"
           className="gradient-btn text-white w-full py-3 rounded-xl text-sm font-semibold flex items-center justify-center gap-2"

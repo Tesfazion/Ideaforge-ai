@@ -127,6 +127,7 @@ export default function Features() {
                     src={f.image}
                     alt={f.imageAlt}
                     fill
+                    unoptimized
                     sizes="(max-width: 768px) 100vw, 33vw"
                     className="object-cover group-hover:scale-105 transition-transform duration-700"
                   />
@@ -156,6 +157,7 @@ export default function Features() {
                       src={f.image}
                       alt={f.imageAlt}
                       fill
+                      unoptimized
                       sizes="(max-width: 768px) 100vw, 33vw"
                       className="object-cover opacity-60 group-hover:opacity-80 group-hover:scale-105 transition-all duration-700"
                     />
