@@ -490,7 +490,7 @@ If Vercel reports a build failure instead, inspect that deployment's Build Logs 
 
 ### Netlify
 
-The repository includes a root `netlify.toml` that sets the app's base directory to `ideaforge-ai`, runs `npm run build`, and publishes `.next`. The app's `.nvmrc` pins the build to Node.js 20, matching the GitHub Actions build. Netlify detects and configures its Next.js runtime automatically.
+The repository includes a root `netlify.toml` that sets the app's base directory to `ideaforge-ai`, runs `npm run build`, and publishes `.next`. The app's `.nvmrc` pins the build to Node.js 20, matching the GitHub Actions build. The configuration explicitly enables `@netlify/plugin-nextjs`, installed in the app's development dependencies, to generate the server functions, public assets, and routing needed to serve Next.js. Publishing the raw `.next` directory without this runtime produces a Netlify 404 even when the build succeeds.
 
 Connect the `main` branch in Netlify. The values in `netlify.toml` supply the base directory, build command, and publish directory; leave the Functions directory empty. Add the production environment variables listed in [Configuration](#configuration), including `DATABASE_URL`, `JWT_SECRET`, `AI_API_KEY`, `AI_BASE_URL`, `AI_MODEL`, and `NEXT_PUBLIC_APP_URL`. Add optional integration keys only when using those services. See [Netlify's Next.js guide](https://docs.netlify.com/frameworks/next-js/).
 
