@@ -16,6 +16,7 @@
   "dependencies": {
     "@prisma/client": "^6.19.0",
     "@stripe/stripe-js": "^9.17.0",
+    "@types/nodemailer": "^8.0.2",
     "bcryptjs": "^2.4.3",
     "framer-motion": "^12.43.0",
     "html2canvas": "^1.4.1",
@@ -23,6 +24,7 @@
     "jsonwebtoken": "^9.0.2",
     "jspdf": "^2.5.2",
     "next": "16.4.2",
+    "nodemailer": "^10.2.0",
     "openai": "^4.94.0",
     "react": "19.3.1",
     "react-dom": "19.3.1",
