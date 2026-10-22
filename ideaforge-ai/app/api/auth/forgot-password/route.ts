@@ -1,8 +1,9 @@
-import { NextRequest, NextResponse } from "next/server";
+﻿import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
+import { sendEmail } from "@/lib/email";
 
 function getSecret(): string {
   const secret = process.env.JWT_SECRET;
@@ -49,13 +50,13 @@ export async function POST(request: NextRequest) {
 
     const resetUrl = `${process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"}/reset-password?token=${resetToken}`;
 
-    if (process.env.NODE_ENV === "production") {
-      // TODO: Integrate email service (e.g., Resend, SendGrid, Nodemailer)
-      // await sendEmail({ to: user.email, subject: "Reset your IdeaForge password", ... });
-      console.log(`[PROD] Password reset email would be sent to: ${user.email}`);
-    } else {
-      console.log(`\n🔗 Password reset link for ${user.email}:\n${resetUrl}\n`);
-    }
+    await sendEmail({
+      to: user.email,
+      subject: "Reset your IdeaForge password",
+      text: `Reset your password by visiting: ${resetUrl}\n\nThis link expires in 1 hour.`,
+      html: `<p>Reset your password by <a href="${resetUrl}">clicking here</a>.</p><p>This link expires in 1 hour.</p>`,
+    });
+    console.log(`Password reset link sent to: ${user.email}`);
 
     return NextResponse.json({ message: "If an account exists with that email, a reset link has been sent." });
   } catch (err: unknown) {
