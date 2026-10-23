@@ -3,6 +3,20 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
+  --color-sky-400: #007acc;
+  --color-sky-500: #005fa3;
+  --color-sky-600: #004d85;
+  --color-sky-300: #3399cc;
+  --color-sky-200: #66b3d9;
+  --color-sky-100: #99cce6;
+  --color-sky-50: #cce6f2;
+  --color-orange-400: #ef842b;
+  --color-orange-500: #d4721f;
+  --color-orange-600: #b85f18;
+  --color-orange-300: #f3a05a;
+  --color-orange-200: #f7bc8a;
+  --color-orange-100: #fad8ba;
+  --color-orange-50: #fdf0e5;
   --color-primary: #007acc;
   --color-primary-dark: #005fa3;
   --color-accent: #ef842b;
