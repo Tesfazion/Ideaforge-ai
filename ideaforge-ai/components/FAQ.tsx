@@ -39,7 +39,7 @@ export default function FAQ() {
   }, [search, activeCategory]);
 
   return (
-    <section className="py-24 bg-white">
+    <section className="py-24 bg-[#060a13]">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           className="text-center mb-12"
@@ -49,7 +49,7 @@ export default function FAQ() {
           transition={{ duration: 0.6 }}
         >
           <span className="inline-block text-xs font-semibold text-sky-400 bg-sky-500/10 border border-sky-500/20 px-3 py-1 rounded-full mb-5 tracking-wider uppercase">FAQ</span>
-          <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 tracking-tight">Frequently asked questions</h2>
+          <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-tight">Frequently asked questions</h2>
         </motion.div>
 
         <motion.div
@@ -68,7 +68,7 @@ export default function FAQ() {
               placeholder="Search questions..."
               value={search}
               onChange={(e) => { setSearch(e.target.value); setOpen(null); }}
-              className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-white/[0.06] bg-white/[0.03] text-sm text-slate-900 placeholder-slate-500 focus:outline-none focus:border-sky-500/30 focus:ring-1 focus:ring-sky-500/20 transition-all"
+              className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-white/[0.06] bg-white/[0.03] text-sm text-white placeholder-slate-500 focus:outline-none focus:border-sky-500/30 focus:ring-1 focus:ring-sky-500/20 transition-all"
             />
           </div>
           <div className="flex gap-1.5">

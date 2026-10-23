@@ -35,7 +35,7 @@ export default function PreviewScore() {
     <section className="py-16 bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-800/50">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-10">
-          <h2 className="text-3xl font-bold text-gray-900 dark:text-slate-900">Get Your Instant Preview Score</h2>
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-white">Get Your Instant Preview Score</h2>
           <p className="mt-3 text-gray-500 dark:text-gray-400">No sign-up required. See your viability score in seconds.</p>
         </div>
 
@@ -52,7 +52,7 @@ export default function PreviewScore() {
                 className="w-full px-4 py-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 transition-colors resize-none placeholder:text-gray-400" />
             </div>
             <button type="submit" disabled={loading} suppressHydrationWarning
-              className="w-full gradient-btn text-slate-900 font-semibold py-3 rounded-xl text-sm disabled:opacity-50 flex items-center justify-center gap-2">
+              className="w-full gradient-btn text-white font-semibold py-3 rounded-xl text-sm disabled:opacity-50 flex items-center justify-center gap-2">
               {loading ? (
                 <><div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" /> Analyzing...</>
               ) : (
@@ -69,10 +69,10 @@ export default function PreviewScore() {
             <div className="mt-6 animate-slide-up">
               <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
                 <div className="text-center">
-                  <div className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-slate-900 text-sm font-semibold mb-2 ${result.viabilityScore >= 60 ? "bg-emerald-500" : result.viabilityScore >= 40 ? "bg-amber-500" : "bg-red-500"}`}>
+                  <div className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-white text-sm font-semibold mb-2 ${result.viabilityScore >= 60 ? "bg-emerald-500" : result.viabilityScore >= 40 ? "bg-amber-500" : "bg-red-500"}`}>
                     {result.viabilityScore >= 60 ? "Promising" : result.viabilityScore >= 40 ? "Needs Work" : "High Risk"}
                   </div>
-                  <p className="text-5xl font-bold text-gray-900 dark:text-slate-900">{result.viabilityScore}<span className="text-xl text-gray-400">/100</span></p>
+                  <p className="text-5xl font-bold text-gray-900 dark:text-white">{result.viabilityScore}<span className="text-xl text-gray-400">/100</span></p>
                   <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Viability Score</p>
                 </div>
                 <div className="flex flex-wrap justify-center gap-4">
@@ -88,7 +88,7 @@ export default function PreviewScore() {
                         <circle cx="35" cy="35" r="28" fill="none" stroke={item.color} strokeWidth="5"
                           strokeDasharray={2 * Math.PI * 28} strokeDashoffset={2 * Math.PI * 28 * (1 - item.score / 100)}
                           strokeLinecap="round" transform="rotate(-90 35 35)" className="transition-all duration-1000" />
-                        <text x="35" y="35" textAnchor="middle" dominantBaseline="central" className="text-sm font-bold fill-current text-gray-900 dark:text-slate-900">{item.score}</text>
+                        <text x="35" y="35" textAnchor="middle" dominantBaseline="central" className="text-sm font-bold fill-current text-gray-900 dark:text-white">{item.score}</text>
                       </svg>
                       <span className="text-[10px] text-gray-500 dark:text-gray-400 mt-1">{item.label}</span>
                     </div>
@@ -97,7 +97,7 @@ export default function PreviewScore() {
               </div>
               <p className="text-center text-xs text-gray-500 dark:text-gray-400 mt-4">{result.message}</p>
               <div className="text-center mt-4">
-                <a href="/register" className="gradient-btn text-slate-900 px-6 py-2.5 rounded-xl text-sm font-semibold inline-flex items-center gap-2">
+                <a href="/register" className="gradient-btn text-white px-6 py-2.5 rounded-xl text-sm font-semibold inline-flex items-center gap-2">
                   Sign Up to Unlock Full Report
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />

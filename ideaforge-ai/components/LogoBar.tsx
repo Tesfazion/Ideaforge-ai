@@ -27,7 +27,7 @@ export default function LogoBar() {
   const doubled = [...logos, ...logos];
 
   return (
-    <section className="py-14 bg-white border-y border-white/5 overflow-hidden">
+    <section className="py-14 bg-[#060a13] border-y border-white/5 overflow-hidden">
       <motion.p
         className="text-center text-xs font-semibold text-slate-600 uppercase tracking-widest mb-8"
         initial={{ opacity: 0 }}
@@ -38,8 +38,8 @@ export default function LogoBar() {
       </motion.p>
 
       <div className="relative">
-        <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-[#ffffff] to-transparent z-10" />
-        <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-[#ffffff] to-transparent z-10" />
+        <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-[#060a13] to-transparent z-10" />
+        <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-[#060a13] to-transparent z-10" />
 
         <div className="flex animate-marquee">
           {doubled.map((logo, i) => (

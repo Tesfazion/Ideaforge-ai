@@ -65,9 +65,9 @@ export default function InsightsPage() {
     <div className="max-w-6xl mx-auto space-y-6 animate-slide-up">
       <motion.div className="relative rounded-3xl overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-sky-500/10 via-violet-500/10 to-orange-500/10" />
-        <div className="absolute inset-0 bg-slate-50/80 backdrop-blur-xl" />
+        <div className="absolute inset-0 bg-[#0c1222]/80 backdrop-blur-xl" />
         <div className="relative px-6 py-8 sm:px-10">
-          <h1 className="text-2xl font-bold text-slate-900 mb-1">Insights & Analytics</h1>
+          <h1 className="text-2xl font-bold text-white mb-1">Insights & Analytics</h1>
           <p className="text-sm text-slate-400">Deep dive into your validation performance and patterns</p>
         </div>
       </motion.div>
@@ -87,7 +87,7 @@ export default function InsightsPage() {
 
       <div className="grid lg:grid-cols-2 gap-4">
         <motion.div className="card-base rounded-2xl p-6" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
-          <h3 className="text-sm font-semibold text-slate-900 mb-4">Average Score by Industry</h3>
+          <h3 className="text-sm font-semibold text-white mb-4">Average Score by Industry</h3>
           {scoreByIndustry.length > 0 ? (
             <ResponsiveContainer width="100%" height={280}>
               <BarChart data={scoreByIndustry}>
@@ -105,7 +105,7 @@ export default function InsightsPage() {
           )}
         </motion.div>
         <motion.div className="card-base rounded-2xl p-6" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }}>
-          <h3 className="text-sm font-semibold text-slate-900 mb-4">Execution Complexity Distribution</h3>
+          <h3 className="text-sm font-semibold text-white mb-4">Execution Complexity Distribution</h3>
           <ResponsiveContainer width="100%" height={280}>
             <BarChart data={executionData}>
               <CartesianGrid strokeDasharray="3 3" stroke="#E2E8F0" className="stroke-white/[0.06]" />
@@ -121,7 +121,7 @@ export default function InsightsPage() {
       </div>
 
       <motion.div className="card-base rounded-2xl p-6" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
-        <h3 className="text-sm font-semibold text-slate-900 mb-4">Validation Success Rate by Market Scope</h3>
+        <h3 className="text-sm font-semibold text-white mb-4">Validation Success Rate by Market Scope</h3>
         <ResponsiveContainer width="100%" height={200}>
           <BarChart data={successByScope}>
             <CartesianGrid strokeDasharray="3 3" stroke="#E2E8F0" className="stroke-white/[0.06]" />

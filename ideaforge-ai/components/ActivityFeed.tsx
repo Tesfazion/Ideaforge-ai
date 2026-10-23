@@ -30,7 +30,7 @@ export default function ActivityFeed() {
   ];
 
   return (
-    <section className="py-16 bg-white border-y border-white/5">
+    <section className="py-16 bg-[#060a13] border-y border-white/5">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           className="text-center mb-8"
@@ -52,12 +52,12 @@ export default function ActivityFeed() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.1, duration: 0.3 }}
             >
-              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-sky-500 to-orange-600 flex items-center justify-center text-slate-900 text-xs font-bold shrink-0">
+              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-sky-500 to-orange-600 flex items-center justify-center text-white text-xs font-bold shrink-0">
                 {a.name.charAt(0)}
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-sm text-slate-300 truncate">
-                  <span className="font-medium text-slate-900">{a.name}</span>{" "}
+                  <span className="font-medium text-white">{a.name}</span>{" "}
                   {a.action}{" "}
                   <span className="font-medium">{a.idea}</span>
                 </p>

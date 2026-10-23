@@ -47,7 +47,7 @@ export default function ContactModal({ open, onClose }: ContactModalProps) {
       <div className="relative glass-card rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-700 p-6 max-w-md w-full animate-slide-up" onClick={(e) => e.stopPropagation()}>
         <div className="flex items-center justify-between mb-4">
           <div>
-            <h3 className="text-lg font-bold text-gray-900 dark:text-slate-900">Contact Sales</h3>
+            <h3 className="text-lg font-bold text-gray-900 dark:text-white">Contact Sales</h3>
             <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Enterprise plan inquiries</p>
           </div>
           <button onClick={onClose} className="p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
@@ -62,15 +62,15 @@ export default function ContactModal({ open, onClose }: ContactModalProps) {
             {error && <div className="bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/20 text-red-700 dark:text-red-400 text-sm px-4 py-3 rounded-xl">{error}</div>}
             <div>
               <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Work Email</label>
-              <input required type="email" name="email" className="w-full px-3 py-2 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-sm text-gray-900 dark:text-slate-900 focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500" placeholder="you@company.com" />
+              <input required type="email" name="email" className="w-full px-3 py-2 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500" placeholder="you@company.com" />
             </div>
             <div>
               <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Company</label>
-              <input required type="text" name="company" className="w-full px-3 py-2 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-sm text-gray-900 dark:text-slate-900 focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500" placeholder="Acme Inc." />
+              <input required type="text" name="company" className="w-full px-3 py-2 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500" placeholder="Acme Inc." />
             </div>
             <div>
               <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Team Size</label>
-              <select name="teamSize" className="w-full px-3 py-2 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-sm text-gray-900 dark:text-slate-900 focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500">
+              <select name="teamSize" className="w-full px-3 py-2 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500">
                 <option value="">Select size</option>
                 <option value="5-10">5-10</option>
                 <option value="11-50">11-50</option>
@@ -79,9 +79,9 @@ export default function ContactModal({ open, onClose }: ContactModalProps) {
             </div>
             <div>
               <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Message</label>
-              <textarea rows={3} name="message" className="w-full px-3 py-2 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-sm text-gray-900 dark:text-slate-900 focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500" placeholder="Tell us about your needs..." />
+              <textarea rows={3} name="message" className="w-full px-3 py-2 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500" placeholder="Tell us about your needs..." />
             </div>
-            <button type="submit" disabled={loading} className="w-full gradient-btn text-slate-900 font-semibold py-2.5 rounded-xl text-sm disabled:opacity-50 flex items-center justify-center gap-2">
+            <button type="submit" disabled={loading} className="w-full gradient-btn text-white font-semibold py-2.5 rounded-xl text-sm disabled:opacity-50 flex items-center justify-center gap-2">
               {loading ? (
                 <><div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" /> Sending...</>
               ) : "Send Inquiry"}
@@ -94,7 +94,7 @@ export default function ContactModal({ open, onClose }: ContactModalProps) {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
               </svg>
             </div>
-            <h4 className="text-base font-semibold text-gray-900 dark:text-slate-900 mb-1">Inquiry Received</h4>
+            <h4 className="text-base font-semibold text-gray-900 dark:text-white mb-1">Inquiry Received</h4>
             <p className="text-sm text-gray-500 dark:text-gray-400">Our sales team will get back to you within 24 hours.</p>
             <button onClick={onClose} className="mt-4 px-6 py-2.5 rounded-xl text-sm font-semibold border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">Close</button>
           </div>

@@ -12,7 +12,7 @@ const SOCIAL_ICONS: Record<string, string> = {
 
 export default function Footer() {
   return (
-    <footer className="border-t border-white/5 bg-white">
+    <footer className="border-t border-white/5 bg-[#060a13]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-8">
           <div className="lg:col-span-2">
@@ -20,7 +20,7 @@ export default function Footer() {
               <div className="w-10 h-10 rounded-lg overflow-hidden">
                 <Image src="/logo.png" alt="IdeaForge" width={40} height={40} className="w-full h-full object-contain" />
               </div>
-              <span className="text-base font-bold text-slate-900">IdeaForge</span>
+              <span className="text-base font-bold text-white">IdeaForge</span>
             </Link>
             <p className="text-sm text-slate-500 leading-relaxed max-w-xs">AI-powered business idea validation for entrepreneurs and innovators.</p>
             <p className="mt-3 text-xs text-slate-500">
@@ -50,30 +50,30 @@ export default function Footer() {
           <div>
             <h4 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-4">Product</h4>
             <ul className="space-y-3 text-sm">
-              <li><Link href="/#features" className="text-slate-400 hover:text-slate-900 transition-colors block">Features<span className="block text-slate-600 text-xs mt-0.5">9-dimension AI validation</span></Link></li>
-              <li><Link href="/#pricing" className="text-slate-400 hover:text-slate-900 transition-colors block">Pricing<span className="block text-slate-600 text-xs mt-0.5">Free, Pro and Enterprise</span></Link></li>
-              <li><Link href="/#how-it-works" className="text-slate-400 hover:text-slate-900 transition-colors block">How It Works<span className="block text-slate-600 text-xs mt-0.5">Validate any idea in seconds</span></Link></li>
-              <li><Link href="/dashboard" className="text-slate-400 hover:text-slate-900 transition-colors block">Dashboard<span className="block text-slate-600 text-xs mt-0.5">Manage your validations</span></Link></li>
-              <li><Link href="/changelog" className="text-slate-400 hover:text-slate-900 transition-colors block">Changelog<span className="block text-slate-600 text-xs mt-0.5">Latest releases</span></Link></li>
+              <li><Link href="/#features" className="text-slate-400 hover:text-white transition-colors block">Features<span className="block text-slate-600 text-xs mt-0.5">9-dimension AI validation</span></Link></li>
+              <li><Link href="/#pricing" className="text-slate-400 hover:text-white transition-colors block">Pricing<span className="block text-slate-600 text-xs mt-0.5">Free, Pro and Enterprise</span></Link></li>
+              <li><Link href="/#how-it-works" className="text-slate-400 hover:text-white transition-colors block">How It Works<span className="block text-slate-600 text-xs mt-0.5">Validate any idea in seconds</span></Link></li>
+              <li><Link href="/dashboard" className="text-slate-400 hover:text-white transition-colors block">Dashboard<span className="block text-slate-600 text-xs mt-0.5">Manage your validations</span></Link></li>
+              <li><Link href="/changelog" className="text-slate-400 hover:text-white transition-colors block">Changelog<span className="block text-slate-600 text-xs mt-0.5">Latest releases</span></Link></li>
             </ul>
           </div>
           <div>
             <h4 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-4">Company</h4>
             <ul className="space-y-3 text-sm">
-              <li><Link href="/about" className="text-slate-400 hover:text-slate-900 transition-colors block">About<span className="block text-slate-600 text-xs mt-0.5">Our mission and story</span></Link></li>
-              <li><Link href="/blog" className="text-slate-400 hover:text-slate-900 transition-colors block">Blog<span className="block text-slate-600 text-xs mt-0.5">Startup insights</span></Link></li>
-              <li><Link href="/careers" className="text-slate-400 hover:text-slate-900 transition-colors block">Careers<span className="block text-slate-600 text-xs mt-0.5">Join the team</span></Link></li>
-              <li><Link href="/contact" className="text-slate-400 hover:text-slate-900 transition-colors block">Contact<span className="block text-slate-600 text-xs mt-0.5">Get in touch</span></Link></li>
-              <li><Link href="/status" className="text-slate-400 hover:text-slate-900 transition-colors block">Status<span className="block text-slate-600 text-xs mt-0.5">System uptime</span></Link></li>
+              <li><Link href="/about" className="text-slate-400 hover:text-white transition-colors block">About<span className="block text-slate-600 text-xs mt-0.5">Our mission and story</span></Link></li>
+              <li><Link href="/blog" className="text-slate-400 hover:text-white transition-colors block">Blog<span className="block text-slate-600 text-xs mt-0.5">Startup insights</span></Link></li>
+              <li><Link href="/careers" className="text-slate-400 hover:text-white transition-colors block">Careers<span className="block text-slate-600 text-xs mt-0.5">Join the team</span></Link></li>
+              <li><Link href="/contact" className="text-slate-400 hover:text-white transition-colors block">Contact<span className="block text-slate-600 text-xs mt-0.5">Get in touch</span></Link></li>
+              <li><Link href="/status" className="text-slate-400 hover:text-white transition-colors block">Status<span className="block text-slate-600 text-xs mt-0.5">System uptime</span></Link></li>
             </ul>
           </div>
           <div>
             <h4 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-4">Legal</h4>
             <ul className="space-y-3 text-sm">
-              <li><Link href="/privacy-policy" className="text-slate-400 hover:text-slate-900 transition-colors block">Privacy Policy<span className="block text-slate-600 text-xs mt-0.5">How we handle data</span></Link></li>
-              <li><Link href="/terms-of-service" className="text-slate-400 hover:text-slate-900 transition-colors block">Terms of Service<span className="block text-slate-600 text-xs mt-0.5">Usage terms</span></Link></li>
-              <li><Link href="/cookie-policy" className="text-slate-400 hover:text-slate-900 transition-colors block">Cookie Policy<span className="block text-slate-600 text-xs mt-0.5">Tracking and cookies</span></Link></li>
-              <li><Link href="/gdpr" className="text-slate-400 hover:text-slate-900 transition-colors block">GDPR<span className="block text-slate-600 text-xs mt-0.5">EU data rights</span></Link></li>
+              <li><Link href="/privacy-policy" className="text-slate-400 hover:text-white transition-colors block">Privacy Policy<span className="block text-slate-600 text-xs mt-0.5">How we handle data</span></Link></li>
+              <li><Link href="/terms-of-service" className="text-slate-400 hover:text-white transition-colors block">Terms of Service<span className="block text-slate-600 text-xs mt-0.5">Usage terms</span></Link></li>
+              <li><Link href="/cookie-policy" className="text-slate-400 hover:text-white transition-colors block">Cookie Policy<span className="block text-slate-600 text-xs mt-0.5">Tracking and cookies</span></Link></li>
+              <li><Link href="/gdpr" className="text-slate-400 hover:text-white transition-colors block">GDPR<span className="block text-slate-600 text-xs mt-0.5">EU data rights</span></Link></li>
             </ul>
           </div>
         </div>
@@ -86,7 +86,7 @@ export default function Footer() {
                 href={link.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-slate-600 hover:text-slate-900 transition-colors"
+                className="text-slate-600 hover:text-white transition-colors"
                 aria-label={link.label}
                 title={link.label}
               >

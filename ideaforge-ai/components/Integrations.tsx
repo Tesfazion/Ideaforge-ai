@@ -14,7 +14,7 @@ const integrations = [
 
 export default function Integrations() {
   return (
-    <section className="py-20 bg-white border-t border-white/5">
+    <section className="py-20 bg-[#060a13] border-t border-white/5">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           className="text-center mb-10"
@@ -24,7 +24,7 @@ export default function Integrations() {
           transition={{ duration: 0.6 }}
         >
           <span className="inline-block text-xs font-semibold text-sky-400 bg-sky-500/10 border border-sky-500/20 px-3 py-1 rounded-full mb-5 tracking-wider uppercase">Integrations</span>
-          <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 tracking-tight">Works with your stack</h2>
+          <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-tight">Works with your stack</h2>
           <p className="text-slate-400 mt-3 max-w-xl mx-auto">Export insights directly to the tools your team already uses.</p>
         </motion.div>
 

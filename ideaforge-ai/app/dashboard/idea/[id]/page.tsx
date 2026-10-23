@@ -25,7 +25,7 @@ function ScoreCircle({ score, label, color }: { score: number; label: string; co
         <circle cx="45" cy="45" r={r} fill="none" stroke={color} strokeWidth="6"
           strokeDasharray={c} strokeDashoffset={c * (1 - score / 100)}
           strokeLinecap="round" transform="rotate(-90 45 45)" className="transition-all duration-1000" />
-        <text x="45" y="45" textAnchor="middle" dominantBaseline="central" className="text-lg font-bold fill-current text-slate-900">{score}</text>
+        <text x="45" y="45" textAnchor="middle" dominantBaseline="central" className="text-lg font-bold fill-current text-white">{score}</text>
       </svg>
       <span className="text-xs text-slate-400 mt-1">{label}</span>
     </div>
@@ -55,7 +55,7 @@ function DimensionBar({ dim }: { dim: NineDimension }) {
               <path strokeLinecap="round" strokeLinejoin="round" d={dimIcons[dim.icon] || dimIcons.problem} />
             </svg>
           </div>
-          <span className="text-sm font-medium text-slate-900">{dim.name}</span>
+          <span className="text-sm font-medium text-white">{dim.name}</span>
         </div>
         <div className="flex items-center gap-2">
           <span className="text-xs text-slate-500 italic hidden sm:block">{dim.label}</span>
@@ -80,7 +80,7 @@ function SourceBadge({ source }: { source: SourceLink }) {
         </svg>
       </div>
       <div className="min-w-0">
-        <p className="text-xs font-medium text-slate-900 truncate max-w-[200px]">{source.title}</p>
+        <p className="text-xs font-medium text-white truncate max-w-[200px]">{source.title}</p>
         <p className="text-[10px] text-slate-400 truncate max-w-[200px]">{source.context}</p>
       </div>
       <svg className="w-3.5 h-3.5 text-slate-500 group-hover:text-blue-400 shrink-0 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -94,7 +94,7 @@ function PivotCard({ pivot, onPivotTo }: { pivot: PivotSuggestion; onPivotTo: (p
   return (
     <div className="card-base rounded-xl p-4 border border-white/[0.06] hover:border-blue-500/30 transition-all">
       <div className="flex items-start justify-between mb-2">
-        <h4 className="font-semibold text-sm text-slate-900">{pivot.direction}</h4>
+        <h4 className="font-semibold text-sm text-white">{pivot.direction}</h4>
         <span className={`px-2 py-0.5 rounded-full text-xs font-bold ${
           pivot.viabilityEstimate >= 70 ? "bg-emerald-500/15 text-emerald-400"
           : pivot.viabilityEstimate >= 50 ? "bg-amber-500/15 text-amber-400"
@@ -350,17 +350,17 @@ export default function ReportPage() {
             <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z" />
           </svg>
         </div>
-        <h2 className="text-xl font-bold text-slate-900">Validation Failed</h2>
+        <h2 className="text-xl font-bold text-white">Validation Failed</h2>
         <p className="text-slate-400 text-sm mt-2 mb-6">The AI analysis encountered an error. You can retry at no additional cost.</p>
         <div className="flex gap-3 justify-center">
           <button onClick={handleRetry} disabled={retrying}
-            className="gradient-btn text-slate-900 px-5 py-2.5 rounded-xl text-sm font-semibold inline-flex items-center gap-2 disabled:opacity-50 transition-all">
+            className="gradient-btn text-white px-5 py-2.5 rounded-xl text-sm font-semibold inline-flex items-center gap-2 disabled:opacity-50 transition-all">
             <svg className={`w-4 h-4 ${retrying ? "animate-spin" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
             </svg>
             {retrying ? "Retrying..." : "Retry Validation"}
           </button>
-          <Link href="/dashboard" className="px-5 py-2.5 rounded-xl border border-white/[0.06] bg-white/[0.05] text-sm font-medium text-slate-900 hover:bg-white/[0.08] transition-colors">
+          <Link href="/dashboard" className="px-5 py-2.5 rounded-xl border border-white/[0.06] bg-white/[0.05] text-sm font-medium text-white hover:bg-white/[0.08] transition-colors">
             Back to Dashboard
           </Link>
         </div>
@@ -373,18 +373,18 @@ export default function ReportPage() {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <Link href="/dashboard" className="text-sm text-sky-400 hover:underline mb-1 inline-block">&larr; Back to Dashboard</Link>
-          <h1 className="text-2xl font-bold text-slate-900">{ideaTitle}</h1>
+          <h1 className="text-2xl font-bold text-white">{ideaTitle}</h1>
         </div>
         <div className="flex gap-2 flex-wrap">
           <button onClick={() => setSkepticMode(!skepticMode)}
-            className={`px-4 py-2 rounded-xl border text-sm font-medium flex items-center gap-2 transition-colors ${skepticMode ? "border-red-500/30 bg-red-500/10 text-red-300" : "border-white/[0.06] bg-white/[0.05] text-slate-900 hover:bg-white/[0.08]"}`}>
+            className={`px-4 py-2 rounded-xl border text-sm font-medium flex items-center gap-2 transition-colors ${skepticMode ? "border-red-500/30 bg-red-500/10 text-red-300" : "border-white/[0.06] bg-white/[0.05] text-white hover:bg-white/[0.08]"}`}>
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z" />
             </svg>
             {skepticMode ? "Skeptic Mode: ON" : "Skeptic Mode: OFF"}
           </button>
           <button onClick={handlePDF} disabled={downloading}
-            className="px-4 py-2 rounded-xl border border-white/[0.06] bg-white/[0.05] text-sm font-medium text-slate-900 hover:bg-white/[0.08] flex items-center gap-2 disabled:opacity-50 transition-colors">
+            className="px-4 py-2 rounded-xl border border-white/[0.06] bg-white/[0.05] text-sm font-medium text-white hover:bg-white/[0.08] flex items-center gap-2 disabled:opacity-50 transition-colors">
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
             </svg>
@@ -395,7 +395,7 @@ export default function ReportPage() {
           ) : (
             <div className="flex items-center gap-1.5">
               <label htmlFor="email-report-format" className="sr-only">Email attachment format</label>
-              <select id="email-report-format" value={emailFormat} onChange={(event) => setEmailFormat(event.target.value as "csv" | "doc")} className="rounded-xl border border-white/[0.08] bg-slate-50 px-2.5 py-2 text-sm text-slate-200 outline-none focus:border-sky-400/50">
+              <select id="email-report-format" value={emailFormat} onChange={(event) => setEmailFormat(event.target.value as "csv" | "doc")} className="rounded-xl border border-white/[0.08] bg-[#0c1222] px-2.5 py-2 text-sm text-slate-200 outline-none focus:border-sky-400/50">
                 <option value="csv">CSV</option><option value="doc">Word document</option>
               </select>
               <button onClick={handleEmailReport} disabled={emailSending} className="px-3 py-2 rounded-xl border border-sky-400/20 bg-sky-500/15 text-sm font-medium text-sky-100 hover:bg-sky-500/25 disabled:opacity-50 transition-colors">
@@ -429,13 +429,13 @@ export default function ReportPage() {
 
       <div id="report-content" className="space-y-6">
         <div className="card-base rounded-2xl p-6 text-center">
-          <div className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-slate-900 text-sm font-semibold ${verdict.color} mb-3 shadow-md`}>
+          <div className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-white text-sm font-semibold ${verdict.color} mb-3 shadow-md`}>
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
             {verdict.text}
           </div>
-          <p className="text-6xl font-bold text-slate-900 mb-1">{report!.viabilityScore}<span className="text-2xl text-slate-500">/100</span></p>
+          <p className="text-6xl font-bold text-white mb-1">{report!.viabilityScore}<span className="text-2xl text-slate-500">/100</span></p>
           <p className="text-slate-400 text-sm">{verdict.desc}</p>
           <div className="flex justify-center gap-6 mt-6 flex-wrap">
             <ScoreCircle score={report!.marketScore} label="Market" color="#6366F1" />
@@ -457,7 +457,7 @@ export default function ReportPage() {
                   <path strokeLinecap="round" strokeLinejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
                 </svg>
               </div>
-              <h3 className="text-base font-semibold text-slate-900">Nine-Dimension Index</h3>
+              <h3 className="text-base font-semibold text-white">Nine-Dimension Index</h3>
             </div>
             <div className="space-y-4">
               {parsedDimensions.map((dim, i) => (
@@ -475,7 +475,7 @@ export default function ReportPage() {
                   <path strokeLinecap="round" strokeLinejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
                 </svg>
               </div>
-              <h3 className="text-base font-semibold text-slate-900">Value Hypothesis</h3>
+              <h3 className="text-base font-semibold text-white">Value Hypothesis</h3>
             </div>
             <div className="bg-gradient-to-r from-sky-500/10 to-violet-500/10 rounded-xl px-5 py-4 border border-sky-500/20">
               <p className="text-sm text-slate-200 leading-relaxed italic">&ldquo;{report!.valueHypothesis}&rdquo;</p>
@@ -497,7 +497,7 @@ export default function ReportPage() {
                   <path strokeLinecap="round" strokeLinejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
                 </svg>
               </div>
-              <h3 className="text-base font-semibold text-slate-900">Verified Sources</h3>
+              <h3 className="text-base font-semibold text-white">Verified Sources</h3>
             </div>
             <div className="flex flex-wrap gap-2">
               {parsedSources.map((source, i) => <SourceBadge key={i} source={source} />)}
@@ -513,7 +513,7 @@ export default function ReportPage() {
                   <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
                 </svg>
               </div>
-              <h3 className="text-base font-semibold text-slate-900">GTM Experiments & Action Plan</h3>
+              <h3 className="text-base font-semibold text-white">GTM Experiments & Action Plan</h3>
             </div>
 
             <div className="bg-gradient-to-r from-violet-500/10 to-sky-500/10 rounded-xl p-5 border border-violet-500/20 space-y-3">
@@ -523,7 +523,7 @@ export default function ReportPage() {
               </div>
               <div className="border-t border-violet-500/20 pt-3">
                 <p className="text-[10px] uppercase tracking-wider text-violet-400 font-semibold mb-1">Landing Page Hook</p>
-                <p className="text-base font-bold text-slate-900">{parsedGTM.landingPageHook}</p>
+                <p className="text-base font-bold text-white">{parsedGTM.landingPageHook}</p>
                 <p className="text-sm text-slate-300 mt-1">{parsedGTM.landingPageSubheadline}</p>
               </div>
               <div className="border-t border-violet-500/20 pt-3">
@@ -534,12 +534,12 @@ export default function ReportPage() {
             </div>
 
             <div>
-              <h4 className="text-sm font-semibold text-slate-900 mb-3">Low-Cost Experiments</h4>
+              <h4 className="text-sm font-semibold text-white mb-3">Low-Cost Experiments</h4>
               <div className="grid sm:grid-cols-2 gap-3">
                 {parsedGTM.experiments.map((exp, i) => (
                   <div key={i} className="rounded-xl border border-white/[0.06] p-4 hover:border-violet-500/30 transition-colors">
                     <div className="flex items-start justify-between mb-2">
-                      <h5 className="text-sm font-semibold text-slate-900">{exp.title}</h5>
+                      <h5 className="text-sm font-semibold text-white">{exp.title}</h5>
                       <span className="px-2 py-0.5 rounded-full text-[10px] font-medium bg-emerald-500/15 text-emerald-400">{exp.cost}</span>
                     </div>
                     <p className="text-xs text-slate-300 mb-2 leading-relaxed">{exp.description}</p>
@@ -559,7 +559,7 @@ export default function ReportPage() {
             </div>
 
             <div>
-              <h4 className="text-sm font-semibold text-slate-900 mb-3">Action Checklist</h4>
+              <h4 className="text-sm font-semibold text-white mb-3">Action Checklist</h4>
               <div className="space-y-2">
                 {parsedGTM.checklist.map((item, i) => (
                   <div key={i} className="flex items-start gap-3 p-3 rounded-xl bg-white/[0.03] border border-white/[0.06]">
@@ -568,7 +568,7 @@ export default function ReportPage() {
                     </div>
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center gap-2 mb-0.5">
-                        <p className="text-sm font-medium text-slate-900">{item.task}</p>
+                        <p className="text-sm font-medium text-white">{item.task}</p>
                         <span className="px-1.5 py-0.5 rounded text-[10px] font-medium bg-sky-500/15 text-sky-400 shrink-0">{item.deadline}</span>
                       </div>
                       <p className="text-xs text-slate-400">{item.why}</p>
@@ -589,7 +589,7 @@ export default function ReportPage() {
                 </svg>
               </div>
               <div>
-                <h3 className="text-base font-semibold text-slate-900">Skeptic Analysis</h3>
+                <h3 className="text-base font-semibold text-white">Skeptic Analysis</h3>
                 <p className="text-[10px] text-slate-500 uppercase tracking-wider">Adversarial stress-test</p>
               </div>
             </div>
@@ -663,23 +663,23 @@ export default function ReportPage() {
                   <path strokeLinecap="round" strokeLinejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                 </svg>
               </div>
-              <h3 className="text-base font-semibold text-slate-900">Market Sizing (TAM / SAM / SOM)</h3>
+              <h3 className="text-base font-semibold text-white">Market Sizing (TAM / SAM / SOM)</h3>
             </div>
 
             <div className="grid sm:grid-cols-3 gap-3">
               <div className="rounded-xl border border-sky-500/20 bg-sky-500/5 p-4 text-center">
                 <p className="text-[10px] uppercase tracking-wider text-sky-400 dark:text-sky-400 font-semibold mb-1">TAM</p>
-                <p className="text-xl font-bold text-slate-900">{parsedMarketSizing.tamValue || "N/A"}</p>
+                <p className="text-xl font-bold text-white">{parsedMarketSizing.tamValue || "N/A"}</p>
                 <p className="text-xs text-slate-300 mt-1 leading-relaxed">{parsedMarketSizing.tam}</p>
               </div>
               <div className="rounded-xl border border-violet-500/20 bg-violet-500/5 p-4 text-center">
                 <p className="text-[10px] uppercase tracking-wider text-violet-400 font-semibold mb-1">SAM</p>
-                <p className="text-xl font-bold text-slate-900">{parsedMarketSizing.samValue || "N/A"}</p>
+                <p className="text-xl font-bold text-white">{parsedMarketSizing.samValue || "N/A"}</p>
                 <p className="text-xs text-slate-300 mt-1 leading-relaxed">{parsedMarketSizing.sam}</p>
               </div>
               <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/5 p-4 text-center">
                 <p className="text-[10px] uppercase tracking-wider text-emerald-400 dark:text-emerald-400 font-semibold mb-1">SOM</p>
-                <p className="text-xl font-bold text-slate-900">{parsedMarketSizing.somValue || "N/A"}</p>
+                <p className="text-xl font-bold text-white">{parsedMarketSizing.somValue || "N/A"}</p>
                 <p className="text-xs text-slate-300 mt-1 leading-relaxed">{parsedMarketSizing.som}</p>
               </div>
             </div>
@@ -701,7 +701,7 @@ export default function ReportPage() {
                 </svg>
               </div>
               <div>
-                <h3 className="text-base font-semibold text-slate-900">7-Day Validation Action Plan</h3>
+                <h3 className="text-base font-semibold text-white">7-Day Validation Action Plan</h3>
                 <p className="text-[10px] text-slate-500 uppercase tracking-wider">Day-by-day execution roadmap</p>
               </div>
             </div>
@@ -712,7 +712,7 @@ export default function ReportPage() {
                   <div className="flex items-center justify-between mb-2">
                     <div className="flex items-center gap-2">
                       <span className="w-6 h-6 rounded-md bg-violet-500/15 flex items-center justify-center text-[10px] font-bold text-violet-400">D{day.day}</span>
-                      <h4 className="text-sm font-semibold text-slate-900">{day.theme}</h4>
+                      <h4 className="text-sm font-semibold text-white">{day.theme}</h4>
                     </div>
                     {day.template && (
                       <span className="px-2 py-0.5 rounded-full text-[10px] font-medium bg-sky-500/15 text-sky-400">{day.template}</span>
@@ -743,7 +743,7 @@ export default function ReportPage() {
                   <path strokeLinecap="round" strokeLinejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
                 </svg>
               </div>
-              <h3 className="text-base font-semibold text-slate-900">SWOT Analysis</h3>
+              <h3 className="text-base font-semibold text-white">SWOT Analysis</h3>
             </div>
             <div className="grid sm:grid-cols-2 gap-3">
               <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/5 p-4">
@@ -798,7 +798,7 @@ export default function ReportPage() {
                   <path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
                 </svg>
               </div>
-              <h3 className="text-base font-semibold text-slate-900">Competitive Landscape</h3>
+              <h3 className="text-base font-semibold text-white">Competitive Landscape</h3>
             </div>
 
             {parsedCompetitive.directCompetitors.length > 0 && (
@@ -807,7 +807,7 @@ export default function ReportPage() {
                 <div className="space-y-2">
                   {parsedCompetitive.directCompetitors.map((comp: { name: string; description: string; strength: string; weakness: string }, i: number) => (
                     <div key={i} className="rounded-xl border border-white/[0.06] p-3">
-                      <p className="text-sm font-semibold text-slate-900 mb-1">{comp.name}</p>
+                      <p className="text-sm font-semibold text-white mb-1">{comp.name}</p>
                       <p className="text-xs text-slate-300 mb-2">{comp.description}</p>
                       <div className="grid grid-cols-2 gap-2">
                         <div className="bg-emerald-500/10 rounded-lg px-2.5 py-1.5">
@@ -831,7 +831,7 @@ export default function ReportPage() {
                 <div className="flex flex-wrap gap-2">
                   {parsedCompetitive.indirectCompetitors.map((comp: { name: string; description: string }, i: number) => (
                     <div key={i} className="rounded-lg border border-white/[0.06] px-3 py-2">
-                      <p className="text-xs font-medium text-slate-900">{comp.name}</p>
+                      <p className="text-xs font-medium text-white">{comp.name}</p>
                       <p className="text-[10px] text-slate-400">{comp.description}</p>
                     </div>
                   ))}
@@ -869,7 +869,7 @@ export default function ReportPage() {
                   <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
               </div>
-              <h3 className="text-base font-semibold text-slate-900">Market Timing</h3>
+              <h3 className="text-base font-semibold text-white">Market Timing</h3>
               <span className={`ml-auto px-3 py-1 rounded-full text-xs font-bold ${
                 parsedMarketTiming.score >= 70 ? "bg-emerald-500/15 text-emerald-400"
                 : parsedMarketTiming.score >= 40 ? "bg-amber-500/15 text-amber-400"
@@ -914,11 +914,11 @@ export default function ReportPage() {
 
         <div className="grid lg:grid-cols-2 gap-4">
           <div className="card-base rounded-2xl p-5">
-            <h3 className="text-sm font-semibold text-slate-900 mb-3">Radar Analysis</h3>
+            <h3 className="text-sm font-semibold text-white mb-3">Radar Analysis</h3>
             <LazyRadarChart data={radarData} />
           </div>
           <div className="card-base rounded-2xl p-5">
-            <h3 className="text-sm font-semibold text-slate-900 mb-3">Score Breakdown</h3>
+            <h3 className="text-sm font-semibold text-white mb-3">Score Breakdown</h3>
             <LazyBarChart data={barData} />
           </div>
         </div>
@@ -937,7 +937,7 @@ export default function ReportPage() {
                   <path strokeLinecap="round" strokeLinejoin="round" d={section.icon} />
                 </svg>
               </div>
-              <h3 className="text-base font-semibold text-slate-900">{section.title}</h3>
+              <h3 className="text-base font-semibold text-white">{section.title}</h3>
             </div>
             <div className="text-sm text-slate-300 whitespace-pre-line leading-relaxed">{section.content}</div>
           </div>
@@ -953,7 +953,7 @@ export default function ReportPage() {
                   <path strokeLinecap="round" strokeLinejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
                 </svg>
               </div>
-              <h3 className="text-base font-semibold text-slate-900">Pivot Assistant</h3>
+              <h3 className="text-base font-semibold text-white">Pivot Assistant</h3>
             </div>
             <button onClick={() => setShowPivotPanel(false)} className="text-slate-500 hover:text-slate-300">
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -1009,9 +1009,9 @@ export default function ReportPage() {
               <input type="text" value={chatInput} onChange={(e) => setChatInput(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && handleChat()}
                 placeholder="Ask about pivoting your idea..."
-                className="flex-1 px-3 py-2 rounded-xl border border-white/[0.06] bg-white/[0.05] text-slate-900 text-xs focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 transition-colors placeholder:text-slate-500" />
+                className="flex-1 px-3 py-2 rounded-xl border border-white/[0.06] bg-white/[0.05] text-white text-xs focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 transition-colors placeholder:text-slate-500" />
               <button onClick={handleChat} disabled={chatSending || !chatInput.trim()}
-                className="gradient-btn text-slate-900 px-4 py-2 rounded-xl text-xs font-semibold disabled:opacity-50 transition-all">
+                className="gradient-btn text-white px-4 py-2 rounded-xl text-xs font-semibold disabled:opacity-50 transition-all">
                 Send
               </button>
             </div>

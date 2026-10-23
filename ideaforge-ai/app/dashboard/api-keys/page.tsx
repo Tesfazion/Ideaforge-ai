@@ -121,7 +121,7 @@ export default function ApiKeysPage() {
   return (
     <div className="max-w-4xl mx-auto px-3 sm:px-4 lg:px-0 space-y-6 sm:space-y-8 animate-slide-up">
       <div>
-        <h1 className="text-xl sm:text-2xl font-bold text-slate-900">API Keys</h1>
+        <h1 className="text-xl sm:text-2xl font-bold text-white">API Keys</h1>
         <p className="text-sm text-slate-400 mt-1">
           Manage API keys for programmatic access to IdeaForge AI validations.
         </p>
@@ -161,7 +161,7 @@ export default function ApiKeysPage() {
             </div>
           </div>
           <div className="flex items-center gap-3">
-            <code className="flex-1 text-xs font-mono text-slate-900 bg-black/30 rounded-lg px-4 py-3 break-all select-all border border-white/[0.06]">
+            <code className="flex-1 text-xs font-mono text-white bg-black/30 rounded-lg px-4 py-3 break-all select-all border border-white/[0.06]">
               {newKeyData.key}
             </code>
             <button
@@ -189,19 +189,19 @@ export default function ApiKeysPage() {
       )}
 
       <div className="rounded-2xl bg-white/[0.02] border border-white/[0.06] p-6">
-        <h3 className="text-sm font-semibold text-slate-900 mb-4">Generate New Key</h3>
+        <h3 className="text-sm font-semibold text-white mb-4">Generate New Key</h3>
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
           <input
             type="text"
             value={newKeyName}
             onChange={(e) => setNewKeyName(e.target.value)}
             placeholder="Key name (e.g. production, staging)"
-            className="flex-1 min-w-0 bg-white/[0.04] border border-white/[0.08] rounded-xl px-4 py-2.5 text-sm text-slate-900 placeholder:text-slate-500 focus:outline-none focus:border-sky-500/50 transition-colors"
+            className="flex-1 min-w-0 bg-white/[0.04] border border-white/[0.08] rounded-xl px-4 py-2.5 text-sm text-white placeholder:text-slate-500 focus:outline-none focus:border-sky-500/50 transition-colors"
           />
           <button
             onClick={generateKey}
             disabled={generating}
-            className="w-full sm:w-auto shrink-0 px-5 py-2.5 rounded-xl bg-sky-500 text-slate-900 text-sm font-semibold hover:bg-sky-600 transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
+            className="w-full sm:w-auto shrink-0 px-5 py-2.5 rounded-xl bg-sky-500 text-white text-sm font-semibold hover:bg-sky-600 transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
           >
             {generating ? (
               <>
@@ -222,7 +222,7 @@ export default function ApiKeysPage() {
 
       <div className="rounded-2xl bg-white/[0.02] border border-white/[0.06] overflow-x-auto">
         <div className="px-4 sm:px-6 py-4 border-b border-white/[0.06]">
-          <h3 className="text-sm font-semibold text-slate-900">Active Keys</h3>
+          <h3 className="text-sm font-semibold text-white">Active Keys</h3>
         </div>
         {loadingKeys ? (
           <div className="p-8 text-center">
@@ -249,7 +249,7 @@ export default function ApiKeysPage() {
                   </svg>
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-slate-900">{apiKey.name}</p>
+                  <p className="text-sm font-medium text-white">{apiKey.name}</p>
                   <p className="text-xs text-slate-500 font-mono mt-0.5 break-all">{apiKey.key}</p>
                 </div>
                 <div className="text-right shrink-0">
@@ -288,7 +288,7 @@ export default function ApiKeysPage() {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
               </svg>
             </div>
-            <span className="text-sm font-semibold text-slate-900">Usage & Code Examples</span>
+            <span className="text-sm font-semibold text-white">Usage & Code Examples</span>
           </div>
           <svg
             className={`w-4 h-4 text-slate-500 transition-transform ${showCodeExamples ? "rotate-180" : ""}`}

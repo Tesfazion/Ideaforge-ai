@@ -120,18 +120,18 @@ export default function OnboardingFlow({ open, onComplete }: OnboardingFlowProps
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95, y: 20 }}
         transition={{ type: "spring", stiffness: 300, damping: 30 }}
-        className="relative w-full max-w-lg bg-slate-50 border border-white/[0.06] rounded-2xl shadow-2xl shadow-black/60 overflow-hidden"
+        className="relative w-full max-w-lg bg-[#0c1222] border border-white/[0.06] rounded-2xl shadow-2xl shadow-black/60 overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
         <div className="flex items-center justify-between px-5 pt-5 pb-3">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-sky-500 to-orange-600 flex items-center justify-center">
-              <svg className="w-4 h-4 text-slate-900" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
               </svg>
             </div>
-            <span className="text-sm font-semibold text-slate-900">IdeaForge AI</span>
+            <span className="text-sm font-semibold text-white">IdeaForge AI</span>
           </div>
           <button
             onClick={handleDismiss}
@@ -198,7 +198,7 @@ export default function OnboardingFlow({ open, onComplete }: OnboardingFlowProps
           {step > 0 && step < TOTAL_STEPS - 1 && (
             <button
               onClick={goBack}
-              className="px-4 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:text-slate-900 hover:bg-white/[0.06] transition-all"
+              className="px-4 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-white/[0.06] transition-all"
             >
               Back
             </button>
@@ -207,7 +207,7 @@ export default function OnboardingFlow({ open, onComplete }: OnboardingFlowProps
             <button
               onClick={goNext}
               disabled={!canNext()}
-              className="flex-1 py-2.5 rounded-xl text-sm font-semibold text-slate-900 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+              className="flex-1 py-2.5 rounded-xl text-sm font-semibold text-white transition-all disabled:opacity-30 disabled:cursor-not-allowed"
               style={{
                 background: canNext()
                   ? "linear-gradient(135deg, #6366F1, #8B5CF6)"
@@ -221,7 +221,7 @@ export default function OnboardingFlow({ open, onComplete }: OnboardingFlowProps
             <button
               onClick={handleComplete}
               disabled={submitting}
-              className="flex-1 py-2.5 rounded-xl text-sm font-semibold text-slate-900 flex items-center justify-center gap-2 transition-all"
+              className="flex-1 py-2.5 rounded-xl text-sm font-semibold text-white flex items-center justify-center gap-2 transition-all"
               style={{ background: "linear-gradient(135deg, #6366F1, #8B5CF6)" }}
             >
               {submitting ? (
@@ -253,7 +253,7 @@ function StepWelcome() {
         transition={{ type: "spring", stiffness: 200, damping: 15, delay: 0.15 }}
         className="w-20 h-20 rounded-2xl bg-gradient-to-br from-sky-500 to-orange-600 flex items-center justify-center mb-6 shadow-lg shadow-sky-500/25"
       >
-        <svg className="w-10 h-10 text-slate-900" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+        <svg className="w-10 h-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.455 2.456z" />
         </svg>
       </motion.div>
@@ -261,7 +261,7 @@ function StepWelcome() {
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.25 }}
-        className="text-xl font-bold text-slate-900 mb-2"
+        className="text-xl font-bold text-white mb-2"
       >
         Welcome to IdeaForge AI
       </motion.h2>
@@ -305,7 +305,7 @@ function StepWelcome() {
 function StepRole({ selected, onSelect }: { selected: string; onSelect: (v: string) => void }) {
   return (
     <div className="flex flex-col flex-1">
-      <h3 className="text-base font-bold text-slate-900 mb-1">What&apos;s your role?</h3>
+      <h3 className="text-base font-bold text-white mb-1">What&apos;s your role?</h3>
       <p className="text-xs text-slate-500 mb-4">We&apos;ll tailor insights to your perspective.</p>
       <div className="grid grid-cols-2 gap-2.5 flex-1">
         {ROLES.map((r) => (
@@ -319,7 +319,7 @@ function StepRole({ selected, onSelect }: { selected: string; onSelect: (v: stri
             }`}
           >
             <span className="text-2xl">{r.icon}</span>
-            <span className="text-xs font-semibold text-slate-900">{r.label}</span>
+            <span className="text-xs font-semibold text-white">{r.label}</span>
             <span className="text-[10px] text-slate-500 leading-tight">{r.desc}</span>
           </button>
         ))}
@@ -331,7 +331,7 @@ function StepRole({ selected, onSelect }: { selected: string; onSelect: (v: stri
 function StepIndustries({ selected, onToggle }: { selected: string[]; onToggle: (v: string) => void }) {
   return (
     <div className="flex flex-col flex-1">
-      <h3 className="text-base font-bold text-slate-900 mb-1">What industries interest you?</h3>
+      <h3 className="text-base font-bold text-white mb-1">What industries interest you?</h3>
       <p className="text-xs text-slate-500 mb-4">Select one or more — this helps us surface relevant ideas.</p>
       <div className="flex flex-wrap gap-2 flex-1 content-start">
         {INDUSTRIES.map((ind) => {
@@ -368,7 +368,7 @@ function StepIndustries({ selected, onToggle }: { selected: string[]; onToggle: 
 function StepFrequency({ selected, onSelect }: { selected: string; onSelect: (v: string) => void }) {
   return (
     <div className="flex flex-col flex-1">
-      <h3 className="text-base font-bold text-slate-900 mb-1">How many ideas do you validate per month?</h3>
+      <h3 className="text-base font-bold text-white mb-1">How many ideas do you validate per month?</h3>
       <p className="text-xs text-slate-500 mb-4">This helps us set the right expectations.</p>
       <div className="grid grid-cols-2 gap-2.5 flex-1 content-start">
         {FREQUENCIES.map((f) => (
@@ -381,7 +381,7 @@ function StepFrequency({ selected, onSelect }: { selected: string; onSelect: (v:
                 : "bg-white/[0.02] border-white/[0.06] hover:bg-white/[0.05] hover:border-white/[0.1]"
             }`}
           >
-            <span className={`text-2xl font-bold ${selected === f.id ? "text-orange-400" : "text-slate-900"}`}>
+            <span className={`text-2xl font-bold ${selected === f.id ? "text-orange-400" : "text-white"}`}>
               {f.label}
             </span>
             <span className="text-[10px] text-slate-500 leading-tight">{f.desc}</span>
@@ -395,14 +395,14 @@ function StepFrequency({ selected, onSelect }: { selected: string; onSelect: (v:
 function StepQuickWin({ onCTA, submitting }: { onCTA: () => void; submitting: boolean }) {
   return (
     <div className="flex flex-col flex-1">
-      <h3 className="text-base font-bold text-slate-900 mb-1">See IdeaForge in action</h3>
+      <h3 className="text-base font-bold text-white mb-1">See IdeaForge in action</h3>
       <p className="text-xs text-slate-500 mb-4">Here&apos;s a preview of what a validated idea looks like.</p>
       <div className="bg-white/[0.02] border border-white/[0.06] rounded-xl p-4 flex-1">
         <div className="flex items-center gap-2 mb-3">
           <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-emerald-500/15 text-emerald-400">87/100</span>
           <span className="text-[10px] text-slate-500">Viability Score</span>
         </div>
-        <h4 className="text-sm font-bold text-slate-900 mb-1">AI-Powered Personal Finance Coach</h4>
+        <h4 className="text-sm font-bold text-white mb-1">AI-Powered Personal Finance Coach</h4>
         <p className="text-[11px] text-slate-400 leading-relaxed mb-3">
           A mobile-first financial coaching app that uses AI to give personalized budgeting advice, spending alerts, and savings goals — targeted at millennials who feel overwhelmed by traditional finance tools.
         </p>
@@ -430,7 +430,7 @@ function StepQuickWin({ onCTA, submitting }: { onCTA: () => void; submitting: bo
       <button
         onClick={onCTA}
         disabled={submitting}
-        className="mt-4 w-full py-3 rounded-xl text-sm font-semibold text-slate-900 flex items-center justify-center gap-2 transition-all"
+        className="mt-4 w-full py-3 rounded-xl text-sm font-semibold text-white flex items-center justify-center gap-2 transition-all"
         style={{ background: "linear-gradient(135deg, #6366F1, #8B5CF6)" }}
       >
         {submitting ? (

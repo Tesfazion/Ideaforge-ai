@@ -17,7 +17,7 @@ const features = [
 
 export default function ComparisonTable() {
   return (
-    <section className="py-24 bg-white relative">
+    <section className="py-24 bg-[#060a13] relative">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           className="text-center mb-12"
@@ -27,7 +27,7 @@ export default function ComparisonTable() {
           transition={{ duration: 0.6 }}
         >
           <span className="inline-block text-xs font-semibold text-sky-400 bg-sky-500/10 border border-sky-500/20 px-3 py-1 rounded-full mb-5 tracking-wider uppercase">Comparison</span>
-          <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 tracking-tight">Why choose IdeaForge?</h2>
+          <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-tight">Why choose IdeaForge?</h2>
           <p className="text-slate-400 mt-3">See how we compare to traditional validation tools</p>
         </motion.div>
 
@@ -46,7 +46,7 @@ export default function ComparisonTable() {
                   <th className="text-center px-4 py-4 font-semibold text-sky-400">
                     <span className="inline-flex items-center gap-1.5">
                       <div className="w-5 h-5 rounded-md bg-gradient-to-br from-sky-500 to-orange-600 flex items-center justify-center">
-                        <svg className="w-3 h-3 text-slate-900" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                        <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                           <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
                         </svg>
                       </div>

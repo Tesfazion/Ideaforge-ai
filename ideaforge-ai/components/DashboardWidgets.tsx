@@ -18,7 +18,7 @@ export function AnimatedRing({ value, max = 100, size = 120, strokeWidth = 8, co
             className="transition-all duration-1000 ease-out" style={{ filter: `drop-shadow(0 0 6px ${color}40)` }} />
         </svg>
         <div className="absolute inset-0 flex items-center justify-center">
-          <span className="text-2xl font-bold text-slate-900">{Math.round(pct * 100)}%</span>
+          <span className="text-2xl font-bold text-white">{Math.round(pct * 100)}%</span>
         </div>
       </div>
       {sublabel && <p className="text-[10px] text-slate-500">{sublabel}</p>}
@@ -55,7 +55,7 @@ export function ScoreRing({ score, size = 48 }: { score: number; size?: number }
           style={{ filter: `drop-shadow(0 0 4px ${color}50)` }} />
       </svg>
       <div className="absolute inset-0 flex items-center justify-center">
-        <span className="text-xs font-bold text-slate-900">{score}</span>
+        <span className="text-xs font-bold text-white">{score}</span>
       </div>
     </div>
   );

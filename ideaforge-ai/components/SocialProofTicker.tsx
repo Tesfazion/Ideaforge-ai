@@ -19,7 +19,7 @@ export default function SocialProofTicker() {
   }, []);
 
   return (
-    <div className="relative bg-white border-b border-white/5 py-3 overflow-hidden">
+    <div className="relative bg-[#060a13] border-b border-white/5 py-3 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 flex items-center justify-center gap-3">
         <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0 animate-pulse" />
         <div className="relative h-5 overflow-hidden">

@@ -33,7 +33,7 @@ export default function Newsletter() {
   };
 
   return (
-    <section className="py-20 bg-white border-t border-white/5">
+    <section className="py-20 bg-[#060a13] border-t border-white/5">
       <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -41,7 +41,7 @@ export default function Newsletter() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">Get weekly startup insights</h2>
+          <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">Get weekly startup insights</h2>
           <p className="text-slate-400 mt-2 text-sm">Join 12,000+ founders. No spam, unsubscribe anytime.</p>
 
           {submitted ? (
@@ -63,12 +63,12 @@ export default function Newsletter() {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter your email"
                 required
-                className="flex-1 px-4 py-2.5 rounded-xl bg-white/[0.05] border border-white/[0.08] text-sm text-slate-900 placeholder:text-slate-500 focus:outline-none focus:border-sky-500/40 focus:ring-1 focus:ring-sky-500/20 transition-colors"
+                className="flex-1 px-4 py-2.5 rounded-xl bg-white/[0.05] border border-white/[0.08] text-sm text-white placeholder:text-slate-500 focus:outline-none focus:border-sky-500/40 focus:ring-1 focus:ring-sky-500/20 transition-colors"
               />
               <motion.button
                 type="submit"
                 disabled={loading}
-                className="gradient-btn text-slate-900 px-5 py-2.5 rounded-xl text-sm font-semibold whitespace-nowrap disabled:opacity-60"
+                className="gradient-btn text-white px-5 py-2.5 rounded-xl text-sm font-semibold whitespace-nowrap disabled:opacity-60"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >

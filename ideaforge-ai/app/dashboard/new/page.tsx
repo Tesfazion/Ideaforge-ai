@@ -74,9 +74,9 @@ export default function NewIdeaPage() {
     <div className="max-w-2xl mx-auto space-y-6 animate-slide-up">
       <div className="relative rounded-3xl overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-sky-500/10 via-orange-500/10 to-amber-500/10" />
-        <div className="absolute inset-0 bg-slate-50/80 backdrop-blur-xl" />
+        <div className="absolute inset-0 bg-[#0c1222]/80 backdrop-blur-xl" />
         <div className="relative px-6 py-8 sm:px-10">
-          <h1 className="text-2xl font-bold text-slate-900 mb-1">Submit a New Idea</h1>
+          <h1 className="text-2xl font-bold text-white mb-1">Submit a New Idea</h1>
           <p className="text-sm text-slate-400">Describe your business idea and our AI will analyze it for you</p>
         </div>
       </div>
@@ -160,7 +160,7 @@ export default function NewIdeaPage() {
           </label>
         </div>
         <button type="submit" disabled={loading}
-          className="w-full gradient-btn text-slate-900 font-semibold py-3 rounded-xl text-sm disabled:opacity-50 flex items-center justify-center gap-2">
+          className="w-full gradient-btn text-white font-semibold py-3 rounded-xl text-sm disabled:opacity-50 flex items-center justify-center gap-2">
           {loading ? (
             <><div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" /> Analyzing Idea...</>
           ) : (

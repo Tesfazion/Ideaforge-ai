@@ -12,7 +12,7 @@ const badges = [
 
 export default function TrustBadges() {
   return (
-    <section className="py-14 bg-white border-t border-white/5">
+    <section className="py-14 bg-[#060a13] border-t border-white/5">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           className="flex flex-wrap items-center justify-center gap-x-8 gap-y-4"

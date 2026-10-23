@@ -29,11 +29,11 @@ export default function UpgradePage() {
     return (
       <div className="max-w-lg mx-auto text-center py-20 animate-slide-up">
         <div className="w-16 h-16 rounded-2xl bg-emerald-500 flex items-center justify-center mx-auto mb-4 shadow-lg shadow-emerald-500/25">
-          <svg className="w-8 h-8 text-slate-900" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
           </svg>
         </div>
-        <h1 className="text-2xl font-bold text-slate-900 mb-2">You&apos;re on {user.plan === "enterprise" ? "Enterprise" : "Founder Pro"}!</h1>
+        <h1 className="text-2xl font-bold text-white mb-2">You&apos;re on {user.plan === "enterprise" ? "Enterprise" : "Founder Pro"}!</h1>
         <p className="text-slate-400 mb-6">{user.plan === "enterprise" ? "You have unlimited validations and programmatic access through the IdeaForge API." : "You have unlimited validations and can email full reports as CSV or Word documents."}</p>
         <div className="grid grid-cols-3 gap-4 max-w-sm mx-auto">
           {[
@@ -47,12 +47,12 @@ export default function UpgradePage() {
                   <path strokeLinecap="round" strokeLinejoin="round" d={item.icon} />
                 </svg>
               </div>
-              <p className="text-lg font-bold text-slate-900">{item.value}</p>
+              <p className="text-lg font-bold text-white">{item.value}</p>
               <p className="text-xs text-slate-400">{item.label}</p>
             </div>
           ))}
         </div>
-        {user.plan === "enterprise" && <Link href="/dashboard/api-keys" className="mt-6 inline-block rounded-xl bg-sky-500 px-5 py-2.5 text-sm font-semibold text-slate-900 hover:bg-sky-400">Manage API keys</Link>}
+        {user.plan === "enterprise" && <Link href="/dashboard/api-keys" className="mt-6 inline-block rounded-xl bg-sky-500 px-5 py-2.5 text-sm font-semibold text-white hover:bg-sky-400">Manage API keys</Link>}
       </div>
     );
   }
@@ -61,9 +61,9 @@ export default function UpgradePage() {
     <div className="max-w-5xl mx-auto space-y-10 animate-slide-up">
       <motion.div className="relative rounded-3xl overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-sky-500/10 via-sky-400/5 to-transparent" />
-        <div className="absolute inset-0 bg-slate-50/80 backdrop-blur-xl" />
+        <div className="absolute inset-0 bg-[#0c1222]/80 backdrop-blur-xl" />
         <div className="relative px-6 py-8 sm:px-10 text-center">
-          <h1 className="text-3xl font-bold text-slate-900">Choose your plan</h1>
+          <h1 className="text-3xl font-bold text-white">Choose your plan</h1>
           <p className="text-slate-400 mt-2 max-w-lg mx-auto">Start with 5 validations each month. Upgrade for unlimited use and report email delivery.</p>
         </div>
       </motion.div>
@@ -71,8 +71,8 @@ export default function UpgradePage() {
       <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
         <motion.div className="card-base rounded-2xl p-6" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
           <div className="text-xs font-semibold uppercase tracking-wider text-slate-500 mb-2">Explorer</div>
-          <h3 className="text-lg font-bold text-slate-900">Free</h3>
-          <p className="text-3xl font-bold text-slate-900 mt-1">$0<span className="text-sm text-slate-400 font-normal">/forever</span></p>
+          <h3 className="text-lg font-bold text-white">Free</h3>
+          <p className="text-3xl font-bold text-white mt-1">$0<span className="text-sm text-slate-400 font-normal">/forever</span></p>
           <p className="text-xs text-slate-400 mt-1">Perfect for testing the waters</p>
           <ul className="mt-5 space-y-2.5 text-sm text-slate-300">
              <li className="flex items-start gap-2">
@@ -102,18 +102,18 @@ export default function UpgradePage() {
         </motion.div>
 
         <motion.div className="rounded-2xl border-2 border-sky-500/70 bg-sky-500/[0.04] p-6 relative shadow-lg shadow-sky-500/10" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
-          <div className="absolute -top-3 right-4 px-3 py-0.5 rounded-full bg-sky-500 text-slate-900 text-xs font-semibold shadow-sm">Most Popular</div>
+          <div className="absolute -top-3 right-4 px-3 py-0.5 rounded-full bg-sky-500 text-white text-xs font-semibold shadow-sm">Most Popular</div>
           <div className="text-xs font-semibold uppercase tracking-wider text-sky-300 mb-2">Founder</div>
-          <h3 className="text-lg font-bold text-slate-900">Pro</h3>
-          <p className="text-3xl font-bold text-slate-900 mt-1">$19<span className="text-sm text-slate-400 font-normal">/month</span></p>
+          <h3 className="text-lg font-bold text-white">Pro</h3>
+          <p className="text-3xl font-bold text-white mt-1">$19<span className="text-sm text-slate-400 font-normal">/month</span></p>
           <p className="text-xs text-slate-400 mt-1">Everything you need to validate</p>
           <ul className="mt-5 space-y-2.5 text-sm text-slate-300">
-            <li className="flex items-start gap-2"><span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-sky-400" /><span>Everything in Explorer, plus <strong className="text-slate-900">unlimited validations</strong></span></li>
-            <li className="flex items-start gap-2"><span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-sky-400" /><span>Email full reports as <strong className="text-slate-900">CSV or Word</strong></span></li>
+            <li className="flex items-start gap-2"><span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-sky-400" /><span>Everything in Explorer, plus <strong className="text-white">unlimited validations</strong></span></li>
+            <li className="flex items-start gap-2"><span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-sky-400" /><span>Email full reports as <strong className="text-white">CSV or Word</strong></span></li>
             <li className="flex items-start gap-2"><span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-sky-400" /><span>Use all in-app analysis and PDF export tools</span></li>
           </ul>
           <button onClick={() => handleCheckout("pro")} disabled={checkoutLoading}
-            className="mt-6 w-full gradient-btn text-slate-900 font-semibold py-2.5 rounded-xl text-sm disabled:opacity-50 flex items-center justify-center gap-2">
+            className="mt-6 w-full gradient-btn text-white font-semibold py-2.5 rounded-xl text-sm disabled:opacity-50 flex items-center justify-center gap-2">
             {checkoutLoading ? (
               <>
                 <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
@@ -128,8 +128,8 @@ export default function UpgradePage() {
 
         <motion.div className="card-base rounded-2xl p-6" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
           <div className="text-xs font-semibold uppercase tracking-wider text-slate-500 mb-2">API tier</div>
-          <h3 className="text-lg font-bold text-slate-900">Enterprise</h3>
-          <p className="text-3xl font-bold text-slate-900 mt-1">$49<span className="text-sm text-slate-400 font-normal">/month</span></p>
+          <h3 className="text-lg font-bold text-white">Enterprise</h3>
+          <p className="text-3xl font-bold text-white mt-1">$49<span className="text-sm text-slate-400 font-normal">/month</span></p>
           <p className="text-xs text-slate-400 mt-1">For organizations integrating IdeaForge</p>
           <ul className="mt-5 space-y-2.5 text-sm text-slate-300">
             <li className="flex items-start gap-2">
@@ -146,7 +146,7 @@ export default function UpgradePage() {
             </li>
           </ul>
           <button onClick={() => setContactOpen(true)}
-            className="mt-6 w-full gradient-btn text-slate-900 font-semibold py-2.5 rounded-xl text-sm">
+            className="mt-6 w-full gradient-btn text-white font-semibold py-2.5 rounded-xl text-sm">
             Contact Sales
           </button>
         </motion.div>
@@ -155,7 +155,7 @@ export default function UpgradePage() {
       <ContactModal open={contactOpen} onClose={() => setContactOpen(false)} />
 
       <motion.div className="card-base rounded-2xl p-6 max-w-3xl mx-auto" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}>
-        <h3 className="text-base font-semibold text-slate-900 mb-4 text-center">Credit System & Value Guarantees</h3>
+        <h3 className="text-base font-semibold text-white mb-4 text-center">Credit System & Value Guarantees</h3>
         <div className="grid sm:grid-cols-3 gap-4">
           {[
             { title: "Pay Per Value", desc: "Each validation uses one credit. Credits are only consumed when the AI analysis completes successfully.", icon: "M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" },
@@ -168,7 +168,7 @@ export default function UpgradePage() {
                   <path strokeLinecap="round" strokeLinejoin="round" d={item.icon} />
                 </svg>
               </div>
-              <h4 className="text-sm font-semibold text-slate-900 mb-1">{item.title}</h4>
+              <h4 className="text-sm font-semibold text-white mb-1">{item.title}</h4>
               <p className="text-xs text-slate-400 leading-relaxed">{item.desc}</p>
             </div>
           ))}
