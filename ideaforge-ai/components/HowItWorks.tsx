@@ -65,7 +65,7 @@ export default function HowItWorks() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <span className="inline-block text-xs font-semibold text-indigo-400 bg-indigo-500/10 border border-indigo-500/20 px-3 py-1 rounded-full mb-5 tracking-wider uppercase">How It Works</span>
+          <span className="inline-block text-xs font-semibold text-sky-400 bg-sky-500/10 border border-sky-500/20 px-3 py-1 rounded-full mb-5 tracking-wider uppercase">How It Works</span>
           <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-tight">From idea to validation in minutes</h2>
           <p className="text-slate-400 mt-3 max-w-2xl mx-auto">Four simple steps to validate, pivot, and launch your next big idea with AI-powered precision.</p>
         </motion.div>
@@ -94,16 +94,16 @@ export default function HowItWorks() {
                         className="object-cover group-hover:scale-105 transition-transform duration-700"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-[#060a13] via-[#060a13]/30 to-transparent" />
-                      <div className="absolute inset-0 bg-indigo-500/5 group-hover:bg-indigo-500/10 transition-colors duration-500" />
+                      <div className="absolute inset-0 bg-sky-500/5 group-hover:bg-sky-500/10 transition-colors duration-500" />
                       <div className="absolute bottom-0 left-0 right-0 p-5">
                         <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg shadow-indigo-500/25">
+                          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-sky-500 to-orange-600 flex items-center justify-center shadow-lg shadow-sky-500/25">
                             <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                               <path strokeLinecap="round" strokeLinejoin="round" d={step.icon} />
                             </svg>
                           </div>
                           <div>
-                            <span className="text-xs font-mono text-indigo-400">Step {step.num}</span>
+                            <span className="text-xs font-mono text-sky-400">Step {step.num}</span>
                             <h3 className="text-lg font-bold text-white">{step.title}</h3>
                           </div>
                         </div>
@@ -114,7 +114,7 @@ export default function HowItWorks() {
                   <div className={`space-y-4 ${idx % 2 === 1 ? "lg:pr-12" : "lg:pl-12"}`}>
                     <div className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-6">
                       <div className="flex items-center gap-2 mb-3">
-                        <span className="text-xs font-semibold text-indigo-400 bg-indigo-500/10 border border-indigo-500/20 px-2.5 py-0.5 rounded-full">Step {step.num}</span>
+                        <span className="text-xs font-semibold text-sky-400 bg-sky-500/10 border border-sky-500/20 px-2.5 py-0.5 rounded-full">Step {step.num}</span>
                         <span className="text-[11px] text-slate-600 font-mono">{step.detail}</span>
                       </div>
                       <h3 className="text-xl font-bold text-white mb-2">{step.title}</h3>
@@ -125,7 +125,7 @@ export default function HowItWorks() {
 
                 <div className="hidden lg:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
                   <div className="w-9 h-9 rounded-full bg-[#060a13] border border-white/[0.1] flex items-center justify-center">
-                    <span className="text-xs font-bold text-indigo-400">{step.num}</span>
+                    <span className="text-xs font-bold text-sky-400">{step.num}</span>
                   </div>
                 </div>
               </motion.div>

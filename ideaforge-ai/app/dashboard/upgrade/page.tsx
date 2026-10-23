@@ -52,7 +52,7 @@ export default function UpgradePage() {
             </div>
           ))}
         </div>
-        {user.plan === "enterprise" && <Link href="/dashboard/api-keys" className="mt-6 inline-block rounded-xl bg-indigo-500 px-5 py-2.5 text-sm font-semibold text-white hover:bg-indigo-400">Manage API keys</Link>}
+        {user.plan === "enterprise" && <Link href="/dashboard/api-keys" className="mt-6 inline-block rounded-xl bg-sky-500 px-5 py-2.5 text-sm font-semibold text-white hover:bg-sky-400">Manage API keys</Link>}
       </div>
     );
   }
@@ -60,7 +60,7 @@ export default function UpgradePage() {
   return (
     <div className="max-w-5xl mx-auto space-y-10 animate-slide-up">
       <motion.div className="relative rounded-3xl overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/10 via-indigo-400/5 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-sky-500/10 via-sky-400/5 to-transparent" />
         <div className="absolute inset-0 bg-[#0c1222]/80 backdrop-blur-xl" />
         <div className="relative px-6 py-8 sm:px-10 text-center">
           <h1 className="text-3xl font-bold text-white">Choose your plan</h1>
@@ -101,16 +101,16 @@ export default function UpgradePage() {
           </div>
         </motion.div>
 
-        <motion.div className="rounded-2xl border-2 border-indigo-500/70 bg-indigo-500/[0.04] p-6 relative shadow-lg shadow-indigo-500/10" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
-          <div className="absolute -top-3 right-4 px-3 py-0.5 rounded-full bg-indigo-500 text-white text-xs font-semibold shadow-sm">Most Popular</div>
-          <div className="text-xs font-semibold uppercase tracking-wider text-indigo-300 mb-2">Founder</div>
+        <motion.div className="rounded-2xl border-2 border-sky-500/70 bg-sky-500/[0.04] p-6 relative shadow-lg shadow-sky-500/10" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
+          <div className="absolute -top-3 right-4 px-3 py-0.5 rounded-full bg-sky-500 text-white text-xs font-semibold shadow-sm">Most Popular</div>
+          <div className="text-xs font-semibold uppercase tracking-wider text-sky-300 mb-2">Founder</div>
           <h3 className="text-lg font-bold text-white">Pro</h3>
           <p className="text-3xl font-bold text-white mt-1">$19<span className="text-sm text-slate-400 font-normal">/month</span></p>
           <p className="text-xs text-slate-400 mt-1">Everything you need to validate</p>
           <ul className="mt-5 space-y-2.5 text-sm text-slate-300">
-            <li className="flex items-start gap-2"><span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-indigo-400" /><span>Everything in Explorer, plus <strong className="text-white">unlimited validations</strong></span></li>
-            <li className="flex items-start gap-2"><span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-indigo-400" /><span>Email full reports as <strong className="text-white">CSV or Word</strong></span></li>
-            <li className="flex items-start gap-2"><span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-indigo-400" /><span>Use all in-app analysis and PDF export tools</span></li>
+            <li className="flex items-start gap-2"><span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-sky-400" /><span>Everything in Explorer, plus <strong className="text-white">unlimited validations</strong></span></li>
+            <li className="flex items-start gap-2"><span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-sky-400" /><span>Email full reports as <strong className="text-white">CSV or Word</strong></span></li>
+            <li className="flex items-start gap-2"><span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-sky-400" /><span>Use all in-app analysis and PDF export tools</span></li>
           </ul>
           <button onClick={() => handleCheckout("pro")} disabled={checkoutLoading}
             className="mt-6 w-full gradient-btn text-white font-semibold py-2.5 rounded-xl text-sm disabled:opacity-50 flex items-center justify-center gap-2">

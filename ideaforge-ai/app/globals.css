@@ -3,19 +3,19 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --color-primary: #6366f1;
-  --color-primary-dark: #4f46e5;
-  --color-accent: #f59e0b;
-  --color-accent-dark: #d97706;
+  --color-primary: #007acc;
+  --color-primary-dark: #005fa3;
+  --color-accent: #ef842b;
+  --color-accent-dark: #d4721f;
   --color-surface: #060a13;
   --color-surface-alt: #0c1222;
   --color-heading: #f1f5f9;
   --color-body: #94a3b8;
   --color-muted: #64748b;
   --color-card: rgba(15, 23, 42, 0.6);
-  --color-card-border: rgba(99, 102, 241, 0.15);
+  --color-card-border: rgba(0, 122, 204, 0.15);
   --color-input-bg: rgba(15, 23, 42, 0.8);
-  --color-input-border: rgba(99, 102, 241, 0.2);
+  --color-input-border: rgba(0, 122, 204, 0.2);
   --color-sidebar-bg: rgba(6, 10, 19, 0.95);
   --color-sidebar-border: rgba(255, 255, 255, 0.06);
   --color-header-bg: rgba(6, 10, 19, 0.85);
@@ -31,7 +31,7 @@ html { scroll-behavior: smooth; }
 
 body {
   background-color: var(--color-surface);
-  background-image: radial-gradient(ellipse at top, rgba(99, 102, 241, 0.08), transparent 45%);
+  background-image: radial-gradient(ellipse at top, rgba(0, 122, 204, 0.08), transparent 45%);
   color: var(--color-body);
   font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -68,23 +68,23 @@ img, video, canvas, svg {
 .gradient-btn {
   background: linear-gradient(135deg, #6366f1, #a855f7);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 0 20px rgba(99, 102, 241, 0.3), 0 0 60px rgba(99, 102, 241, 0.1);
+  box-shadow: 0 0 20px rgba(0, 122, 204, 0.3), 0 0 60px rgba(0, 122, 204, 0.1);
 }
 .gradient-btn:hover {
-  box-shadow: 0 0 30px rgba(99, 102, 241, 0.5), 0 0 80px rgba(99, 102, 241, 0.2);
+  box-shadow: 0 0 30px rgba(0, 122, 204, 0.5), 0 0 80px rgba(0, 122, 204, 0.2);
   transform: translateY(-1px);
 }
 .dark .gradient-btn {
-  box-shadow: 0 0 20px rgba(99, 102, 241, 0.3), 0 0 60px rgba(99, 102, 241, 0.1);
+  box-shadow: 0 0 20px rgba(0, 122, 204, 0.3), 0 0 60px rgba(0, 122, 204, 0.1);
 }
 .dark .gradient-btn:hover {
-  box-shadow: 0 0 30px rgba(99, 102, 241, 0.5), 0 0 80px rgba(99, 102, 241, 0.2);
+  box-shadow: 0 0 30px rgba(0, 122, 204, 0.5), 0 0 80px rgba(0, 122, 204, 0.2);
 }
 
 .card-hover { transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease; }
 .card-hover:hover {
   transform: translateY(-4px);
-  box-shadow: 0 0 30px rgba(99, 102, 241, 0.15), 0 20px 40px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 30px rgba(0, 122, 204, 0.15), 0 20px 40px rgba(0, 0, 0, 0.3);
 }
 
 .card-base {
@@ -230,8 +230,8 @@ img, video, canvas, svg {
 .animate-orb-slow { animation: orbFloat 18s ease-in-out 6s infinite; }
 
 @keyframes borderGlow {
-  0%, 100% { box-shadow: 0 0 5px rgba(99, 102, 241, 0.2); }
-  50% { box-shadow: 0 0 20px rgba(99, 102, 241, 0.4); }
+  0%, 100% { box-shadow: 0 0 5px rgba(0, 122, 204, 0.2); }
+  50% { box-shadow: 0 0 20px rgba(0, 122, 204, 0.4); }
 }
 .animate-border-glow { animation: borderGlow 2s ease-in-out infinite; }
 
@@ -242,7 +242,7 @@ img, video, canvas, svg {
 .animate-ticker { animation: ticker 30s linear infinite; }
 
 .score-ring {
-  filter: drop-shadow(0 0 8px rgba(99, 102, 241, 0.3));
+  filter: drop-shadow(0 0 8px rgba(0, 122, 204, 0.3));
 }
 
 .theme-transition {
@@ -269,8 +269,8 @@ img, video, canvas, svg {
 
 .safe-area-pb { padding-bottom: env(safe-area-inset-bottom, 0px); }
 
-.glow-indigo { box-shadow: 0 0 20px rgba(99, 102, 241, 0.3), 0 0 60px rgba(99, 102, 241, 0.1); }
-.glow-indigo-hover:hover { box-shadow: 0 0 30px rgba(99, 102, 241, 0.5), 0 0 80px rgba(99, 102, 241, 0.2); }
+.glow-sky { box-shadow: 0 0 20px rgba(0, 122, 204, 0.3), 0 0 60px rgba(0, 122, 204, 0.1); }
+.glow-sky-hover:hover { box-shadow: 0 0 30px rgba(0, 122, 204, 0.5), 0 0 80px rgba(0, 122, 204, 0.2); }
 
 .card-premium {
   background: linear-gradient(145deg, rgba(30, 41, 59, 0.56), rgba(15, 23, 42, 0.44));
@@ -281,8 +281,8 @@ img, video, canvas, svg {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .card-premium:hover {
-  border-color: rgba(99, 102, 241, 0.3);
-  box-shadow: 0 0 30px rgba(99, 102, 241, 0.1), 0 20px 40px rgba(0, 0, 0, 0.3);
+  border-color: rgba(0, 122, 204, 0.3);
+  box-shadow: 0 0 30px rgba(0, 122, 204, 0.1), 0 20px 40px rgba(0, 0, 0, 0.3);
   transform: translateY(-2px);
 }
 

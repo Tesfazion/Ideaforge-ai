@@ -59,12 +59,12 @@ export default function InsightsPage() {
     return Object.entries(map).map(([name, v]) => ({ name, rate: v.total > 0 ? Math.round((v.validated / v.total) * 100) : 0 }));
   }, [ideas]);
 
-  if (loading) return <div className="flex justify-center py-20"><div className="w-8 h-8 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin" /></div>;
+  if (loading) return <div className="flex justify-center py-20"><div className="w-8 h-8 border-4 border-sky-500 border-t-transparent rounded-full animate-spin" /></div>;
 
   return (
     <div className="max-w-6xl mx-auto space-y-6 animate-slide-up">
       <motion.div className="relative rounded-3xl overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/10 via-violet-500/10 to-purple-500/10" />
+        <div className="absolute inset-0 bg-gradient-to-r from-sky-500/10 via-violet-500/10 to-orange-500/10" />
         <div className="absolute inset-0 bg-[#0c1222]/80 backdrop-blur-xl" />
         <div className="relative px-6 py-8 sm:px-10">
           <h1 className="text-2xl font-bold text-white mb-1">Insights & Analytics</h1>

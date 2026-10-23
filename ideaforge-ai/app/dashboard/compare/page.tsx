@@ -88,7 +88,7 @@ export default function ComparePage() {
   };
 
   if (loading) {
-    return <div className="flex justify-center py-20"><div className="w-8 h-8 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin" /></div>;
+    return <div className="flex justify-center py-20"><div className="w-8 h-8 border-4 border-sky-500 border-t-transparent rounded-full animate-spin" /></div>;
   }
 
   if (ideas.length < 2) {
@@ -197,7 +197,7 @@ export default function ComparePage() {
               <thead className="bg-white/[0.03]">
                 <tr>
                   <th className="text-left px-4 py-3 font-medium text-white">Metric</th>
-                  <th className="text-center px-4 py-3 font-medium text-indigo-400">{ideaA.title}</th>
+                  <th className="text-center px-4 py-3 font-medium text-sky-400">{ideaA.title}</th>
                   <th className="text-center px-4 py-3 font-medium text-violet-400">{ideaB.title}</th>
                 </tr>
               </thead>

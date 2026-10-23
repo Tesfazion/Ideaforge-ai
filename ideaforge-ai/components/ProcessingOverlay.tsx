@@ -44,11 +44,11 @@ export default function ProcessingOverlay({
   return (
     <div className="max-w-xl mx-auto text-center py-12">
       <div className="mb-8">
-        <div className="w-20 h-20 rounded-3xl bg-gradient-to-br from-indigo-500 to-violet-500 flex items-center justify-center mx-auto mb-5 shadow-xl shadow-indigo-500/25 relative">
+        <div className="w-20 h-20 rounded-3xl bg-gradient-to-br from-sky-500 to-violet-500 flex items-center justify-center mx-auto mb-5 shadow-xl shadow-sky-500/25 relative">
           <svg className="w-10 h-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
           </svg>
-          <div className="absolute inset-0 rounded-3xl animate-ping opacity-20 bg-gradient-to-br from-indigo-500 to-violet-500" />
+          <div className="absolute inset-0 rounded-3xl animate-ping opacity-20 bg-gradient-to-br from-sky-500 to-violet-500" />
         </div>
         <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">{title}</h2>
         {subtitle && <p className="text-gray-500 dark:text-gray-400 text-sm">{subtitle}</p>}
@@ -58,12 +58,12 @@ export default function ProcessingOverlay({
         <div className="relative mb-4">
           <div className="h-2 bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden">
             <div
-              className="h-full bg-gradient-to-r from-indigo-500 to-violet-500 rounded-full transition-all duration-500 ease-out"
+              className="h-full bg-gradient-to-r from-sky-500 to-violet-500 rounded-full transition-all duration-500 ease-out"
               style={{ width: `${progress}%` }}
             />
           </div>
           <div className="flex justify-between mt-2">
-            <span className="text-xs font-medium text-indigo-600 dark:text-indigo-400">{progress}%</span>
+            <span className="text-xs font-medium text-sky-600 dark:text-sky-400">{progress}%</span>
             <span className="text-xs text-gray-400">Analyzing...</span>
           </div>
         </div>
@@ -78,12 +78,12 @@ export default function ProcessingOverlay({
 
             return (
               <div key={`${s.step}-${i}`} className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-all duration-300 ${
-                isActive ? "bg-indigo-50 dark:bg-indigo-500/10" : wasCompleted ? "opacity-60" : ""
+                isActive ? "bg-sky-50 dark:bg-sky-500/10" : wasCompleted ? "opacity-60" : ""
               }`}>
                 <div className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 transition-colors ${
                   isDone ? "bg-emerald-100 dark:bg-emerald-500/15" :
                   isFallback ? "bg-amber-100 dark:bg-amber-500/15" :
-                  isActive ? "bg-indigo-100 dark:bg-indigo-500/15" :
+                  isActive ? "bg-sky-100 dark:bg-sky-500/15" :
                   "bg-gray-100 dark:bg-gray-800"
                 }`}>
                   {isDone ? (
@@ -95,22 +95,22 @@ export default function ProcessingOverlay({
                       <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01" />
                     </svg>
                   ) : (
-                    <svg className={`w-4 h-4 ${isActive ? "text-indigo-500 animate-pulse" : "text-gray-400"}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                    <svg className={`w-4 h-4 ${isActive ? "text-sky-500 animate-pulse" : "text-gray-400"}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                       <path strokeLinecap="round" strokeLinejoin="round" d={icon} />
                     </svg>
                   )}
                 </div>
                 <span className={`text-sm font-medium ${
                   isDone ? "text-emerald-600 dark:text-emerald-400" :
-                  isActive ? "text-indigo-600 dark:text-indigo-400" :
+                  isActive ? "text-sky-600 dark:text-sky-400" :
                   isFallback ? "text-amber-600 dark:text-amber-400" :
                   "text-gray-600 dark:text-gray-400"
                 }`}>{s.label}</span>
                 {isActive && (
                   <div className="ml-auto flex gap-1">
-                    <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-bounce" style={{ animationDelay: "0ms" }} />
-                    <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-bounce" style={{ animationDelay: "150ms" }} />
-                    <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-bounce" style={{ animationDelay: "300ms" }} />
+                    <span className="w-1.5 h-1.5 rounded-full bg-sky-500 animate-bounce" style={{ animationDelay: "0ms" }} />
+                    <span className="w-1.5 h-1.5 rounded-full bg-sky-500 animate-bounce" style={{ animationDelay: "150ms" }} />
+                    <span className="w-1.5 h-1.5 rounded-full bg-sky-500 animate-bounce" style={{ animationDelay: "300ms" }} />
                   </div>
                 )}
               </div>

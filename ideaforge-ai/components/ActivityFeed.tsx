@@ -52,7 +52,7 @@ export default function ActivityFeed() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.1, duration: 0.3 }}
             >
-              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white text-xs font-bold shrink-0">
+              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-sky-500 to-orange-600 flex items-center justify-center text-white text-xs font-bold shrink-0">
                 {a.name.charAt(0)}
               </div>
               <div className="flex-1 min-w-0">

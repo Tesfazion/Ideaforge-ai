@@ -9,6 +9,7 @@ import OnboardingFlow from "@/components/OnboardingFlow";
 
 const NAV_ITEMS = [
   { href: "/dashboard", icon: "M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4", label: "Dashboard", badge: null },
+  { href: "/dashboard/news", icon: "M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.069-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z", label: "What's New", badge: "NEW" },
   { href: "/dashboard/generate", icon: "M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z", label: "AI Generator", badge: "AI" },
   { href: "/dashboard/new", icon: "M12 4v16m8-8H4", label: "Validate Idea", badge: null },
   { href: "/dashboard/compare", icon: "M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2z", label: "Compare", badge: null },
@@ -65,10 +66,10 @@ function Sidebar({ open, onClose }: { open: boolean; onClose: () => void }) {
                     : "text-slate-400 hover:bg-white/[0.04] hover:text-slate-200"
                 }`}>
                 {active && (
-                  <motion.div layoutId="sidebar-active" className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-5 rounded-r-full bg-gradient-to-b from-indigo-400 to-purple-500" transition={{ type: "spring", stiffness: 300, damping: 30 }} />
+                  <motion.div layoutId="sidebar-active" className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-5 rounded-r-full bg-gradient-to-b from-sky-400 to-orange-500" transition={{ type: "spring", stiffness: 300, damping: 30 }} />
                 )}
                 <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 transition-all duration-200 ${
-                  active ? "bg-indigo-500/20 text-indigo-400" : "text-slate-500 group-hover:text-slate-400"
+                  active ? "bg-sky-500/20 text-sky-400" : "text-slate-500 group-hover:text-slate-400"
                 }`}>
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                     <path strokeLinecap="round" strokeLinejoin="round" d={link.icon} />
@@ -77,7 +78,7 @@ function Sidebar({ open, onClose }: { open: boolean; onClose: () => void }) {
                 <span className="truncate">{link.label}</span>
                 {link.badge && (
                   <span className={`ml-auto text-[9px] font-bold px-1.5 py-0.5 rounded-md uppercase tracking-wider ${
-                    "bg-indigo-500/15 text-indigo-300"
+                    "bg-sky-500/15 text-sky-300"
                   }`}>{link.badge}</span>
                 )}
               </Link>
@@ -100,10 +101,10 @@ function Sidebar({ open, onClose }: { open: boolean; onClose: () => void }) {
         </div>
 
         <div className="px-3 pb-4">
-          <div className="rounded-xl bg-indigo-500/[0.06] border border-indigo-500/[0.12] p-3.5">
+          <div className="rounded-xl bg-sky-500/[0.06] border border-sky-500/[0.12] p-3.5">
             <div className="flex items-center gap-2 mb-2">
-              <div className="w-6 h-6 rounded-md bg-indigo-500/20 flex items-center justify-center">
-                <svg className="w-3.5 h-3.5 text-indigo-300" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" /></svg>
+              <div className="w-6 h-6 rounded-md bg-sky-500/20 flex items-center justify-center">
+                <svg className="w-3.5 h-3.5 text-sky-300" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" /></svg>
               </div>
               <div>
                 <p className="text-xs font-semibold text-white">Go Pro</p>
@@ -111,7 +112,7 @@ function Sidebar({ open, onClose }: { open: boolean; onClose: () => void }) {
               </div>
             </div>
             <Link href="/dashboard/upgrade" onClick={onClose}
-              className="block w-full text-center text-[11px] font-semibold py-2 rounded-lg bg-indigo-500/20 text-indigo-400 hover:bg-indigo-500/30 transition-colors">
+              className="block w-full text-center text-[11px] font-semibold py-2 rounded-lg bg-sky-500/20 text-sky-400 hover:bg-sky-500/30 transition-colors">
               Upgrade Now
             </Link>
           </div>
@@ -178,8 +179,8 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
     <div className="min-h-screen flex items-center justify-center bg-[#060a13]">
       <div className="flex flex-col items-center gap-4">
         <div className="relative">
-          <div className="w-12 h-12 border-[3px] border-indigo-500/20 rounded-full" />
-          <div className="absolute inset-0 w-12 h-12 border-[3px] border-indigo-500 border-t-transparent rounded-full animate-spin" />
+          <div className="w-12 h-12 border-[3px] border-sky-500/20 rounded-full" />
+          <div className="absolute inset-0 w-12 h-12 border-[3px] border-sky-500 border-t-transparent rounded-full animate-spin" />
         </div>
         <p className="text-sm text-slate-500 font-medium">Loading your workspace...</p>
       </div>
@@ -190,8 +191,8 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
   return (
     <div className="min-h-screen flex bg-[#060a13] transition-colors duration-300 relative">
       <div className="fixed inset-0 pointer-events-none" aria-hidden="true">
-        <div className="absolute -top-40 -left-40 w-[600px] h-[600px] bg-indigo-600/[0.07] rounded-full blur-[150px]" />
-        <div className="absolute -bottom-40 -right-40 w-[500px] h-[500px] bg-indigo-600/[0.04] rounded-full blur-[130px]" />
+        <div className="absolute -top-40 -left-40 w-[600px] h-[600px] bg-sky-600/[0.07] rounded-full blur-[150px]" />
+        <div className="absolute -bottom-40 -right-40 w-[500px] h-[500px] bg-sky-600/[0.04] rounded-full blur-[130px]" />
       </div>
 
       <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
@@ -259,7 +260,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
                                 )}
                               </div>
                               <div className="min-w-0 flex-1">
-                                <p className="text-xs font-medium text-white truncate group-hover:text-indigo-400 transition-colors">{notif.title}</p>
+                                <p className="text-xs font-medium text-white truncate group-hover:text-sky-400 transition-colors">{notif.title}</p>
                                 <p className="text-[10px] text-slate-500">
                                   {notif.status === "validated" ? `Scored ${notif.score}%` : notif.status === "failed" ? "Failed" : "Processing..."}
                                 </p>
@@ -278,7 +279,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
               <div className="relative">
                 <button onClick={(e) => { e.stopPropagation(); setProfileOpen(!profileOpen); setNotifOpen(false); }}
                   className="flex items-center gap-2.5 pl-2 pr-3 py-1.5 rounded-xl hover:bg-white/[0.04] transition-colors">
-                  <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white text-xs font-bold shadow-lg shadow-indigo-500/20">
+                  <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-sky-500 to-orange-600 flex items-center justify-center text-white text-xs font-bold shadow-lg shadow-sky-500/20">
                     {user.name.charAt(0).toUpperCase()}
                   </div>
                   <div className="hidden sm:block text-left">

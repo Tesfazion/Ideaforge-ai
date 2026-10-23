@@ -75,7 +75,7 @@ export default function Pricing() {
 
   return (
     <section className="py-24 bg-[#060a13] relative" id="pricing">
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-purple-500/[0.02] to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-orange-500/[0.02] to-transparent" />
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         <motion.div
           className="text-center mb-12"
@@ -84,7 +84,7 @@ export default function Pricing() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <span className="inline-block text-xs font-semibold text-indigo-400 bg-indigo-500/10 border border-indigo-500/20 px-3 py-1 rounded-full mb-5 tracking-wider uppercase">Pricing</span>
+          <span className="inline-block text-xs font-semibold text-sky-400 bg-sky-500/10 border border-sky-500/20 px-3 py-1 rounded-full mb-5 tracking-wider uppercase">Pricing</span>
           <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-tight">Simple, transparent pricing</h2>
           <p className="text-slate-400 mt-3">Start free. Upgrade when you need unlimited power.</p>
 
@@ -92,7 +92,7 @@ export default function Pricing() {
             <span className={`text-sm font-medium transition-colors ${!annual ? "text-white" : "text-slate-500"}`}>Monthly</span>
             <button
               onClick={() => setAnnual(!annual)}
-              className={`relative w-12 h-6 rounded-full transition-colors duration-300 ${annual ? "bg-indigo-500" : "bg-white/10"}`}
+              className={`relative w-12 h-6 rounded-full transition-colors duration-300 ${annual ? "bg-sky-500" : "bg-white/10"}`}
             >
               <motion.div
                 className="absolute top-1 w-4 h-4 rounded-full bg-white shadow-md"
@@ -118,15 +118,15 @@ export default function Pricing() {
             <motion.div key={plan.name} variants={item} whileHover={{ y: -3, transition: { type: "spring", stiffness: 400 } }}>
               <div className={`relative rounded-2xl p-6 h-full transition-all duration-300 ${
                 plan.popular
-                  ? "border border-indigo-500/30 bg-indigo-500/[0.05] shadow-lg shadow-indigo-500/10 ring-1 ring-indigo-500/10"
+                  ? "border border-sky-500/30 bg-sky-500/[0.05] shadow-lg shadow-sky-500/10 ring-1 ring-sky-500/10"
                   : "border border-white/[0.06] bg-white/[0.02] hover:border-white/10"
               }`}>
                 {plan.popular && (
                   <>
-                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-0.5 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 text-white text-xs font-semibold shadow-lg shadow-indigo-500/30">
+                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-0.5 rounded-full bg-gradient-to-r from-sky-500 to-orange-500 text-white text-xs font-semibold shadow-lg shadow-sky-500/30">
                       Most Popular
                     </div>
-                    <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-32 h-8 bg-indigo-500/20 rounded-full blur-xl" />
+                    <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-32 h-8 bg-sky-500/20 rounded-full blur-xl" />
                   </>
                 )}
                 <h3 className="text-lg font-bold text-white">{plan.name}</h3>
@@ -149,7 +149,7 @@ export default function Pricing() {
                 <ul className="space-y-2 mb-6">
                   {plan.features.map((f) => (
                     <li key={f} className="flex items-start gap-2 text-sm text-slate-400">
-                      <svg className="w-4 h-4 text-indigo-400 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                      <svg className="w-4 h-4 text-sky-400 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                       </svg>
                       {f}

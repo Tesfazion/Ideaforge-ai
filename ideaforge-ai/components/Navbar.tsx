@@ -14,11 +14,11 @@ export default function Navbar() {
   return (
     <motion.nav className="fixed top-0 left-0 right-0 z-50">
       <div className="absolute inset-0 bg-[#060a13]/80 backdrop-blur-xl border-b border-white/5" />
-      <motion.div className="absolute inset-0 bg-indigo-500/5" style={{ opacity }} />
+      <motion.div className="absolute inset-0 bg-sky-500/5" style={{ opacity }} />
       <div className="relative max-w-7xl mx-auto px-3 sm:px-4 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <Link href="/" className="flex items-center gap-2.5 group">
-             <div className="w-10 h-10 rounded-lg overflow-hidden group-hover:shadow-indigo-500/40 transition-shadow">
+             <div className="w-10 h-10 rounded-lg overflow-hidden group-hover:shadow-sky-500/40 transition-shadow">
                <Image src="/logo.png" alt="IdeaForge" width={40} height={40} className="w-full h-full object-contain" />
             </div>
             <span className="text-lg font-bold text-white tracking-tight">IdeaForge</span>

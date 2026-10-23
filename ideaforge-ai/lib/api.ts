@@ -15,7 +15,12 @@ async function request<T>(endpoint: string, options: RequestOptions = {}): Promi
     ...fetchOptions,
     headers: { ...headers, ...(fetchOptions.headers as Record<string, string>) },
   });
-  const data = (await res.json()) as { error?: string } & Record<string, unknown>;
+  let data: ({ error?: string } & Record<string, unknown>) = {};
+  try {
+    data = (await res.json()) as { error?: string } & Record<string, unknown>;
+  } catch {
+    data = {};
+  }
   if (!res.ok) {
     const err = new Error(data.error || `Request failed with status ${res.status}`) as Error & {
       status?: number;
@@ -213,7 +218,27 @@ export const api = {
     request<{ report: Report; idea: { id: string; title: string; status: string } }>(`/api/reports/${ideaId}`, { token }),
   emailReport: (token: string, ideaId: string, format: "csv" | "doc") =>
     request<{ message: string }>(`/api/reports/${ideaId}/email`, { method: "POST", body: JSON.stringify({ format }), token }),
+  getAnnouncements: (token: string, all = false) =>
+    request<{ announcements: Announcement[] }>(`/api/announcements${all ? "?all=1" : ""}`, { token }),
+  createAnnouncement: (
+    token: string,
+    body: { title: string; body: string; version?: string; tag?: Announcement["tag"]; pinned?: boolean; published?: boolean }
+  ) => request<{ announcement: Announcement }>("/api/announcements", { method: "POST", body: JSON.stringify(body), token }),
+  deleteAnnouncement: (token: string, id: string) =>
+    request<{ message: string }>(`/api/announcements/${id}`, { method: "DELETE", token }),
 };
+
+export interface Announcement {
+  id: string;
+  title: string;
+  body: string;
+  version: string;
+  tag: "release" | "news" | "update" | "fix";
+  pinned: boolean;
+  published: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
 
 export interface User {
   id: string; name: string; email: string; plan: string; verified: boolean; createdAt?: string; tokens: number; monthlyTokens: number; onboardingComplete?: boolean;

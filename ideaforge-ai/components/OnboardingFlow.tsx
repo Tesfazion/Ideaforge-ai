@@ -126,7 +126,7 @@ export default function OnboardingFlow({ open, onComplete }: OnboardingFlowProps
         {/* Header */}
         <div className="flex items-center justify-between px-5 pt-5 pb-3">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-sky-500 to-orange-600 flex items-center justify-center">
               <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
               </svg>
@@ -251,7 +251,7 @@ function StepWelcome() {
         initial={{ scale: 0 }}
         animate={{ scale: 1 }}
         transition={{ type: "spring", stiffness: 200, damping: 15, delay: 0.15 }}
-        className="w-20 h-20 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center mb-6 shadow-lg shadow-indigo-500/25"
+        className="w-20 h-20 rounded-2xl bg-gradient-to-br from-sky-500 to-orange-600 flex items-center justify-center mb-6 shadow-lg shadow-sky-500/25"
       >
         <svg className="w-10 h-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.455 2.456z" />
@@ -280,7 +280,7 @@ function StepWelcome() {
         className="flex items-center gap-6 mt-8 text-[11px] text-slate-500"
       >
         <span className="flex items-center gap-1.5">
-          <svg className="w-3.5 h-3.5 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <svg className="w-3.5 h-3.5 text-sky-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
           </svg>
           AI-powered
@@ -292,7 +292,7 @@ function StepWelcome() {
           60s results
         </span>
         <span className="flex items-center gap-1.5">
-          <svg className="w-3.5 h-3.5 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <svg className="w-3.5 h-3.5 text-orange-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
           </svg>
           Secure
@@ -314,7 +314,7 @@ function StepRole({ selected, onSelect }: { selected: string; onSelect: (v: stri
             onClick={() => onSelect(r.id)}
             className={`flex flex-col items-center gap-1.5 p-3.5 rounded-xl border text-center transition-all ${
               selected === r.id
-                ? "bg-indigo-500/[0.12] border-indigo-500/40 shadow-lg shadow-indigo-500/10"
+                ? "bg-sky-500/[0.12] border-sky-500/40 shadow-lg shadow-sky-500/10"
                 : "bg-white/[0.02] border-white/[0.06] hover:bg-white/[0.05] hover:border-white/[0.1]"
             }`}
           >
@@ -377,11 +377,11 @@ function StepFrequency({ selected, onSelect }: { selected: string; onSelect: (v:
             onClick={() => onSelect(f.id)}
             className={`flex flex-col items-center gap-1 p-5 rounded-xl border text-center transition-all ${
               selected === f.id
-                ? "bg-purple-500/[0.12] border-purple-500/40 shadow-lg shadow-purple-500/10"
+                ? "bg-orange-500/[0.12] border-orange-500/40 shadow-lg shadow-orange-500/10"
                 : "bg-white/[0.02] border-white/[0.06] hover:bg-white/[0.05] hover:border-white/[0.1]"
             }`}
           >
-            <span className={`text-2xl font-bold ${selected === f.id ? "text-purple-400" : "text-white"}`}>
+            <span className={`text-2xl font-bold ${selected === f.id ? "text-orange-400" : "text-white"}`}>
               {f.label}
             </span>
             <span className="text-[10px] text-slate-500 leading-tight">{f.desc}</span>
@@ -409,7 +409,7 @@ function StepQuickWin({ onCTA, submitting }: { onCTA: () => void; submitting: bo
         <div className="grid grid-cols-3 gap-2 mb-3">
           <div className="bg-white/[0.03] rounded-lg p-2 text-center">
             <div className="text-[10px] text-slate-500 mb-0.5">Market</div>
-            <div className="text-xs font-bold text-indigo-400">82</div>
+            <div className="text-xs font-bold text-sky-400">82</div>
           </div>
           <div className="bg-white/[0.03] rounded-lg p-2 text-center">
             <div className="text-[10px] text-slate-500 mb-0.5">Risk</div>

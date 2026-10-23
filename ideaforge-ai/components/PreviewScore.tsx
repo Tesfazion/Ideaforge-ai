@@ -44,12 +44,12 @@ export default function PreviewScore() {
             <div>
               <label className="block text-sm font-medium text-gray-900 dark:text-gray-200 mb-1.5">Idea Title</label>
               <input type="text" required value={title} onChange={(e) => setTitle(e.target.value)} placeholder="e.g. AI-Powered Fitness Coach" suppressHydrationWarning
-                className="w-full px-4 py-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-colors placeholder:text-gray-400" />
+                className="w-full px-4 py-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 transition-colors placeholder:text-gray-400" />
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-900 dark:text-gray-200 mb-1.5">Brief Description</label>
               <textarea required rows={3} value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Describe your idea in 2-3 sentences..."
-                className="w-full px-4 py-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-colors resize-none placeholder:text-gray-400" />
+                className="w-full px-4 py-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 transition-colors resize-none placeholder:text-gray-400" />
             </div>
             <button type="submit" disabled={loading} suppressHydrationWarning
               className="w-full gradient-btn text-white font-semibold py-3 rounded-xl text-sm disabled:opacity-50 flex items-center justify-center gap-2">

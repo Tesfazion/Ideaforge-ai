@@ -94,10 +94,10 @@ export function ContributionGrid({ ideas }: { ideas: { createdAt: string }[] }) 
 
   const getColor = (count: number) => {
     if (count === 0) return "bg-white/[0.03]";
-    if (count === 1) return "bg-indigo-500/30";
-    if (count === 2) return "bg-indigo-500/50";
-    if (count === 3) return "bg-indigo-500/70";
-    return "bg-indigo-500/90";
+    if (count === 1) return "bg-sky-500/30";
+    if (count === 2) return "bg-sky-500/50";
+    if (count === 3) return "bg-sky-500/70";
+    return "bg-sky-500/90";
   };
 
   return (

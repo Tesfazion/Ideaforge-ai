@@ -32,7 +32,7 @@ export default function SocialProofTicker() {
               exit={{ y: -16, opacity: 0 }}
               transition={{ duration: 0.3 }}
             >
-              <svg className="w-4 h-4 text-indigo-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+              <svg className="w-4 h-4 text-sky-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d={proofs[idx].icon} />
               </svg>
               <span className="text-sm text-slate-400">{proofs[idx].text}</span>

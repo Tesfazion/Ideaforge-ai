@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -45,7 +45,7 @@ const SENTIMENT_CONFIG: Record<string, { color: string; bg: string; border: stri
   frustrated: { color: "text-red-400", bg: "bg-red-500/10", border: "border-red-500/20", label: "Frustrated" },
   seeking: { color: "text-blue-400", bg: "bg-blue-500/10", border: "border-blue-500/20", label: "Seeking Help" },
   angry: { color: "text-orange-400", bg: "bg-orange-500/10", border: "border-orange-500/20", label: "Angry" },
-  curious: { color: "text-purple-400", bg: "bg-purple-500/10", border: "border-purple-500/20", label: "Curious" },
+  curious: { color: "text-orange-400", bg: "bg-orange-500/10", border: "border-orange-500/20", label: "Curious" },
 };
 
 const STRENGTH_CONFIG: Record<string, { color: string; bg: string; label: string }> = {
@@ -179,8 +179,8 @@ export default function CustomerDiscovery({
         whileTap={!loading ? { scale: 0.98 } : {}}
         className={`w-full py-3.5 px-5 rounded-xl text-sm font-semibold transition-all duration-300 flex items-center justify-center gap-2.5 ${
           loading
-            ? "bg-indigo-500/20 text-indigo-300 cursor-wait border border-indigo-500/20"
-            : "bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white shadow-lg shadow-indigo-500/25 hover:shadow-indigo-500/40"
+            ? "bg-sky-500/20 text-sky-300 cursor-wait border border-sky-500/20"
+            : "bg-gradient-to-r from-sky-600 to-violet-600 hover:from-sky-500 hover:to-violet-500 text-white shadow-lg shadow-sky-500/25 hover:shadow-sky-500/40"
         }`}
       >
         {loading ? (
@@ -208,14 +208,14 @@ export default function CustomerDiscovery({
               <div className="relative mb-3">
                 <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
                   <motion.div
-                    className="h-full bg-gradient-to-r from-indigo-500 to-violet-500 rounded-full"
+                    className="h-full bg-gradient-to-r from-sky-500 to-violet-500 rounded-full"
                     initial={{ width: "0%" }}
                     animate={{ width: `${progressPercent}%` }}
                     transition={{ duration: 0.5, ease: "easeOut" }}
                   />
                 </div>
                 <div className="flex justify-between mt-1.5">
-                  <span className="text-[11px] font-medium text-indigo-400">{progressPercent}%</span>
+                  <span className="text-[11px] font-medium text-sky-400">{progressPercent}%</span>
                   <span className="text-[11px] text-slate-500">Scanning Reddit, HN, PH, X...</span>
                 </div>
               </div>
@@ -277,7 +277,7 @@ export default function CustomerDiscovery({
                         <div className="flex items-center gap-2 mt-2">
                           <span className="text-[11px] text-slate-500 truncate max-w-[200px]">{pp.source}</span>
                           {pp.url && (
-                            <a href={pp.url} target="_blank" rel="noopener noreferrer" className="text-[10px] text-indigo-400 hover:text-indigo-300 underline underline-offset-2">
+                            <a href={pp.url} target="_blank" rel="noopener noreferrer" className="text-[10px] text-sky-400 hover:text-sky-300 underline underline-offset-2">
                               View source
                             </a>
                           )}
@@ -347,7 +347,7 @@ export default function CustomerDiscovery({
                         </div>
                         <p className="text-[12px] text-slate-400">{cm.context}</p>
                         {cm.url && (
-                          <a href={cm.url} target="_blank" rel="noopener noreferrer" className="text-[10px] text-indigo-400 hover:text-indigo-300 underline underline-offset-2 mt-1 inline-block">
+                          <a href={cm.url} target="_blank" rel="noopener noreferrer" className="text-[10px] text-sky-400 hover:text-sky-300 underline underline-offset-2 mt-1 inline-block">
                             View discussion
                           </a>
                         )}
@@ -413,7 +413,7 @@ export default function CustomerDiscovery({
                   {result.rawSources.slice(0, 10).map((src, i) => (
                     <a key={i} href={src.url} target="_blank" rel="noopener noreferrer" className="block bg-white/[0.02] border border-white/[0.04] rounded-lg p-2.5 hover:border-white/[0.08] transition-colors">
                       <div className="flex items-center gap-2 mb-0.5">
-                        <span className="text-[10px] font-medium text-indigo-400 bg-indigo-500/10 px-1.5 py-0.5 rounded">{src.platform}</span>
+                        <span className="text-[10px] font-medium text-sky-400 bg-sky-500/10 px-1.5 py-0.5 rounded">{src.platform}</span>
                       </div>
                       <p className="text-[12px] text-slate-300 truncate">{src.title}</p>
                       {src.snippet && <p className="text-[11px] text-slate-500 truncate mt-0.5">{src.snippet}</p>}

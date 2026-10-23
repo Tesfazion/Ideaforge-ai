@@ -90,8 +90,8 @@ export default function Hero() {
         <div className="absolute inset-0 bg-gradient-to-b from-[#060a13] via-[#060a13]/80 to-[#060a13]" />
       </div>
       <div className="absolute inset-0">
-        <div className="absolute top-1/4 left-1/4 w-16 h-16 sm:w-20 sm:h-20 md:w-32 md:h-32 bg-indigo-600/20 rounded-full blur-[80px] animate-orb" />
-        <div className="absolute bottom-1/4 right-1/4 w-12 h-12 sm:w-16 sm:h-16 md:w-32 md:h-32 bg-purple-600/15 rounded-full blur-[60px] animate-orb-delayed" />
+        <div className="absolute top-1/4 left-1/4 w-16 h-16 sm:w-20 sm:h-20 md:w-32 md:h-32 bg-sky-600/20 rounded-full blur-[80px] animate-orb" />
+        <div className="absolute bottom-1/4 right-1/4 w-12 h-12 sm:w-16 sm:h-16 md:w-32 md:h-32 bg-orange-600/15 rounded-full blur-[60px] animate-orb-delayed" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 sm:w-12 sm:h-12 md:w-24 md:h-24 bg-amber-500/10 rounded-full blur-[40px] animate-orb-slow" />
       </div>
 
@@ -103,7 +103,7 @@ export default function Hero() {
         <motion.div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center" variants={container} initial="hidden" animate="show">
           <motion.div className="max-w-2xl" variants={item}>
             <motion.div
-              className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-medium mb-8"
+              className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-500/10 border border-sky-500/20 text-sky-400 text-xs font-medium mb-8"
               variants={item}
             >
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
@@ -116,7 +116,7 @@ export default function Hero() {
             >
               Validate your idea
               <br />
-              <span className="inline-block bg-gradient-to-r from-indigo-400 via-purple-400 to-amber-400 bg-[length:200%_auto] bg-clip-text text-transparent animate-shimmer">
+              <span className="inline-block bg-gradient-to-r from-sky-400 via-orange-400 to-amber-400 bg-[length:200%_auto] bg-clip-text text-transparent animate-shimmer">
                 before you build it.
               </span>
             </motion.h1>
@@ -165,7 +165,7 @@ export default function Hero() {
 
           <motion.div className="relative hidden lg:block" variants={item}>
             <div className="absolute -inset-[1px] rounded-2xl bg-[conic-gradient(from_var(--angle),transparent_25%,#6366f1_50%,transparent_75%)] opacity-40 animate-[spin_6s_linear_infinite]" style={{ "--angle": "0deg" } as React.CSSProperties} />
-            <div className="relative rounded-2xl overflow-hidden border border-white/10 bg-[#0c1222]/90 backdrop-blur-xl p-6 shadow-2xl shadow-indigo-500/5">
+            <div className="relative rounded-2xl overflow-hidden border border-white/10 bg-[#0c1222]/90 backdrop-blur-xl p-6 shadow-2xl shadow-sky-500/5">
               <div className="flex items-center gap-2 mb-5">
                 <div className="flex gap-1.5">
                   <div className="w-2.5 h-2.5 rounded-full bg-red-500/80" />
@@ -218,8 +218,8 @@ export default function Hero() {
               </div>
             </div>
 
-            <div className="absolute -bottom-3 -right-3 w-24 h-24 bg-indigo-500/20 rounded-full blur-2xl" />
-            <div className="absolute -top-3 -left-3 w-20 h-20 bg-purple-500/15 rounded-full blur-2xl" />
+            <div className="absolute -bottom-3 -right-3 w-24 h-24 bg-sky-500/20 rounded-full blur-2xl" />
+            <div className="absolute -top-3 -left-3 w-20 h-20 bg-orange-500/15 rounded-full blur-2xl" />
           </motion.div>
         </motion.div>
       </div>

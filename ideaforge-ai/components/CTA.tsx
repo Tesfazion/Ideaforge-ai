@@ -22,7 +22,7 @@ export default function CTA() {
             loading="lazy"
             decoding="async"
           />
-          <div className="absolute inset-0 bg-gradient-to-br from-indigo-900/90 via-purple-900/85 to-indigo-950/90" />
+          <div className="absolute inset-0 bg-gradient-to-br from-sky-900/90 via-orange-900/85 to-sky-950/90" />
         </div>
           <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMSIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjA3KSIvPjwvc3ZnPg==')] opacity-40" />
           <div className="absolute top-0 left-1/4 w-64 h-64 bg-white/5 rounded-full blur-[80px]" />
@@ -55,7 +55,7 @@ export default function CTA() {
               transition={{ delay: 0.35 }}
             >
               <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
-                <Link href="/register" className="bg-white text-indigo-600 px-8 py-3.5 rounded-xl text-sm font-semibold hover:bg-white/90 transition inline-flex items-center gap-2 justify-center shadow-lg shadow-black/10">
+                <Link href="/register" className="bg-white text-sky-600 px-8 py-3.5 rounded-xl text-sm font-semibold hover:bg-white/90 transition inline-flex items-center gap-2 justify-center shadow-lg shadow-black/10">
                   Start for Free
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />

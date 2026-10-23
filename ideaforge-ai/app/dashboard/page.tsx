@@ -3,10 +3,11 @@ import { useEffect, useState, useCallback, useMemo } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useAuth } from "@/lib/auth";
-import { api, Idea } from "@/lib/api";
+import { api, Idea, Announcement } from "@/lib/api";
 import dynamic from "next/dynamic";
 import { motion, AnimatePresence } from "framer-motion";
 import { AnimatedRing, MiniSparkline, ScoreRing, ContributionGrid } from "@/components/DashboardWidgets";
+import StayInLoop from "@/components/StayInLoop";
 
 const LazyPieChart = dynamic(() => import("@/components/LazyCharts").then((m) => m.LazyPieChart), { ssr: false, loading: () => <div className="h-[200px] bg-white/[0.03] rounded-xl animate-pulse" /> });
 const LazyDashboardBarChart = dynamic(() => import("@/components/LazyCharts").then((m) => m.LazyDashboardBarChart), { ssr: false, loading: () => <div className="h-[200px] bg-white/[0.03] rounded-xl animate-pulse" /> });
@@ -27,12 +28,31 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true);
   const [retryingId, setRetryingId] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<"overview" | "ideas" | "analytics">("overview");
+  const [latestNews, setLatestNews] = useState<Announcement | null>(null);
+  const [newsDismissed, setNewsDismissed] = useState(false);
 
   useEffect(() => {
     if (token) {
       api.getIdeas(token).then((d) => setIdeas(d.ideas)).catch(() => {}).finally(() => setLoading(false));
     }
   }, [token]);
+
+  useEffect(() => {
+    if (!token) return;
+    api.getAnnouncements(token)
+      .then((d) => {
+        const news = d.announcements[0] ?? null;
+        setLatestNews(news);
+        setNewsDismissed(news ? localStorage.getItem(`ideaforge_news_${news.id}`) === "1" : false);
+      })
+      .catch(() => {});
+  }, [token]);
+
+  const dismissNews = () => {
+    if (!latestNews) return;
+    localStorage.setItem(`ideaforge_news_${latestNews.id}`, "1");
+    setNewsDismissed(true);
+  };
 
   const filtered = useMemo(() => ideas.filter((i) => {
     if (filter === "validated" && i.status !== "validated") return false;
@@ -94,11 +114,11 @@ export default function DashboardPage() {
 
   const aiInsights = useMemo(() => {
     const tips: { icon: string; title: string; desc: string; color: string; action?: string; actionHref?: string }[] = [];
-    if (ideas.length === 0) tips.push({ icon: "M12 4v16m8-8H4", title: "Start your journey", desc: "Submit your first idea and get AI-powered validation in under 30 seconds.", color: "from-indigo-500 to-purple-500", action: "Validate First Idea", actionHref: "/dashboard/new" });
+    if (ideas.length === 0) tips.push({ icon: "M12 4v16m8-8H4", title: "Start your journey", desc: "Submit your first idea and get AI-powered validation in under 30 seconds.", color: "from-sky-500 to-orange-500", action: "Validate First Idea", actionHref: "/dashboard/new" });
     if (stats.avgScore > 0 && stats.avgScore < 50) tips.push({ icon: "M9.663 17h4.673M12 3v1", title: "Score needs attention", desc: `Your average is ${stats.avgScore}%. Try the AI Generator for higher-quality ideas.`, color: "from-amber-500 to-orange-500", action: "Generate Ideas", actionHref: "/dashboard/generate" });
     if (stats.winRate >= 70 && stats.validated >= 3) tips.push({ icon: "M5 13l4 4L19 7", title: "Outstanding performance!", desc: `${stats.winRate}% win rate across ${stats.validated} validations.`, color: "from-emerald-500 to-teal-500", action: "Keep Going", actionHref: "/dashboard/new" });
-    if (ideas.length >= 3 && ideas.length < 10) tips.push({ icon: "M13 7h8m0 0v8m0-8l-8 8-4-4-6 6", title: "Building momentum", desc: `You've validated ${ideas.length} ideas. Upgrade to Pro for unlimited.`, color: "from-violet-500 to-purple-500", action: "Go Pro", actionHref: "/dashboard/upgrade" });
-    if (industryBreakdown.length > 0) { const top = industryBreakdown[0]; tips.push({ icon: "M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2 2z", title: `Focus: ${top.name}`, desc: `${top.value} idea${top.value > 1 ? "s" : ""} in this space. Consider adjacent markets.`, color: "from-blue-500 to-indigo-500" }); }
+    if (ideas.length >= 3 && ideas.length < 10) tips.push({ icon: "M13 7h8m0 0v8m0-8l-8 8-4-4-6 6", title: "Building momentum", desc: `You've validated ${ideas.length} ideas. Upgrade to Pro for unlimited.`, color: "from-violet-500 to-orange-500", action: "Go Pro", actionHref: "/dashboard/upgrade" });
+    if (industryBreakdown.length > 0) { const top = industryBreakdown[0]; tips.push({ icon: "M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2 2z", title: `Focus: ${top.name}`, desc: `${top.value} idea${top.value > 1 ? "s" : ""} in this space. Consider adjacent markets.`, color: "from-blue-500 to-sky-500" }); }
     return tips.slice(0, 4);
   }, [ideas, stats, industryBreakdown]);
 
@@ -131,7 +151,7 @@ export default function DashboardPage() {
   return (
     <div className="max-w-[1400px] mx-auto space-y-6">
       <motion.div variants={scaleIn} initial="hidden" animate="show" className="relative rounded-2xl overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/[0.10] via-indigo-400/[0.04] to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-sky-500/[0.10] via-sky-400/[0.04] to-transparent" />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#060a13]/40" />
         <div className="absolute inset-0 bg-[#0c1222]/60 backdrop-blur-2xl" />
         <div className="relative px-6 py-8 sm:px-8 lg:px-10">
@@ -147,14 +167,14 @@ export default function DashboardPage() {
                 )}
               </div>
               <p className="text-sm text-slate-400 max-w-lg">Your ideas, research, and next steps in one focused workspace.</p>
-              <span className="inline-flex items-center rounded-full border border-indigo-400/20 bg-indigo-400/10 px-2.5 py-1 text-[11px] font-semibold text-indigo-200">{planLabel} plan</span>
+              <span className="inline-flex items-center rounded-full border border-sky-400/20 bg-sky-400/10 px-2.5 py-1 text-[11px] font-semibold text-sky-200">{planLabel} plan</span>
             </div>
             <div className="flex gap-2 flex-wrap">
               <Link href="/dashboard/generate" className="px-4 py-2.5 rounded-xl text-sm font-semibold bg-white/[0.06] border border-white/[0.06] text-slate-300 hover:bg-white/[0.1] transition-all inline-flex items-center gap-2">
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" /></svg>
                 AI Generate
               </Link>
-              <Link href="/dashboard/new" className="gradient-btn text-white px-5 py-2.5 rounded-xl text-sm font-semibold inline-flex items-center gap-2 shadow-lg shadow-indigo-500/20">
+              <Link href="/dashboard/new" className="gradient-btn text-white px-5 py-2.5 rounded-xl text-sm font-semibold inline-flex items-center gap-2 shadow-lg shadow-sky-500/20">
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" /></svg>
                 Validate Idea
               </Link>
@@ -163,16 +183,42 @@ export default function DashboardPage() {
         </div>
       </motion.div>
 
-      <section className="card-premium rounded-2xl border border-indigo-400/15 p-5 sm:p-6">
+      {latestNews && !newsDismissed && (
+        <motion.section
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="relative overflow-hidden rounded-2xl border border-sky-400/20 bg-sky-500/[0.07] p-5 sm:p-6"
+        >
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="inline-flex items-center gap-1.5 rounded-md bg-sky-500/20 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-sky-200">
+              <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.069-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" /></svg>
+              {latestNews.tag}
+            </span>
+            {latestNews.version && <span className="text-xs font-semibold text-sky-300">v{latestNews.version}</span>}
+            <span className="text-[10px] text-slate-500">{new Date(latestNews.createdAt).toLocaleDateString()}</span>
+          </div>
+          <h2 className="mt-2 pr-8 text-base font-semibold text-white">{latestNews.title}</h2>
+          <p className="mt-1 max-w-3xl text-sm leading-relaxed text-slate-400">{latestNews.body}</p>
+          <Link href="/dashboard/news" className="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-sky-300 hover:text-sky-200 transition-colors">
+            All updates
+            <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
+          </Link>
+          <button onClick={dismissNews} aria-label="Dismiss update" className="absolute right-3 top-3 rounded-lg p-1.5 text-slate-500 hover:bg-white/[0.06] hover:text-slate-300 transition-colors">
+            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+          </button>
+        </motion.section>
+      )}
+
+      <section className="card-premium rounded-2xl border border-sky-400/15 p-5 sm:p-6">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-indigo-300">{plan === "free" ? "Your monthly allowance" : plan === "enterprise" ? "Your workspace" : "Your founder workspace"}</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-sky-300">{plan === "free" ? "Your monthly allowance" : plan === "enterprise" ? "Your workspace" : "Your founder workspace"}</p>
             <h2 className="mt-1 text-lg font-semibold text-white">{plan === "free" ? `${user?.tokens ?? 0} of ${user?.monthlyTokens ?? 5} validations left` : plan === "enterprise" ? "Unlimited validations · API access" : "Unlimited validations · full reports"}</h2>
             <p className="mt-1 text-sm text-slate-400">{plan === "free" ? "Your allowance renews monthly. Upgrade for unlimited validations and report delivery by email." : plan === "enterprise" ? "Manage API keys and analyze ideas from your own tools." : "Export reports as PDF, CSV, or Word document and email them to yourself."}</p>
           </div>
-          {plan === "enterprise" ? <Link href="/dashboard/api-keys" className="shrink-0 rounded-xl bg-indigo-500 px-4 py-2.5 text-center text-sm font-semibold text-white hover:bg-indigo-400">Manage API keys</Link> : plan === "pro" ? <Link href="/dashboard/upgrade" className="shrink-0 rounded-xl border border-white/10 px-4 py-2.5 text-center text-sm font-semibold text-slate-200 hover:bg-white/5">Manage plan</Link> : <Link href="/dashboard/upgrade" className="shrink-0 rounded-xl bg-indigo-500 px-4 py-2.5 text-center text-sm font-semibold text-white hover:bg-indigo-400">Compare plans</Link>}
+          {plan === "enterprise" ? <Link href="/dashboard/api-keys" className="shrink-0 rounded-xl bg-sky-500 px-4 py-2.5 text-center text-sm font-semibold text-white hover:bg-sky-400">Manage API keys</Link> : plan === "pro" ? <Link href="/dashboard/upgrade" className="shrink-0 rounded-xl border border-white/10 px-4 py-2.5 text-center text-sm font-semibold text-slate-200 hover:bg-white/5">Manage plan</Link> : <Link href="/dashboard/upgrade" className="shrink-0 rounded-xl bg-sky-500 px-4 py-2.5 text-center text-sm font-semibold text-white hover:bg-sky-400">Compare plans</Link>}
         </div>
-        {plan === "free" && <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-white/10"><div className="h-full rounded-full bg-indigo-400 transition-all" style={{ width: `${Math.min(100, Math.max(0, ((user?.monthlyTokens ?? 5) - (user?.tokens ?? 0)) / Math.max(1, user?.monthlyTokens ?? 5) * 100))}%` }} /></div>}
+        {plan === "free" && <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-white/10"><div className="h-full rounded-full bg-sky-400 transition-all" style={{ width: `${Math.min(100, Math.max(0, ((user?.monthlyTokens ?? 5) - (user?.tokens ?? 0)) / Math.max(1, user?.monthlyTokens ?? 5) * 100))}%` }} /></div>}
       </section>
 
       <div className="flex items-center gap-1 p-1 rounded-xl bg-white/[0.03] border border-white/[0.04] w-fit">
@@ -189,10 +235,10 @@ export default function DashboardPage() {
           <motion.div key="overview" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.2 }} className="space-y-6">
             <motion.div className="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4" variants={stagger} initial="hidden" animate="show">
               {[
-                { label: "Total Ideas", value: ideas.length, sub: `${stats.validated} validated`, icon: "M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10", color: "from-indigo-500 to-indigo-600" },
-                { label: "Validated", value: stats.validated, sub: `${stats.failed} failed`, icon: "M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z", color: "from-indigo-500 to-indigo-600" },
-                { label: plan === "free" ? "Credits left" : "Win Rate", value: plan === "free" ? (user?.tokens ?? 0) : stats.winRate, displayValue: plan === "free" ? `${user?.tokens ?? 0}` : `${stats.winRate}%`, sub: plan === "free" ? "resets monthly" : "success rate", icon: "M13 10V3L4 14h7v7l9-11h-7", color: "from-indigo-500 to-indigo-600" },
-                { label: "Avg Score", value: stats.avgScore, displayValue: `${stats.avgScore}%`, sub: `Peak: ${stats.topScore}%`, icon: "M13 7h8m0 0v8m0-8l-8 8-4-4-6 6", color: "from-indigo-500 to-indigo-600" },
+                { label: "Total Ideas", value: ideas.length, sub: `${stats.validated} validated`, icon: "M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10", color: "from-sky-500 to-sky-600" },
+                { label: "Validated", value: stats.validated, sub: `${stats.failed} failed`, icon: "M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z", color: "from-sky-500 to-sky-600" },
+                { label: plan === "free" ? "Credits left" : "Win Rate", value: plan === "free" ? (user?.tokens ?? 0) : stats.winRate, displayValue: plan === "free" ? `${user?.tokens ?? 0}` : `${stats.winRate}%`, sub: plan === "free" ? "resets monthly" : "success rate", icon: "M13 10V3L4 14h7v7l9-11h-7", color: "from-sky-500 to-sky-600" },
+                { label: "Avg Score", value: stats.avgScore, displayValue: `${stats.avgScore}%`, sub: `Peak: ${stats.topScore}%`, icon: "M13 7h8m0 0v8m0-8l-8 8-4-4-6 6", color: "from-sky-500 to-sky-600" },
               ].map((stat) => (
                 <motion.div key={stat.label} variants={fadeUp} className="card-premium rounded-xl p-4 lg:p-5 group">
                   <div className="flex items-start justify-between mb-3">
@@ -217,9 +263,9 @@ export default function DashboardPage() {
                   </div>
                   {scoreTrend.length > 1 ? (<LazyDashboardBarChart data={scoreTrend.map((d) => ({ name: d.date, value: d.score }))} />) : (
                     <div className="flex flex-col items-center justify-center h-[180px] text-center">
-                      <div className="w-12 h-12 rounded-xl bg-indigo-500/10 flex items-center justify-center mb-3"><svg className="w-6 h-6 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg></div>
+                      <div className="w-12 h-12 rounded-xl bg-sky-500/10 flex items-center justify-center mb-3"><svg className="w-6 h-6 text-sky-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg></div>
                       <p className="text-xs text-slate-500">Validate at least 2 ideas to see your trend</p>
-                      <Link href="/dashboard/new" className="mt-2 text-xs font-medium text-indigo-400 hover:text-indigo-300 transition-colors">Submit your first idea →</Link>
+                      <Link href="/dashboard/new" className="mt-2 text-xs font-medium text-sky-400 hover:text-sky-300 transition-colors">Submit your first idea →</Link>
                     </div>
                   )}
                 </motion.div>
@@ -239,14 +285,14 @@ export default function DashboardPage() {
                 {aiInsights.length > 0 && (
                   <motion.div variants={fadeUp} initial="hidden" animate="show">
                     <div className="flex items-center gap-2 mb-3">
-                      <div className="w-5 h-5 rounded-md bg-indigo-500 flex items-center justify-center"><svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0" /></svg></div>
+                      <div className="w-5 h-5 rounded-md bg-sky-500 flex items-center justify-center"><svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0" /></svg></div>
                       <h3 className="text-sm font-semibold text-white">AI Insights</h3>
                     </div>
                     <div className="grid sm:grid-cols-2 gap-3">
                       {aiInsights.map((insight, i) => (
                         <div key={i} className="card-premium rounded-xl p-4">
                           <div className="flex items-start gap-3">
-                            <div className="w-9 h-9 rounded-xl bg-indigo-500/15 text-indigo-300 flex items-center justify-center shrink-0">
+                            <div className="w-9 h-9 rounded-xl bg-sky-500/15 text-sky-300 flex items-center justify-center shrink-0">
                               <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d={insight.icon} /></svg>
                             </div>
                             <div className="flex-1 min-w-0">
@@ -264,10 +310,10 @@ export default function DashboardPage() {
                 <motion.div className="card-premium rounded-xl p-5" variants={fadeUp} initial="hidden" animate="show">
                   <div className="flex items-center justify-between mb-4">
                     <div><h3 className="text-sm font-semibold text-white">Recent Validations</h3><p className="text-[11px] text-slate-500 mt-0.5">Latest activity across your portfolio</p></div>
-                    <Link href="/dashboard/insights" className="text-[11px] font-medium text-indigo-400 hover:text-indigo-300 transition-colors">View all →</Link>
+                    <Link href="/dashboard/insights" className="text-[11px] font-medium text-sky-400 hover:text-sky-300 transition-colors">View all →</Link>
                   </div>
                   {loading ? (<div className="space-y-3">{[...Array(4)].map((_, i) => (<div key={i} className="flex items-center gap-3 p-3 rounded-xl bg-white/[0.02] animate-pulse"><div className="w-10 h-10 rounded-xl bg-white/[0.05]" /><div className="flex-1"><div className="w-3/4 h-3 bg-white/[0.05] rounded mb-1.5" /><div className="w-1/2 h-2 bg-white/[0.05] rounded" /></div></div>))}</div>) : recentIdeas.length === 0 ? (
-                    <div className="text-center py-10"><div className="w-14 h-14 rounded-2xl bg-indigo-500/10 flex items-center justify-center mx-auto mb-3"><svg className="w-7 h-7 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z" /></svg></div><p className="text-sm text-slate-400 mb-1">No validations yet</p><p className="text-[11px] text-slate-500">Submit an idea to see your timeline here</p></div>
+                    <div className="text-center py-10"><div className="w-14 h-14 rounded-2xl bg-sky-500/10 flex items-center justify-center mx-auto mb-3"><svg className="w-7 h-7 text-sky-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z" /></svg></div><p className="text-sm text-slate-400 mb-1">No validations yet</p><p className="text-[11px] text-slate-500">Submit an idea to see your timeline here</p></div>
                   ) : (
                     <div className="relative">
                       <div className="absolute left-[19px] top-4 bottom-4 w-px bg-white/[0.04]" />
@@ -278,7 +324,7 @@ export default function DashboardPage() {
                               {idea.status === "validated" ? (<svg className="w-3 h-3 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>) : idea.status === "failed" ? (<svg className="w-3 h-3 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>) : idea.status === "processing" ? (<div className="w-2.5 h-2.5 border-[1.5px] border-blue-400 border-t-transparent rounded-full animate-spin" />) : (<svg className="w-3 h-3 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>)}
                             </div>
                             <div className="flex-1 min-w-0">
-                              <p className="text-[13px] font-medium text-white truncate group-hover:text-indigo-400 transition-colors">{idea.title}</p>
+                              <p className="text-[13px] font-medium text-white truncate group-hover:text-sky-400 transition-colors">{idea.title}</p>
                               <p className="text-[10px] text-slate-500">{idea.industry || "General"} · {new Date(idea.createdAt).toLocaleDateString()}</p>
                             </div>
                             <div className="shrink-0 flex items-center gap-2">
@@ -305,18 +351,24 @@ export default function DashboardPage() {
                   <h3 className="text-sm font-semibold text-white mb-3">Quick Actions</h3>
                   <div className="space-y-2">
                     {[
-                      { href: "/dashboard/new", label: "Validate New Idea", desc: "AI validation in 30s", icon: "M12 4v16m8-8H4", grad: "from-indigo-500/10 to-purple-500/10 hover:from-indigo-500/20 hover:to-purple-500/20 border-indigo-500/20", ibg: "bg-indigo-500/20 text-indigo-400" },
+                      { href: "/dashboard/new", label: "Validate New Idea", desc: "AI validation in 30s", icon: "M12 4v16m8-8H4", grad: "from-sky-500/10 to-orange-500/10 hover:from-sky-500/20 hover:to-orange-500/20 border-sky-500/20", ibg: "bg-sky-500/20 text-sky-400" },
                       { href: "/dashboard/generate", label: "AI Idea Generator", desc: "Brainstorm opportunities", icon: "M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3", grad: "from-amber-500/10 to-orange-500/10 hover:from-amber-500/20 hover:to-orange-500/20 border-amber-500/20", ibg: "bg-amber-500/20 text-amber-400" },
                       { href: "/dashboard/compare", label: "Compare Ideas", desc: "Side-by-side analysis", icon: "M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2z", grad: "from-emerald-500/10 to-teal-500/10 hover:from-emerald-500/20 hover:to-teal-500/20 border-emerald-500/20", ibg: "bg-emerald-500/20 text-emerald-400" },
                     ].map((a) => (
-                      <Link key={a.href} href={a.href} className="flex items-center gap-3 p-3 rounded-xl bg-indigo-500/[0.03] hover:bg-indigo-500/[0.08] border border-indigo-400/15 transition-all group">
-                        <div className="w-9 h-9 rounded-lg bg-indigo-500/15 text-indigo-300 flex items-center justify-center group-hover:scale-105 transition-transform">
+                      <Link key={a.href} href={a.href} className="flex items-center gap-3 p-3 rounded-xl bg-sky-500/[0.03] hover:bg-sky-500/[0.08] border border-sky-400/15 transition-all group">
+                        <div className="w-9 h-9 rounded-lg bg-sky-500/15 text-sky-300 flex items-center justify-center group-hover:scale-105 transition-transform">
                           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d={a.icon} /></svg>
                         </div>
                         <div><p className="text-sm font-medium text-white">{a.label}</p><p className="text-[10px] text-slate-400">{a.desc}</p></div>
                       </Link>
                     ))}
                   </div>
+                </motion.div>
+
+                <motion.div className="card-premium rounded-xl p-5" variants={fadeUp} initial="hidden" animate="show">
+                  <h3 className="text-sm font-semibold text-white mb-1">Stay in the loop</h3>
+                  <p className="text-[11px] text-slate-500 mb-1">Product updates, releases, and news from Sunshine Tech Solution.</p>
+                  <StayInLoop compact />
                 </motion.div>
 
                 {ideas.length > 0 && (<>
@@ -333,7 +385,7 @@ export default function DashboardPage() {
                             <span className="text-[11px] font-bold text-slate-600 w-4">#{i + 1}</span>
                             <ScoreRing score={idea.report?.viabilityScore || 0} size={32} />
                             <div className="flex-1 min-w-0">
-                              <p className="text-[13px] font-medium text-white truncate group-hover:text-indigo-400 transition-colors">{idea.title}</p>
+                              <p className="text-[13px] font-medium text-white truncate group-hover:text-sky-400 transition-colors">{idea.title}</p>
                               <p className="text-[10px] text-slate-500">{idea.industry}</p>
                             </div>
                           </Link>
@@ -348,7 +400,7 @@ export default function DashboardPage() {
                         {industryBreakdown.map((ind, i) => (
                           <div key={ind.name} className="flex items-center gap-3">
                             <span className="text-[11px] font-bold text-slate-600 w-4">{i + 1}</span>
-                            <div className="flex-1"><div className="flex items-center justify-between mb-1"><span className="text-xs font-medium text-slate-300 truncate">{ind.name}</span><span className="text-xs font-bold text-white">{ind.value}</span></div><div className="h-1.5 rounded-full bg-white/[0.04] overflow-hidden"><div className="h-full rounded-full bg-gradient-to-r from-indigo-500 to-amber-500 transition-all duration-700" style={{ width: `${(ind.value / ideas.length) * 100}%` }} /></div></div>
+                            <div className="flex-1"><div className="flex items-center justify-between mb-1"><span className="text-xs font-medium text-slate-300 truncate">{ind.name}</span><span className="text-xs font-bold text-white">{ind.value}</span></div><div className="h-1.5 rounded-full bg-white/[0.04] overflow-hidden"><div className="h-full rounded-full bg-gradient-to-r from-sky-500 to-amber-500 transition-all duration-700" style={{ width: `${(ind.value / ideas.length) * 100}%` }} /></div></div>
                           </div>
                         ))}
                       </div>
@@ -365,34 +417,34 @@ export default function DashboardPage() {
             <div className="flex flex-col sm:flex-row gap-3">
               <div className="relative flex-1">
                 <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
-                <input type="text" placeholder="Search ideas..." value={search} onChange={(e) => setSearch(e.target.value)} className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white/[0.05] border border-white/[0.06] text-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500/30 transition-all placeholder:text-slate-500" />
+                <input type="text" placeholder="Search ideas..." value={search} onChange={(e) => setSearch(e.target.value)} className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white/[0.05] border border-white/[0.06] text-white text-sm focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500/30 transition-all placeholder:text-slate-500" />
               </div>
-              <select value={filter} onChange={(e) => setFilter(e.target.value)} className="px-4 py-2.5 rounded-xl bg-white/[0.05] border border-white/[0.06] text-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 appearance-none cursor-pointer">
+              <select value={filter} onChange={(e) => setFilter(e.target.value)} className="px-4 py-2.5 rounded-xl bg-white/[0.05] border border-white/[0.06] text-white text-sm focus:outline-none focus:ring-2 focus:ring-sky-500/20 appearance-none cursor-pointer">
                 <option value="all" className="bg-[#0c1222]">All Status</option>
                 <option value="validated" className="bg-[#0c1222]">Validated</option>
                 <option value="pending" className="bg-[#0c1222]">Pending</option>
                 <option value="failed" className="bg-[#0c1222]">Failed</option>
               </select>
-              <select value={sort} onChange={(e) => setSort(e.target.value)} className="px-4 py-2.5 rounded-xl bg-white/[0.05] border border-white/[0.06] text-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 appearance-none cursor-pointer">
+              <select value={sort} onChange={(e) => setSort(e.target.value)} className="px-4 py-2.5 rounded-xl bg-white/[0.05] border border-white/[0.06] text-white text-sm focus:outline-none focus:ring-2 focus:ring-sky-500/20 appearance-none cursor-pointer">
                 <option value="newest" className="bg-[#0c1222]">Newest First</option>
                 <option value="oldest" className="bg-[#0c1222]">Oldest First</option>
                 <option value="score-high" className="bg-[#0c1222]">Highest Score</option>
                 <option value="score-low" className="bg-[#0c1222]">Lowest Score</option>
               </select>
               <div className="flex bg-white/[0.05] border border-white/[0.06] rounded-xl overflow-hidden">
-                <button onClick={() => setView("grid")} className={`px-3 py-2 transition-colors ${view === "grid" ? "bg-indigo-500/15 text-indigo-400" : "text-slate-500 hover:text-slate-300"}`}><svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" /></svg></button>
-                <button onClick={() => setView("list")} className={`px-3 py-2 transition-colors ${view === "list" ? "bg-indigo-500/15 text-indigo-400" : "text-slate-500 hover:text-slate-300"}`}><svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 10h16M4 14h16M4 18h16" /></svg></button>
+                <button onClick={() => setView("grid")} className={`px-3 py-2 transition-colors ${view === "grid" ? "bg-sky-500/15 text-sky-400" : "text-slate-500 hover:text-slate-300"}`}><svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" /></svg></button>
+                <button onClick={() => setView("list")} className={`px-3 py-2 transition-colors ${view === "list" ? "bg-sky-500/15 text-sky-400" : "text-slate-500 hover:text-slate-300"}`}><svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 10h16M4 14h16M4 18h16" /></svg></button>
               </div>
             </div>
 
             {loading ? (<div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">{[...Array(6)].map((_, i) => (<div key={i} className="card-premium rounded-xl p-5 animate-pulse"><div className="flex items-start justify-between mb-3"><div className="w-16 h-5 bg-white/[0.05] rounded-full" /><div className="w-10 h-5 bg-white/[0.05] rounded" /></div><div className="w-3/4 h-4 bg-white/[0.05] rounded mb-2" /><div className="w-full h-3 bg-white/[0.05] rounded mb-1" /><div className="w-2/3 h-3 bg-white/[0.05] rounded" /></div>))}</div>) : filtered.length === 0 ? (
-              <div className="text-center py-20"><div className="w-16 h-16 rounded-2xl bg-indigo-500/10 flex items-center justify-center mx-auto mb-4"><svg className="w-8 h-8 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z" /></svg></div><h3 className="text-lg font-semibold text-white">{search ? "No matching ideas" : "No ideas yet"}</h3><p className="text-slate-400 text-sm mt-1 mb-4">{search ? "Try a different search term" : "Submit your first business idea to get AI-powered validation"}</p>{!search && <Link href="/dashboard/new" className="gradient-btn text-white px-5 py-2.5 rounded-xl text-sm font-semibold inline-block shadow-lg shadow-indigo-500/25">Submit Your First Idea</Link>}</div>
+              <div className="text-center py-20"><div className="w-16 h-16 rounded-2xl bg-sky-500/10 flex items-center justify-center mx-auto mb-4"><svg className="w-8 h-8 text-sky-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z" /></svg></div><h3 className="text-lg font-semibold text-white">{search ? "No matching ideas" : "No ideas yet"}</h3><p className="text-slate-400 text-sm mt-1 mb-4">{search ? "Try a different search term" : "Submit your first business idea to get AI-powered validation"}</p>{!search && <Link href="/dashboard/new" className="gradient-btn text-white px-5 py-2.5 rounded-xl text-sm font-semibold inline-block shadow-lg shadow-sky-500/25">Submit Your First Idea</Link>}</div>
             ) : view === "grid" ? (
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {filtered.map((idea) => (
                   <Link key={idea.id} href={`/dashboard/idea/${idea.id}`} className="card-premium rounded-xl p-5 block group">
                     <div className="flex items-start justify-between mb-3"><IdeaStatusBadge status={idea.status} />{idea.report && <ScoreRing score={idea.report.viabilityScore} size={40} />}</div>
-                    <h3 className="font-semibold text-white mb-1 line-clamp-1 group-hover:text-indigo-400 transition-colors">{idea.title}</h3>
+                    <h3 className="font-semibold text-white mb-1 line-clamp-1 group-hover:text-sky-400 transition-colors">{idea.title}</h3>
                     <p className="text-sm text-slate-400 line-clamp-2 mb-3">{idea.description}</p>
                     {idea.status === "failed" && (<button onClick={(e) => { e.preventDefault(); handleRetry(idea.id); }} disabled={retryingId === idea.id} className="w-full text-center text-xs font-medium text-red-400 hover:text-red-300 py-1.5 rounded-lg hover:bg-red-500/10 transition-colors disabled:opacity-50 flex items-center justify-center gap-1.5 mb-2"><svg className={`w-3.5 h-3.5 ${retryingId === idea.id ? "animate-spin" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>{retryingId === idea.id ? "Retrying..." : "Retry Validation"}</button>)}
                     <div className="flex items-center gap-2 text-xs text-slate-500"><span>{idea.industry}</span><span className="w-1 h-1 rounded-full bg-slate-600" /><span>{new Date(idea.createdAt).toLocaleDateString()}</span></div>
@@ -403,7 +455,7 @@ export default function DashboardPage() {
               <div className="space-y-2">
                 {filtered.map((idea) => (
                   <Link key={idea.id} href={`/dashboard/idea/${idea.id}`} className="card-premium rounded-xl p-4 flex items-center gap-4 group">
-                    <div className="flex-1 min-w-0"><div className="flex items-center gap-2 mb-1"><h3 className="font-semibold text-white truncate group-hover:text-indigo-400 transition-colors">{idea.title}</h3><IdeaStatusBadge status={idea.status} /></div><p className="text-sm text-slate-400 truncate">{idea.description}</p></div>
+                    <div className="flex-1 min-w-0"><div className="flex items-center gap-2 mb-1"><h3 className="font-semibold text-white truncate group-hover:text-sky-400 transition-colors">{idea.title}</h3><IdeaStatusBadge status={idea.status} /></div><p className="text-sm text-slate-400 truncate">{idea.description}</p></div>
                     <div className="text-right shrink-0">{idea.report ? <p className="text-xl font-bold text-white">{idea.report.viabilityScore}%</p> : <p className="text-sm text-slate-600">—</p>}<p className="text-xs text-slate-500">{new Date(idea.createdAt).toLocaleDateString()}</p></div>
                   </Link>
                 ))}
@@ -430,7 +482,7 @@ export default function DashboardPage() {
                   {industryBreakdown.map((ind, i) => (
                     <div key={ind.name} className="flex items-center gap-4">
                       <span className="text-xs font-bold text-slate-500 w-6">{i + 1}.</span>
-                      <div className="flex-1"><div className="flex items-center justify-between mb-1.5"><span className="text-sm font-medium text-slate-300">{ind.name}</span><span className="text-sm font-bold text-white">{ind.value} ideas</span></div><div className="h-2 rounded-full bg-white/[0.04] overflow-hidden"><div className="h-full rounded-full bg-gradient-to-r from-indigo-500 to-amber-500 transition-all duration-700" style={{ width: `${(ind.value / ideas.length) * 100}%` }} /></div></div>
+                      <div className="flex-1"><div className="flex items-center justify-between mb-1.5"><span className="text-sm font-medium text-slate-300">{ind.name}</span><span className="text-sm font-bold text-white">{ind.value} ideas</span></div><div className="h-2 rounded-full bg-white/[0.04] overflow-hidden"><div className="h-full rounded-full bg-gradient-to-r from-sky-500 to-amber-500 transition-all duration-700" style={{ width: `${(ind.value / ideas.length) * 100}%` }} /></div></div>
                     </div>
                   ))}
                 </div>

@@ -7,9 +7,9 @@ const features = [
     title: "9-Dimension Deep Dive",
     desc: "Problem Severity, Market Urgency, Market Size, Competitive Moat, Ease of Replica, Revenue Potential, Founder-Idea Fit, Time to Market, and Scalability.",
     icon: "M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z",
-    gradient: "from-indigo-500/20 to-indigo-600/5",
-    iconColor: "text-indigo-400",
-    borderColor: "hover:border-indigo-500/30",
+    gradient: "from-sky-500/20 to-sky-600/5",
+    iconColor: "text-sky-400",
+    borderColor: "hover:border-sky-500/30",
     span: "md:col-span-1 md:row-span-2",
     tall: true,
     image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=800&fit=crop&auto=format&q=80",
@@ -19,9 +19,9 @@ const features = [
     title: "SWOT Analysis",
     desc: "Auto-generated Strengths, Weaknesses, Opportunities, and Threats tailored to your specific idea and competitive landscape.",
     icon: "M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z",
-    gradient: "from-purple-500/20 to-purple-600/5",
-    iconColor: "text-purple-400",
-    borderColor: "hover:border-purple-500/30",
+    gradient: "from-orange-500/20 to-orange-600/5",
+    iconColor: "text-orange-400",
+    borderColor: "hover:border-orange-500/30",
     span: "",
     tall: false,
     image: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&h=300&fit=crop&auto=format&q=80",
@@ -93,7 +93,7 @@ const item = {
 export default function Features() {
   return (
     <section id="features" className="py-24 bg-[#060a13] relative">
-      <div className="absolute inset-0 bg-gradient-to-b from-indigo-500/[0.02] via-transparent to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-b from-sky-500/[0.02] via-transparent to-transparent" />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         <motion.div
           className="text-center mb-16"
@@ -102,7 +102,7 @@ export default function Features() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <span className="inline-block text-xs font-semibold text-indigo-400 bg-indigo-500/10 border border-indigo-500/20 px-3 py-1 rounded-full mb-5 tracking-wider uppercase">Features</span>
+          <span className="inline-block text-xs font-semibold text-sky-400 bg-sky-500/10 border border-sky-500/20 px-3 py-1 rounded-full mb-5 tracking-wider uppercase">Features</span>
           <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-tight">Everything you need to validate</h2>
           <p className="text-slate-400 mt-3 max-w-2xl mx-auto">Go beyond simple scoring. Get a complete analysis toolkit that helps you understand, test, and refine your business idea.</p>
         </motion.div>

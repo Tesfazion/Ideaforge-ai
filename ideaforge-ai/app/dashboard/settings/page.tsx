@@ -176,7 +176,7 @@ export default function SettingsPage() {
           <select
             value={selectedProvider}
             onChange={(e) => handleProviderChange(e.target.value)}
-            className="w-full bg-white/[0.04] border border-white/[0.08] rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-indigo-500/50 transition-colors"
+            className="w-full bg-white/[0.04] border border-white/[0.08] rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-sky-500/50 transition-colors"
           >
             {providers.map((p) => (
               <option key={p.id} value={p.id} className="bg-[#0c1222]">
@@ -187,7 +187,7 @@ export default function SettingsPage() {
           {currentProvider && (
             <p className="text-xs text-slate-500 mt-2">
               Get your API key:{" "}
-              <a href={currentProvider.docsUrl} target="_blank" rel="noopener noreferrer" className="text-indigo-400 hover:underline">
+              <a href={currentProvider.docsUrl} target="_blank" rel="noopener noreferrer" className="text-sky-400 hover:underline">
                 {currentProvider.docsUrl}
               </a>
             </p>
@@ -199,7 +199,7 @@ export default function SettingsPage() {
           <select
             value={selectedModel}
             onChange={(e) => setSelectedModel(e.target.value)}
-            className="w-full bg-white/[0.04] border border-white/[0.08] rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-indigo-500/50 transition-colors"
+            className="w-full bg-white/[0.04] border border-white/[0.08] rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-sky-500/50 transition-colors"
           >
             {currentProvider?.models.map((m) => (
               <option key={m} value={m} className="bg-[#0c1222]">
@@ -219,7 +219,7 @@ export default function SettingsPage() {
               value={apiKey}
               onChange={(e) => setApiKey(e.target.value)}
               placeholder={hasKey ? `Current: ${maskedKey}` : currentProvider ? `Paste your key (${currentProvider.keyPrefix}...)` : "Paste your API key"}
-              className="w-full bg-white/[0.04] border border-white/[0.08] rounded-xl px-4 py-2.5 pr-10 text-sm text-white placeholder:text-slate-500 focus:outline-none focus:border-indigo-500/50 transition-colors font-mono"
+              className="w-full bg-white/[0.04] border border-white/[0.08] rounded-xl px-4 py-2.5 pr-10 text-sm text-white placeholder:text-slate-500 focus:outline-none focus:border-sky-500/50 transition-colors font-mono"
             />
             <button
               type="button"
@@ -239,7 +239,7 @@ export default function SettingsPage() {
           <button
             onClick={handleSave}
             disabled={!apiKey || saving}
-            className="px-5 py-2.5 rounded-xl bg-indigo-500 text-white text-sm font-semibold hover:bg-indigo-600 transition-colors disabled:opacity-50 flex items-center gap-2"
+            className="px-5 py-2.5 rounded-xl bg-sky-500 text-white text-sm font-semibold hover:bg-sky-600 transition-colors disabled:opacity-50 flex items-center gap-2"
           >
             {saving ? (
               <>
@@ -260,13 +260,13 @@ export default function SettingsPage() {
         </div>
       </div>
 
-      <div className="rounded-xl bg-indigo-500/5 border border-indigo-500/10 p-5">
-        <h3 className="text-sm font-semibold text-indigo-300 mb-2">How it works</h3>
+      <div className="rounded-xl bg-sky-500/5 border border-sky-500/10 p-5">
+        <h3 className="text-sm font-semibold text-sky-300 mb-2">How it works</h3>
         <ul className="space-y-2 text-xs text-slate-400">
-          <li className="flex gap-2"><span className="text-indigo-400">1.</span> Choose your preferred AI provider and model.</li>
-          <li className="flex gap-2"><span className="text-indigo-400">2.</span> Paste your API key — it&apos;s encrypted at rest with AES-256.</li>
-          <li className="flex gap-2"><span className="text-indigo-400">3.</span> All your validations use YOUR key and YOUR model — no rate limits from us.</li>
-          <li className="flex gap-2"><span className="text-indigo-400">4.</span> Remove your key anytime to revert to the platform default model.</li>
+          <li className="flex gap-2"><span className="text-sky-400">1.</span> Choose your preferred AI provider and model.</li>
+          <li className="flex gap-2"><span className="text-sky-400">2.</span> Paste your API key — it&apos;s encrypted at rest with AES-256.</li>
+          <li className="flex gap-2"><span className="text-sky-400">3.</span> All your validations use YOUR key and YOUR model — no rate limits from us.</li>
+          <li className="flex gap-2"><span className="text-sky-400">4.</span> Remove your key anytime to revert to the platform default model.</li>
         </ul>
       </div>
     </div>

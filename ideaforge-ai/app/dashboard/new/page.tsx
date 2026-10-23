@@ -73,7 +73,7 @@ export default function NewIdeaPage() {
   return (
     <div className="max-w-2xl mx-auto space-y-6 animate-slide-up">
       <div className="relative rounded-3xl overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/10 via-purple-500/10 to-amber-500/10" />
+        <div className="absolute inset-0 bg-gradient-to-r from-sky-500/10 via-orange-500/10 to-amber-500/10" />
         <div className="absolute inset-0 bg-[#0c1222]/80 backdrop-blur-xl" />
         <div className="relative px-6 py-8 sm:px-10">
           <h1 className="text-2xl font-bold text-white mb-1">Submit a New Idea</h1>
@@ -115,7 +115,7 @@ export default function NewIdeaPage() {
         <div>
           <label className="block text-sm font-medium text-slate-200 mb-1.5">Description *</label>
           <textarea required rows={4} value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Describe your idea in detail..."
-            className="w-full px-4 py-2.5 rounded-xl border border-white/[0.06] bg-white/[0.05] text-slate-100 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-colors resize-none placeholder:text-slate-500" />
+            className="w-full px-4 py-2.5 rounded-xl border border-white/[0.06] bg-white/[0.05] text-slate-100 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 transition-colors resize-none placeholder:text-slate-500" />
           <div className="flex items-center justify-between mt-1">
             <span className="text-[10px] text-slate-500">{description.length}/500</span>
             {description.length < 20 && description.length > 0 && <span className="text-[10px] text-amber-500">Add more detail for better analysis</span>}
@@ -130,7 +130,7 @@ export default function NewIdeaPage() {
           <div>
             <label className="block text-sm font-medium text-slate-200 mb-1.5">Industry</label>
             <select value={industry} onChange={(e) => setIndustry(e.target.value)}
-              className="w-full px-4 py-2.5 rounded-xl border border-white/[0.06] bg-white/[0.05] text-slate-100 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20">
+              className="w-full px-4 py-2.5 rounded-xl border border-white/[0.06] bg-white/[0.05] text-slate-100 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500/20">
               <option value="">Select industry</option>
               <option>Technology</option><option>Healthcare</option><option>Finance</option><option>E-commerce</option>
               <option>Education</option><option>Entertainment</option><option>Food & Beverage</option><option>Real Estate</option>
@@ -140,7 +140,7 @@ export default function NewIdeaPage() {
           <div>
             <label className="block text-sm font-medium text-slate-200 mb-1.5">Market Scope</label>
             <select value={marketScope} onChange={(e) => setMarketScope(e.target.value)}
-              className="w-full px-4 py-2.5 rounded-xl border border-white/[0.06] bg-white/[0.05] text-slate-100 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-colors">
+              className="w-full px-4 py-2.5 rounded-xl border border-white/[0.06] bg-white/[0.05] text-slate-100 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 transition-colors">
               <option value="global">Global SaaS</option>
               <option value="country">Country-Specific</option>
               <option value="local">Local Metro-Area</option>

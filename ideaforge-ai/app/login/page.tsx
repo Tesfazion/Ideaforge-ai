@@ -23,8 +23,8 @@ export default function LoginPage() {
       await login(email, password);
       router.push("/dashboard");
     } catch (err: unknown) {
-      const error = err as { error?: string };
-      setError(error.error || "Login failed");
+      const error = err as { error?: string; message?: string };
+      setError(error.error || error.message || "Login failed");
     } finally {
       setLoading(false);
     }
@@ -60,11 +60,11 @@ export default function LoginPage() {
           <form onSubmit={handleSubmit} className="space-y-4">
             <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.1 }}>
               <label className="block text-sm font-medium text-slate-300 mb-1.5">Email</label>
-              <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} className="w-full px-4 py-2.5 rounded-xl border border-white/[0.06] bg-white/[0.05] text-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-colors placeholder:text-slate-500" placeholder="you@example.com" />
+              <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} className="w-full px-4 py-2.5 rounded-xl border border-white/[0.06] bg-white/[0.05] text-white text-sm focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 transition-colors placeholder:text-slate-500" placeholder="you@example.com" />
             </motion.div>
             <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.2 }} className="relative">
               <label className="block text-sm font-medium text-slate-300 mb-1.5">Password</label>
-              <input type={showPassword ? "text" : "password"} required value={password} onChange={(e) => setPassword(e.target.value)} className="w-full px-4 py-2.5 rounded-xl border border-white/[0.06] bg-white/[0.05] text-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-colors placeholder:text-slate-500 pr-10" placeholder="Your password" />
+              <input type={showPassword ? "text" : "password"} required value={password} onChange={(e) => setPassword(e.target.value)} className="w-full px-4 py-2.5 rounded-xl border border-white/[0.06] bg-white/[0.05] text-white text-sm focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 transition-colors placeholder:text-slate-500 pr-10" placeholder="Your password" />
               <button type="button" onClick={() => setShowPassword((v) => !v)} className="absolute right-3 top-8 p-1 rounded-md text-slate-400 hover:text-slate-200 transition-colors" aria-label={showPassword ? "Hide password" : "Show password"}>
                 {showPassword ? (
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.292-4.292M3.042 20.063A9.965 9.965 0 0112 19c4.478 0 8.268-2.943 9.543-7a9.97 9.97 0 01-1.563-3.029M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
@@ -78,7 +78,7 @@ export default function LoginPage() {
             </motion.button>
           </form>
           <p className="text-center text-sm text-slate-400 mt-6">
-            Don&apos;t have an account? <Link href="/register" className="text-indigo-400 font-medium hover:underline">Sign up</Link>
+            Don&apos;t have an account? <Link href="/register" className="text-sky-400 font-medium hover:underline">Sign up</Link>
           </p>
         </motion.div>
       </div>

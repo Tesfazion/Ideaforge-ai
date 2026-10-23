@@ -106,7 +106,7 @@ function TestimonialCard({ t }: { t: typeof testimonials[0] }) {
 export default function Testimonials() {
   return (
     <section className="py-24 bg-[#060a13] relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-purple-500/[0.02] via-transparent to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-b from-orange-500/[0.02] via-transparent to-transparent" />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         <motion.div
           className="text-center mb-12"
@@ -115,7 +115,7 @@ export default function Testimonials() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <span className="inline-block text-xs font-semibold text-indigo-400 bg-indigo-500/10 border border-indigo-500/20 px-3 py-1 rounded-full mb-5 tracking-wider uppercase">Testimonials</span>
+          <span className="inline-block text-xs font-semibold text-sky-400 bg-sky-500/10 border border-sky-500/20 px-3 py-1 rounded-full mb-5 tracking-wider uppercase">Testimonials</span>
           <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-tight">Loved by entrepreneurs</h2>
           <p className="text-slate-400 mt-3">Rated 4.9/5 from 2,400+ reviews</p>
         </motion.div>

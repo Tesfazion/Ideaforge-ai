@@ -170,7 +170,7 @@ export default function ReportPage() {
   const verdict = useMemo(() => {
     if (!report) return { text: "", color: "", desc: "" };
     return report.viabilityScore >= 80 ? { text: "Excellent", color: "bg-emerald-500", desc: "This idea has strong potential. Proceed with confidence!" }
-      : report.viabilityScore >= 60 ? { text: "Good", color: "bg-indigo-500", desc: "Solid idea with manageable risks. Refine your approach." }
+      : report.viabilityScore >= 60 ? { text: "Good", color: "bg-sky-500", desc: "Solid idea with manageable risks. Refine your approach." }
       : report.viabilityScore >= 40 ? { text: "Fair", color: "bg-amber-500", desc: "Needs significant improvements. Consider the pivot suggestions below." }
       : { text: "Needs Work", color: "bg-red-500", desc: "Major challenges ahead. Explore the pivot assistant for alternatives." };
   }, [report]);
@@ -372,7 +372,7 @@ export default function ReportPage() {
     <div className="max-w-4xl mx-auto space-y-6 animate-slide-up">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <Link href="/dashboard" className="text-sm text-indigo-400 hover:underline mb-1 inline-block">&larr; Back to Dashboard</Link>
+          <Link href="/dashboard" className="text-sm text-sky-400 hover:underline mb-1 inline-block">&larr; Back to Dashboard</Link>
           <h1 className="text-2xl font-bold text-white">{ideaTitle}</h1>
         </div>
         <div className="flex gap-2 flex-wrap">
@@ -391,14 +391,14 @@ export default function ReportPage() {
             {downloading ? "Exporting..." : "Export PDF"}
           </button>
           {user?.plan === "free" ? (
-            <Link href="/dashboard/upgrade" className="px-4 py-2 rounded-xl border border-indigo-400/20 bg-indigo-400/10 text-sm font-medium text-indigo-200 hover:bg-indigo-400/15 transition-colors">Email report · Pro</Link>
+            <Link href="/dashboard/upgrade" className="px-4 py-2 rounded-xl border border-sky-400/20 bg-sky-400/10 text-sm font-medium text-sky-200 hover:bg-sky-400/15 transition-colors">Email report · Pro</Link>
           ) : (
             <div className="flex items-center gap-1.5">
               <label htmlFor="email-report-format" className="sr-only">Email attachment format</label>
-              <select id="email-report-format" value={emailFormat} onChange={(event) => setEmailFormat(event.target.value as "csv" | "doc")} className="rounded-xl border border-white/[0.08] bg-[#0c1222] px-2.5 py-2 text-sm text-slate-200 outline-none focus:border-indigo-400/50">
+              <select id="email-report-format" value={emailFormat} onChange={(event) => setEmailFormat(event.target.value as "csv" | "doc")} className="rounded-xl border border-white/[0.08] bg-[#0c1222] px-2.5 py-2 text-sm text-slate-200 outline-none focus:border-sky-400/50">
                 <option value="csv">CSV</option><option value="doc">Word document</option>
               </select>
-              <button onClick={handleEmailReport} disabled={emailSending} className="px-3 py-2 rounded-xl border border-indigo-400/20 bg-indigo-500/15 text-sm font-medium text-indigo-100 hover:bg-indigo-500/25 disabled:opacity-50 transition-colors">
+              <button onClick={handleEmailReport} disabled={emailSending} className="px-3 py-2 rounded-xl border border-sky-400/20 bg-sky-500/15 text-sm font-medium text-sky-100 hover:bg-sky-500/25 disabled:opacity-50 transition-colors">
                 {emailSending ? "Sending…" : "Email me"}
               </button>
             </div>
@@ -413,7 +413,7 @@ export default function ReportPage() {
         </div>
       </div>
 
-      {emailMessage && <p role="status" className="rounded-xl border border-indigo-400/20 bg-indigo-400/[0.06] px-4 py-3 text-sm text-indigo-100">{emailMessage}</p>}
+      {emailMessage && <p role="status" className="rounded-xl border border-sky-400/20 bg-sky-400/[0.06] px-4 py-3 text-sm text-sky-100">{emailMessage}</p>}
 
       {report!.usedFallback && (
         <div className="rounded-xl border border-amber-500/30 bg-amber-500/10 px-4 py-3 flex items-start gap-3">
@@ -477,7 +477,7 @@ export default function ReportPage() {
               </div>
               <h3 className="text-base font-semibold text-white">Value Hypothesis</h3>
             </div>
-            <div className="bg-gradient-to-r from-indigo-500/10 to-violet-500/10 rounded-xl px-5 py-4 border border-indigo-500/20">
+            <div className="bg-gradient-to-r from-sky-500/10 to-violet-500/10 rounded-xl px-5 py-4 border border-sky-500/20">
               <p className="text-sm text-slate-200 leading-relaxed italic">&ldquo;{report!.valueHypothesis}&rdquo;</p>
             </div>
             {report!.riskiestAssumption && (
@@ -516,7 +516,7 @@ export default function ReportPage() {
               <h3 className="text-base font-semibold text-white">GTM Experiments & Action Plan</h3>
             </div>
 
-            <div className="bg-gradient-to-r from-violet-500/10 to-indigo-500/10 rounded-xl p-5 border border-violet-500/20 space-y-3">
+            <div className="bg-gradient-to-r from-violet-500/10 to-sky-500/10 rounded-xl p-5 border border-violet-500/20 space-y-3">
               <div>
                 <p className="text-[10px] uppercase tracking-wider text-violet-400 font-semibold mb-1">Your Specific ICP</p>
                 <p className="text-sm text-slate-200 leading-relaxed">{parsedGTM.specificICP}</p>
@@ -569,7 +569,7 @@ export default function ReportPage() {
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center gap-2 mb-0.5">
                         <p className="text-sm font-medium text-white">{item.task}</p>
-                        <span className="px-1.5 py-0.5 rounded text-[10px] font-medium bg-indigo-500/15 text-indigo-400 shrink-0">{item.deadline}</span>
+                        <span className="px-1.5 py-0.5 rounded text-[10px] font-medium bg-sky-500/15 text-sky-400 shrink-0">{item.deadline}</span>
                       </div>
                       <p className="text-xs text-slate-400">{item.why}</p>
                     </div>
@@ -667,8 +667,8 @@ export default function ReportPage() {
             </div>
 
             <div className="grid sm:grid-cols-3 gap-3">
-              <div className="rounded-xl border border-indigo-500/20 bg-indigo-500/5 p-4 text-center">
-                <p className="text-[10px] uppercase tracking-wider text-indigo-400 dark:text-indigo-400 font-semibold mb-1">TAM</p>
+              <div className="rounded-xl border border-sky-500/20 bg-sky-500/5 p-4 text-center">
+                <p className="text-[10px] uppercase tracking-wider text-sky-400 dark:text-sky-400 font-semibold mb-1">TAM</p>
                 <p className="text-xl font-bold text-white">{parsedMarketSizing.tamValue || "N/A"}</p>
                 <p className="text-xs text-slate-300 mt-1 leading-relaxed">{parsedMarketSizing.tam}</p>
               </div>
@@ -715,7 +715,7 @@ export default function ReportPage() {
                       <h4 className="text-sm font-semibold text-white">{day.theme}</h4>
                     </div>
                     {day.template && (
-                      <span className="px-2 py-0.5 rounded-full text-[10px] font-medium bg-indigo-500/15 text-indigo-400">{day.template}</span>
+                      <span className="px-2 py-0.5 rounded-full text-[10px] font-medium bg-sky-500/15 text-sky-400">{day.template}</span>
                     )}
                   </div>
                   <ul className="space-y-1 mb-2">
@@ -793,8 +793,8 @@ export default function ReportPage() {
         {parsedCompetitive && (
           <div className="card-base rounded-2xl p-6 space-y-4">
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg bg-indigo-500/15 flex items-center justify-center">
-                <svg className="w-4 h-4 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <div className="w-8 h-8 rounded-lg bg-sky-500/15 flex items-center justify-center">
+                <svg className="w-4 h-4 text-sky-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
                 </svg>
               </div>
@@ -924,7 +924,7 @@ export default function ReportPage() {
         </div>
 
         {[
-          { title: "Market Analysis", content: report!.marketAnalysis, icon: "M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z", color: "text-indigo-400" },
+          { title: "Market Analysis", content: report!.marketAnalysis, icon: "M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z", color: "text-sky-400" },
           { title: "Competitor Overview", content: report!.competitorOverview, icon: "M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z", color: "text-violet-400" },
           { title: "Monetization Models", content: report!.monetizationModels, icon: "M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z", color: "text-emerald-400" },
           { title: "Risk Assessment", content: report!.riskAssessment, icon: "M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z", color: "text-amber-400" },
@@ -945,7 +945,7 @@ export default function ReportPage() {
       </div>
 
       {showPivotPanel && (
-        <div className="card-base rounded-2xl p-6 border-2 border-indigo-200 dark:border-indigo-500/30 space-y-4">
+        <div className="card-base rounded-2xl p-6 border-2 border-sky-200 dark:border-sky-500/30 space-y-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <div className="w-8 h-8 rounded-lg bg-blue-500/15 flex items-center justify-center">
@@ -962,13 +962,13 @@ export default function ReportPage() {
             </button>
           </div>
           {report!.viabilityScore < 70 && (
-            <div className="bg-gradient-to-r from-indigo-500/10 to-violet-500/10 rounded-xl px-4 py-3 border border-indigo-500/20">
+            <div className="bg-gradient-to-r from-sky-500/10 to-violet-500/10 rounded-xl px-4 py-3 border border-sky-500/20">
               <p className="text-sm text-slate-300">Your score is <span className="font-bold">{report!.viabilityScore}/100</span>. Here are 3 alternative directions to explore, or chat with the AI for personalized pivot advice.</p>
             </div>
           )}
           {parsedPivots.length === 0 && !pivotLoading && (
             <button onClick={handleGeneratePivots}
-              className="w-full py-3 rounded-xl border-2 border-dashed border-indigo-200 dark:border-indigo-500/30 text-sm font-medium text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-500/10 transition-colors">
+              className="w-full py-3 rounded-xl border-2 border-dashed border-sky-200 dark:border-sky-500/30 text-sm font-medium text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-500/10 transition-colors">
               Generate Pivot Suggestions
             </button>
           )}
@@ -976,7 +976,7 @@ export default function ReportPage() {
             <div className="space-y-2">
               {pivotSteps.map((step, i) => (
                 <div key={i} className="flex items-center gap-3 text-sm text-slate-300">
-                  <div className="w-5 h-5 rounded-full border-2 border-indigo-500 border-t-transparent animate-spin" />
+                  <div className="w-5 h-5 rounded-full border-2 border-sky-500 border-t-transparent animate-spin" />
                   <span>{step.label}</span>
                 </div>
               ))}
@@ -994,13 +994,13 @@ export default function ReportPage() {
                 <p className="text-xs text-slate-500 text-center py-6">Ask about pivoting, targeting a different audience, or changing your business model...</p>
               )}
               {chatMessages.map((msg, i) => (
-                <div key={i} className={`text-xs px-3 py-2 rounded-lg max-w-[85%] ${msg.role === "user" ? "bg-indigo-500/20 text-indigo-200 ml-auto" : "bg-white/[0.05] text-slate-200 border border-white/[0.06]"}`}>
+                <div key={i} className={`text-xs px-3 py-2 rounded-lg max-w-[85%] ${msg.role === "user" ? "bg-sky-500/20 text-sky-200 ml-auto" : "bg-white/[0.05] text-slate-200 border border-white/[0.06]"}`}>
                   {msg.content}
                 </div>
               ))}
               {chatSending && (
                 <div className="bg-white/[0.05] border border-white/[0.06] rounded-lg px-3 py-2 max-w-[85%]">
-                  <div className="flex gap-1"><span className="w-1.5 h-1.5 bg-indigo-400 rounded-full animate-bounce" /><span className="w-1.5 h-1.5 bg-indigo-400 rounded-full animate-bounce [animation-delay:0.15s]" /><span className="w-1.5 h-1.5 bg-indigo-400 rounded-full animate-bounce [animation-delay:0.3s]" /></div>
+                  <div className="flex gap-1"><span className="w-1.5 h-1.5 bg-sky-400 rounded-full animate-bounce" /><span className="w-1.5 h-1.5 bg-sky-400 rounded-full animate-bounce [animation-delay:0.15s]" /><span className="w-1.5 h-1.5 bg-sky-400 rounded-full animate-bounce [animation-delay:0.3s]" /></div>
                 </div>
               )}
               <div ref={chatEndRef} />
@@ -1009,7 +1009,7 @@ export default function ReportPage() {
               <input type="text" value={chatInput} onChange={(e) => setChatInput(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && handleChat()}
                 placeholder="Ask about pivoting your idea..."
-                className="flex-1 px-3 py-2 rounded-xl border border-white/[0.06] bg-white/[0.05] text-white text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-colors placeholder:text-slate-500" />
+                className="flex-1 px-3 py-2 rounded-xl border border-white/[0.06] bg-white/[0.05] text-white text-xs focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 transition-colors placeholder:text-slate-500" />
               <button onClick={handleChat} disabled={chatSending || !chatInput.trim()}
                 className="gradient-btn text-white px-4 py-2 rounded-xl text-xs font-semibold disabled:opacity-50 transition-all">
                 Send

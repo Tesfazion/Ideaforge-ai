@@ -196,12 +196,12 @@ export default function ApiKeysPage() {
             value={newKeyName}
             onChange={(e) => setNewKeyName(e.target.value)}
             placeholder="Key name (e.g. production, staging)"
-            className="flex-1 min-w-0 bg-white/[0.04] border border-white/[0.08] rounded-xl px-4 py-2.5 text-sm text-white placeholder:text-slate-500 focus:outline-none focus:border-indigo-500/50 transition-colors"
+            className="flex-1 min-w-0 bg-white/[0.04] border border-white/[0.08] rounded-xl px-4 py-2.5 text-sm text-white placeholder:text-slate-500 focus:outline-none focus:border-sky-500/50 transition-colors"
           />
           <button
             onClick={generateKey}
             disabled={generating}
-            className="w-full sm:w-auto shrink-0 px-5 py-2.5 rounded-xl bg-indigo-500 text-white text-sm font-semibold hover:bg-indigo-600 transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
+            className="w-full sm:w-auto shrink-0 px-5 py-2.5 rounded-xl bg-sky-500 text-white text-sm font-semibold hover:bg-sky-600 transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
           >
             {generating ? (
               <>
@@ -226,7 +226,7 @@ export default function ApiKeysPage() {
         </div>
         {loadingKeys ? (
           <div className="p-8 text-center">
-            <div className="w-6 h-6 border-2 border-indigo-500/20 border-t-indigo-500 rounded-full animate-spin mx-auto" />
+            <div className="w-6 h-6 border-2 border-sky-500/20 border-t-sky-500 rounded-full animate-spin mx-auto" />
             <p className="text-xs text-slate-500 mt-3">Loading keys...</p>
           </div>
         ) : keys.length === 0 ? (
@@ -243,8 +243,8 @@ export default function ApiKeysPage() {
           <div className="divide-y divide-white/[0.04]">
             {keys.map((apiKey) => (
               <div key={apiKey.id} className="px-4 sm:px-6 py-4 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 hover:bg-white/[0.02] transition-colors">
-                <div className="w-9 h-9 rounded-lg bg-indigo-500/15 flex items-center justify-center shrink-0">
-                  <svg className="w-4 h-4 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <div className="w-9 h-9 rounded-lg bg-sky-500/15 flex items-center justify-center shrink-0">
+                  <svg className="w-4 h-4 text-sky-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 5.25a3 3 0 013 3m3 0a6 6 0 01-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1121.75 8.25z" />
                   </svg>
                 </div>
@@ -431,17 +431,17 @@ console.log("Public URL:", data.publicUrl);`}</pre>
                   </div>
                 </div>
 
-                <div className="rounded-xl bg-indigo-500/10 border border-indigo-500/20 p-4">
-                  <h4 className="text-xs font-semibold text-indigo-400 mb-2">Rate Limit Headers</h4>
+                <div className="rounded-xl bg-sky-500/10 border border-sky-500/20 p-4">
+                  <h4 className="text-xs font-semibold text-sky-400 mb-2">Rate Limit Headers</h4>
                   <div className="space-y-1">
                     <p className="text-xs text-slate-400">
-                      <code className="text-indigo-300 font-mono">X-RateLimit-Limit</code> — Maximum requests per hour (20)
+                      <code className="text-sky-300 font-mono">X-RateLimit-Limit</code> — Maximum requests per hour (20)
                     </p>
                     <p className="text-xs text-slate-400">
-                      <code className="text-indigo-300 font-mono">X-RateLimit-Remaining</code> — Remaining requests in current window
+                      <code className="text-sky-300 font-mono">X-RateLimit-Remaining</code> — Remaining requests in current window
                     </p>
                     <p className="text-xs text-slate-400">
-                      <code className="text-indigo-300 font-mono">X-RateLimit-Reset</code> — Unix timestamp when the window resets
+                      <code className="text-sky-300 font-mono">X-RateLimit-Reset</code> — Unix timestamp when the window resets
                     </p>
                   </div>
                 </div>

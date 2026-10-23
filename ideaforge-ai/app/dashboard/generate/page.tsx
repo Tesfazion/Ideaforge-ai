@@ -87,7 +87,7 @@ export default function GeneratePage() {
   return (
     <div className="max-w-3xl mx-auto space-y-6 animate-slide-up">
       <motion.div className="relative rounded-3xl overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-violet-500/10 via-fuchsia-500/10 to-indigo-500/10" />
+        <div className="absolute inset-0 bg-gradient-to-r from-violet-500/10 via-fuchsia-500/10 to-sky-500/10" />
         <div className="absolute inset-0 bg-[#0c1222]/80 backdrop-blur-xl" />
         <div className="relative px-6 py-8 sm:px-10">
           <div className="flex items-center gap-3 mb-2">

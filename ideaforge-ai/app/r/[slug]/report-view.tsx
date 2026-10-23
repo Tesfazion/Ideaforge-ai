@@ -270,7 +270,7 @@ export default function ReportView({
     if (report.viabilityScore >= 60)
       return {
         text: "Good",
-        color: "bg-indigo-500",
+        color: "bg-sky-500",
         desc: "Solid idea with manageable risks. Refine your approach.",
       };
     if (report.viabilityScore >= 40)
@@ -289,7 +289,7 @@ export default function ReportView({
   return (
     <div className="min-h-screen bg-[#060a13]">
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-indigo-500/5 rounded-full blur-3xl" />
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-sky-500/5 rounded-full blur-3xl" />
         <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-violet-500/5 rounded-full blur-3xl" />
       </div>
 
@@ -357,7 +357,7 @@ export default function ReportView({
 
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white/[0.03] border border-white/[0.06] mb-6">
             <svg
-              className="w-3.5 h-3.5 text-indigo-400"
+              className="w-3.5 h-3.5 text-sky-400"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -727,8 +727,8 @@ export default function ReportView({
             </div>
 
             <div className="grid sm:grid-cols-3 gap-3">
-              <div className="rounded-xl border border-indigo-500/20 bg-indigo-500/5 p-4 text-center">
-                <p className="text-[10px] uppercase tracking-wider text-indigo-400 font-semibold mb-1">
+              <div className="rounded-xl border border-sky-500/20 bg-sky-500/5 p-4 text-center">
+                <p className="text-[10px] uppercase tracking-wider text-sky-400 font-semibold mb-1">
                   TAM
                 </p>
                 <p className="text-xl font-bold text-white">
@@ -861,7 +861,7 @@ export default function ReportView({
           variants={fadeUp}
           className="card-base rounded-2xl p-8 text-center space-y-4"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-medium">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-sky-500/10 border border-sky-500/20 text-sky-400 text-xs font-medium">
             <svg
               className="w-3.5 h-3.5"
               fill="none"

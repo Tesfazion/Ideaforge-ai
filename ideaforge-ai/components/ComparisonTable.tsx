@@ -26,7 +26,7 @@ export default function ComparisonTable() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <span className="inline-block text-xs font-semibold text-indigo-400 bg-indigo-500/10 border border-indigo-500/20 px-3 py-1 rounded-full mb-5 tracking-wider uppercase">Comparison</span>
+          <span className="inline-block text-xs font-semibold text-sky-400 bg-sky-500/10 border border-sky-500/20 px-3 py-1 rounded-full mb-5 tracking-wider uppercase">Comparison</span>
           <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-tight">Why choose IdeaForge?</h2>
           <p className="text-slate-400 mt-3">See how we compare to traditional validation tools</p>
         </motion.div>
@@ -43,9 +43,9 @@ export default function ComparisonTable() {
               <thead>
                 <tr className="border-b border-white/[0.06]">
                   <th className="text-left px-6 py-4 font-semibold text-slate-300">Feature</th>
-                  <th className="text-center px-4 py-4 font-semibold text-indigo-400">
+                  <th className="text-center px-4 py-4 font-semibold text-sky-400">
                     <span className="inline-flex items-center gap-1.5">
-                      <div className="w-5 h-5 rounded-md bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center">
+                      <div className="w-5 h-5 rounded-md bg-gradient-to-br from-sky-500 to-orange-600 flex items-center justify-center">
                         <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                           <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
                         </svg>
@@ -69,7 +69,7 @@ export default function ComparisonTable() {
                   >
                     <td className="px-6 py-3.5 font-medium text-slate-300">{f.name}</td>
                     <td className="px-4 py-3.5 text-center">
-                      <span className="inline-flex items-center gap-1.5 text-indigo-400 font-medium text-xs">
+                      <span className="inline-flex items-center gap-1.5 text-sky-400 font-medium text-xs">
                         <svg className="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                           <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                         </svg>
@@ -80,7 +80,7 @@ export default function ComparisonTable() {
                       <div className="flex items-center gap-2">
                         <div className="flex-1 h-1.5 rounded-full bg-white/5 overflow-hidden">
                           <motion.div
-                            className="h-full rounded-full bg-gradient-to-r from-indigo-500 to-purple-500"
+                            className="h-full rounded-full bg-gradient-to-r from-sky-500 to-orange-500"
                             initial={{ width: 0 }}
                             whileInView={{ width: `${f.score}%` }}
                             viewport={{ once: true }}
@@ -102,7 +102,7 @@ export default function ComparisonTable() {
               <span className="text-slate-500">Average score</span>
               <div className="flex items-center gap-3">
                 <span className="text-slate-500">Others: <span className="text-slate-400 font-mono">~30</span></span>
-                <span className="text-indigo-400 font-semibold">IdeaForge: <span className="font-mono">90.5</span></span>
+                <span className="text-sky-400 font-semibold">IdeaForge: <span className="font-mono">90.5</span></span>
               </div>
             </div>
           </div>
