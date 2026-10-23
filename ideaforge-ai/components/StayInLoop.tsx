@@ -48,7 +48,7 @@ export default function StayInLoop({ compact = false }: { compact?: boolean }) {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
-          className="flex-1 px-3 py-1.5 rounded-lg border border-white/[0.06] bg-white/[0.03] text-xs text-white placeholder-slate-600 focus:outline-none focus:border-sky-500/30 transition-colors min-w-0"
+          className="flex-1 px-3 py-1.5 rounded-lg border border-white/[0.06] bg-white/[0.03] text-xs text-slate-900 placeholder-slate-600 focus:outline-none focus:border-sky-500/30 transition-colors min-w-0"
         />
         <button
           type="submit"

@@ -34,19 +34,19 @@ export default function Contact() {
   return (
     <>
       <Navbar />
-      <main className="min-h-screen bg-[#060a13]">
+      <main className="min-h-screen bg-white">
         <div className="max-w-xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
-          <h1 className="text-4xl font-bold text-white mb-6">Contact</h1>
+          <h1 className="text-4xl font-bold text-slate-900 mb-6">Contact</h1>
           {submitted ? (
             <p className="text-emerald-400">Thanks! We&apos;ll get back to you shortly.</p>
           ) : (
             <form onSubmit={submit} className="space-y-4">
-              <input type="text" required value={name} onChange={(e) => setName(e.target.value)} placeholder="Name" className="w-full px-4 py-2.5 rounded-xl border border-white/[0.06] bg-white/[0.05] text-sm text-white focus:outline-none focus:border-sky-500/40 focus:ring-1 focus:ring-sky-500/20 transition-colors placeholder:text-slate-500" />
-              <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" className="w-full px-4 py-2.5 rounded-xl border border-white/[0.06] bg-white/[0.05] text-sm text-white focus:outline-none focus:border-sky-500/40 focus:ring-1 focus:ring-sky-500/20 transition-colors placeholder:text-slate-500" />
-              <input type="text" value={company} onChange={(e) => setCompany(e.target.value)} placeholder="Company" className="w-full px-4 py-2.5 rounded-xl border border-white/[0.06] bg-white/[0.05] text-sm text-white focus:outline-none focus:border-sky-500/40 focus:ring-1 focus:ring-sky-500/20 transition-colors placeholder:text-slate-500" />
-              <input type="text" value={teamSize} onChange={(e) => setTeamSize(e.target.value)} placeholder="Team size" className="w-full px-4 py-2.5 rounded-xl border border-white/[0.06] bg-white/[0.05] text-sm text-white focus:outline-none focus:border-sky-500/40 focus:ring-1 focus:ring-sky-500/20 transition-colors placeholder:text-slate-500" />
-              <textarea required value={message} onChange={(e) => setMessage(e.target.value)} placeholder="Message" rows={4} className="w-full px-4 py-2.5 rounded-xl border border-white/[0.06] bg-white/[0.05] text-sm text-white focus:outline-none focus:border-sky-500/40 focus:ring-1 focus:ring-sky-500/20 transition-colors placeholder:text-slate-500" />
-              <button type="submit" className="w-full gradient-btn text-white font-semibold py-2.5 rounded-xl text-sm">Send message</button>
+              <input type="text" required value={name} onChange={(e) => setName(e.target.value)} placeholder="Name" className="w-full px-4 py-2.5 rounded-xl border border-white/[0.06] bg-white/[0.05] text-sm text-slate-900 focus:outline-none focus:border-sky-500/40 focus:ring-1 focus:ring-sky-500/20 transition-colors placeholder:text-slate-500" />
+              <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" className="w-full px-4 py-2.5 rounded-xl border border-white/[0.06] bg-white/[0.05] text-sm text-slate-900 focus:outline-none focus:border-sky-500/40 focus:ring-1 focus:ring-sky-500/20 transition-colors placeholder:text-slate-500" />
+              <input type="text" value={company} onChange={(e) => setCompany(e.target.value)} placeholder="Company" className="w-full px-4 py-2.5 rounded-xl border border-white/[0.06] bg-white/[0.05] text-sm text-slate-900 focus:outline-none focus:border-sky-500/40 focus:ring-1 focus:ring-sky-500/20 transition-colors placeholder:text-slate-500" />
+              <input type="text" value={teamSize} onChange={(e) => setTeamSize(e.target.value)} placeholder="Team size" className="w-full px-4 py-2.5 rounded-xl border border-white/[0.06] bg-white/[0.05] text-sm text-slate-900 focus:outline-none focus:border-sky-500/40 focus:ring-1 focus:ring-sky-500/20 transition-colors placeholder:text-slate-500" />
+              <textarea required value={message} onChange={(e) => setMessage(e.target.value)} placeholder="Message" rows={4} className="w-full px-4 py-2.5 rounded-xl border border-white/[0.06] bg-white/[0.05] text-sm text-slate-900 focus:outline-none focus:border-sky-500/40 focus:ring-1 focus:ring-sky-500/20 transition-colors placeholder:text-slate-500" />
+              <button type="submit" className="w-full gradient-btn text-slate-900 font-semibold py-2.5 rounded-xl text-sm">Send message</button>
               {error && <p className="text-xs text-red-400">{error}</p>}
             </form>
           )}

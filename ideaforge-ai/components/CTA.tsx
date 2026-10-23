@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 
 export default function CTA() {
   return (
-    <section className="py-24 bg-[#060a13] relative">
+    <section className="py-24 bg-white relative">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           className="relative rounded-3xl overflow-hidden"
@@ -30,7 +30,7 @@ export default function CTA() {
 
           <div className="relative px-8 py-16 sm:px-14 sm:py-20 text-center">
             <motion.h2
-              className="text-3xl sm:text-4xl font-bold text-white tracking-tight"
+              className="text-3xl sm:text-4xl font-bold text-slate-900 tracking-tight"
               initial={{ opacity: 0, y: 15 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -39,7 +39,7 @@ export default function CTA() {
               Ready to validate your next big idea?
             </motion.h2>
             <motion.p
-              className="text-white/70 mt-3 max-w-xl mx-auto"
+              className="text-slate-900/70 mt-3 max-w-xl mx-auto"
               initial={{ opacity: 0, y: 15 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -63,13 +63,13 @@ export default function CTA() {
                 </Link>
               </motion.div>
               <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
-                <Link href="#pricing" className="px-8 py-3.5 rounded-xl text-sm font-semibold border border-white/20 text-white/80 hover:bg-white/10 hover:text-white transition inline-flex items-center gap-2 justify-center">
+                <Link href="#pricing" className="px-8 py-3.5 rounded-xl text-sm font-semibold border border-white/20 text-slate-900/80 hover:bg-white/10 hover:text-slate-900 transition inline-flex items-center gap-2 justify-center">
                   View Pricing
                 </Link>
               </motion.div>
             </motion.div>
             <motion.div
-              className="mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-white/40"
+              className="mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-slate-900/40"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}

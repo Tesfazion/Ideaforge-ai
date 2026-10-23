@@ -46,7 +46,7 @@ function Sidebar({ open, onClose }: { open: boolean; onClose: () => void }) {
               <Image src="/logo.png" alt="IdeaForge" width={36} height={36} className="w-full h-full object-contain" />
             </div>
             <div>
-              <span className="text-[15px] font-bold text-white tracking-tight">IdeaForge</span>
+              <span className="text-[15px] font-bold text-slate-900 tracking-tight">IdeaForge</span>
               <p className="text-[9px] text-slate-500 font-medium uppercase tracking-widest -mt-0.5">Business Intel</p>
             </div>
           </Link>
@@ -62,7 +62,7 @@ function Sidebar({ open, onClose }: { open: boolean; onClose: () => void }) {
               <Link key={link.href} href={link.href} onClick={onClose}
                 className={`group flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13px] font-medium transition-all duration-200 relative ${
                   active
-                    ? "bg-white/[0.08] text-white"
+                    ? "bg-white/[0.08] text-slate-900"
                     : "text-slate-400 hover:bg-white/[0.04] hover:text-slate-200"
                 }`}>
                 {active && (
@@ -107,7 +107,7 @@ function Sidebar({ open, onClose }: { open: boolean; onClose: () => void }) {
                 <svg className="w-3.5 h-3.5 text-sky-300" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" /></svg>
               </div>
               <div>
-                <p className="text-xs font-semibold text-white">Go Pro</p>
+                <p className="text-xs font-semibold text-slate-900">Go Pro</p>
                 <p className="text-[10px] text-slate-400">Unlimited validations</p>
               </div>
             </div>
@@ -176,7 +176,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
   }, [notifOpen, profileOpen]);
 
   if (loading) return (
-    <div className="min-h-screen flex items-center justify-center bg-[#060a13]">
+    <div className="min-h-screen flex items-center justify-center bg-white">
       <div className="flex flex-col items-center gap-4">
         <div className="relative">
           <div className="w-12 h-12 border-[3px] border-sky-500/20 rounded-full" />
@@ -189,7 +189,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
   if (!user) return null;
 
   return (
-    <div className="min-h-screen flex bg-[#060a13] transition-colors duration-300 relative">
+    <div className="min-h-screen flex bg-white transition-colors duration-300 relative">
       <div className="fixed inset-0 pointer-events-none" aria-hidden="true">
         <div className="absolute -top-40 -left-40 w-[600px] h-[600px] bg-sky-600/[0.07] rounded-full blur-[150px]" />
         <div className="absolute -bottom-40 -right-40 w-[500px] h-[500px] bg-sky-600/[0.04] rounded-full blur-[130px]" />
@@ -226,7 +226,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
                   <svg className="w-[18px] h-[18px] text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
                   </svg>
-                  <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full ring-2 ring-[#060a13]" />
+                  <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full ring-2 ring-[#ffffff]" />
                 </button>
                 <AnimatePresence>
                   {notifOpen && (
@@ -235,10 +235,10 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, y: 8, scale: 0.96 }}
                       transition={{ duration: 0.15 }}
-                      className="absolute right-0 mt-2 w-80 rounded-2xl bg-[#0c1222]/98 backdrop-blur-2xl border border-white/[0.06] shadow-2xl shadow-black/60 p-4"
+                      className="absolute right-0 mt-2 w-80 rounded-2xl bg-slate-50/98 backdrop-blur-2xl border border-white/[0.06] shadow-2xl shadow-black/60 p-4"
                       onClick={(e) => e.stopPropagation()}>
                       <div className="flex items-center justify-between mb-3">
-                        <p className="text-sm font-semibold text-white">Recent Activity</p>
+                        <p className="text-sm font-semibold text-slate-900">Recent Activity</p>
                         <span className="text-[10px] text-slate-500 font-medium">{notifications.length} items</span>
                       </div>
                       <div className="space-y-1.5 max-h-64 overflow-y-auto scrollbar-thin">
@@ -260,7 +260,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
                                 )}
                               </div>
                               <div className="min-w-0 flex-1">
-                                <p className="text-xs font-medium text-white truncate group-hover:text-sky-400 transition-colors">{notif.title}</p>
+                                <p className="text-xs font-medium text-slate-900 truncate group-hover:text-sky-400 transition-colors">{notif.title}</p>
                                 <p className="text-[10px] text-slate-500">
                                   {notif.status === "validated" ? `Scored ${notif.score}%` : notif.status === "failed" ? "Failed" : "Processing..."}
                                 </p>
@@ -279,11 +279,11 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
               <div className="relative">
                 <button onClick={(e) => { e.stopPropagation(); setProfileOpen(!profileOpen); setNotifOpen(false); }}
                   className="flex items-center gap-2.5 pl-2 pr-3 py-1.5 rounded-xl hover:bg-white/[0.04] transition-colors">
-                  <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-sky-500 to-orange-600 flex items-center justify-center text-white text-xs font-bold shadow-lg shadow-sky-500/20">
+                  <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-sky-500 to-orange-600 flex items-center justify-center text-slate-900 text-xs font-bold shadow-lg shadow-sky-500/20">
                     {user.name.charAt(0).toUpperCase()}
                   </div>
                   <div className="hidden sm:block text-left">
-                    <p className="text-[13px] font-semibold text-white leading-tight">{user.name}</p>
+                    <p className="text-[13px] font-semibold text-slate-900 leading-tight">{user.name}</p>
                     <p className="text-[10px] text-slate-500 font-medium">{user.plan === "pro" ? "Pro Plan" : user.plan === "enterprise" ? "Enterprise Plan" : "Free Plan"}</p>
                   </div>
                   <svg className="w-3.5 h-3.5 text-slate-500 hidden sm:block" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -297,10 +297,10 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, y: 8, scale: 0.96 }}
                       transition={{ duration: 0.15 }}
-                      className="absolute right-0 mt-2 w-64 rounded-2xl bg-[#0c1222]/98 backdrop-blur-2xl border border-white/[0.06] shadow-2xl shadow-black/60 p-2"
+                      className="absolute right-0 mt-2 w-64 rounded-2xl bg-slate-50/98 backdrop-blur-2xl border border-white/[0.06] shadow-2xl shadow-black/60 p-2"
                       onClick={(e) => e.stopPropagation()}>
                       <div className="px-3 py-3 border-b border-white/[0.06] mb-1">
-                        <p className="text-sm font-semibold text-white">{user.name}</p>
+                        <p className="text-sm font-semibold text-slate-900">{user.name}</p>
                         <p className="text-xs text-slate-500">{user.email}</p>
                         <div className="flex items-center gap-2 mt-2">
                           {user.plan !== "pro" ? (
@@ -387,7 +387,7 @@ function CommandPalette({ onClose }: { onClose: () => void }) {
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.96, y: -10 }}
         transition={{ duration: 0.15 }}
-        className="w-full max-w-lg mx-4 rounded-2xl bg-[#0c1222]/98 backdrop-blur-2xl border border-white/[0.08] shadow-2xl shadow-black/60 overflow-hidden"
+        className="w-full max-w-lg mx-4 rounded-2xl bg-slate-50/98 backdrop-blur-2xl border border-white/[0.08] shadow-2xl shadow-black/60 overflow-hidden"
         onClick={(e) => e.stopPropagation()}>
         <div className="flex items-center gap-3 px-4 py-3.5 border-b border-white/[0.06]">
           <svg className="w-5 h-5 text-slate-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -395,7 +395,7 @@ function CommandPalette({ onClose }: { onClose: () => void }) {
           </svg>
           <input type="text" autoFocus value={query} onChange={(e) => setQuery(e.target.value)}
             placeholder="Type a command or search..."
-            className="flex-1 bg-transparent text-sm text-white placeholder:text-slate-500 focus:outline-none" />
+            className="flex-1 bg-transparent text-sm text-slate-900 placeholder:text-slate-500 focus:outline-none" />
           <kbd className="px-1.5 py-0.5 rounded bg-white/[0.06] text-[10px] font-mono text-slate-500 border border-white/[0.08]">ESC</kbd>
         </div>
         <div className="p-2 max-h-72 overflow-y-auto scrollbar-thin">
@@ -405,7 +405,7 @@ function CommandPalette({ onClose }: { onClose: () => void }) {
             filtered.map((cmd) => (
               <button key={cmd.href}
                 onClick={() => { router.push(cmd.href); onClose(); }}
-                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-slate-300 hover:bg-white/[0.06] hover:text-white transition-colors group">
+                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-slate-300 hover:bg-white/[0.06] hover:text-slate-900 transition-colors group">
                 <div className="w-8 h-8 rounded-lg bg-white/[0.04] flex items-center justify-center text-slate-500 group-hover:text-slate-300 group-hover:bg-white/[0.08] transition-colors">
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                     <path strokeLinecap="round" strokeLinejoin="round" d={cmd.icon} />

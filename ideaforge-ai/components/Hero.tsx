@@ -77,7 +77,7 @@ function Particles() {
 
 export default function Hero() {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#060a13]">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-white">
       <div className="absolute inset-0">
         <img
           src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&h=1080&fit=crop&auto=format&q=80"
@@ -87,7 +87,7 @@ export default function Hero() {
           loading="lazy"
           decoding="async"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#060a13] via-[#060a13]/80 to-[#060a13]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#ffffff] via-[#ffffff]/80 to-[#ffffff]" />
       </div>
       <div className="absolute inset-0">
         <div className="absolute top-1/4 left-1/4 w-16 h-16 sm:w-20 sm:h-20 md:w-32 md:h-32 bg-sky-600/20 rounded-full blur-[80px] animate-orb" />
@@ -111,7 +111,7 @@ export default function Hero() {
             </motion.div>
 
             <motion.h1
-              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-[1.05] tracking-tight"
+              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-slate-900 leading-[1.05] tracking-tight"
               variants={item}
             >
               Validate your idea
@@ -127,7 +127,7 @@ export default function Hero() {
 
             <motion.div className="mt-10 flex flex-col sm:flex-row gap-3 w-full sm:w-auto" variants={item}>
               <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }} className="w-full sm:w-auto">
-                <Link href="/register" className="gradient-btn text-white px-7 py-3.5 rounded-xl text-sm font-semibold inline-flex items-center gap-2 justify-center w-full sm:w-auto">
+                <Link href="/register" className="gradient-btn text-slate-900 px-7 py-3.5 rounded-xl text-sm font-semibold inline-flex items-center gap-2 justify-center w-full sm:w-auto">
                   Start Validating Free
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
@@ -165,7 +165,7 @@ export default function Hero() {
 
           <motion.div className="relative hidden lg:block" variants={item}>
             <div className="absolute -inset-[1px] rounded-2xl bg-[conic-gradient(from_var(--angle),transparent_25%,#6366f1_50%,transparent_75%)] opacity-40 animate-[spin_6s_linear_infinite]" style={{ "--angle": "0deg" } as React.CSSProperties} />
-            <div className="relative rounded-2xl overflow-hidden border border-white/10 bg-[#0c1222]/90 backdrop-blur-xl p-6 shadow-2xl shadow-sky-500/5">
+            <div className="relative rounded-2xl overflow-hidden border border-white/10 bg-slate-50/90 backdrop-blur-xl p-6 shadow-2xl shadow-sky-500/5">
               <div className="flex items-center gap-2 mb-5">
                 <div className="flex gap-1.5">
                   <div className="w-2.5 h-2.5 rounded-full bg-red-500/80" />
@@ -202,11 +202,11 @@ export default function Hero() {
                 <div className="border-t border-white/5 pt-4 mt-4">
                   <div className="grid grid-cols-3 gap-3">
                     <div className="rounded-xl bg-white/[0.03] border border-white/5 p-3 text-center">
-                      <p className="text-lg font-bold text-white">30s</p>
+                      <p className="text-lg font-bold text-slate-900">30s</p>
                       <p className="text-[10px] text-slate-500 uppercase tracking-wider mt-0.5">Analysis Time</p>
                     </div>
                     <div className="rounded-xl bg-white/[0.03] border border-white/5 p-3 text-center">
-                      <p className="text-lg font-bold text-white">9</p>
+                      <p className="text-lg font-bold text-slate-900">9</p>
                       <p className="text-[10px] text-slate-500 uppercase tracking-wider mt-0.5">Dimensions</p>
                     </div>
                     <div className="rounded-xl bg-white/[0.03] border border-white/5 p-3 text-center">

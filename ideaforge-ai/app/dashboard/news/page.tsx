@@ -88,7 +88,7 @@ export default function NewsPage() {
       <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.16em] text-sky-300">Platform updates</p>
-          <h1 className="mt-1 text-2xl font-bold text-white">What&apos;s new</h1>
+          <h1 className="mt-1 text-2xl font-bold text-slate-900">What&apos;s new</h1>
           <p className="mt-1 text-sm text-slate-400">
             Post release notes and news for your users. Published items appear in the dashboard and on the{" "}
             <Link href="/changelog" className="text-sky-400 hover:text-sky-300">public changelog</Link>.
@@ -101,7 +101,7 @@ export default function NewsPage() {
 
       <form onSubmit={submit} className="card-premium rounded-2xl p-5 sm:p-6 space-y-4">
         <div className="flex items-center justify-between gap-3">
-          <h2 className="text-sm font-semibold text-white">Post an update</h2>
+          <h2 className="text-sm font-semibold text-slate-900">Post an update</h2>
           <span className="text-[10px] text-slate-500">Signed in as {user?.email}</span>
         </div>
 
@@ -114,7 +114,7 @@ export default function NewsPage() {
               required
               maxLength={140}
               placeholder="What changed?"
-              className="w-full px-3.5 py-2.5 rounded-xl border border-white/[0.06] bg-white/[0.04] text-sm text-white placeholder:text-slate-600 focus:outline-none focus:border-sky-500/40"
+              className="w-full px-3.5 py-2.5 rounded-xl border border-white/[0.06] bg-white/[0.04] text-sm text-slate-900 placeholder:text-slate-600 focus:outline-none focus:border-sky-500/40"
             />
           </div>
           <div>
@@ -124,7 +124,7 @@ export default function NewsPage() {
               onChange={(e) => setForm({ ...form, version: e.target.value })}
               maxLength={32}
               placeholder="1.2.0"
-              className="w-full px-3.5 py-2.5 rounded-xl border border-white/[0.06] bg-white/[0.04] text-sm text-white placeholder:text-slate-600 focus:outline-none focus:border-sky-500/40"
+              className="w-full px-3.5 py-2.5 rounded-xl border border-white/[0.06] bg-white/[0.04] text-sm text-slate-900 placeholder:text-slate-600 focus:outline-none focus:border-sky-500/40"
             />
           </div>
         </div>
@@ -138,7 +138,7 @@ export default function NewsPage() {
             rows={4}
             maxLength={4000}
             placeholder="Describe the new features, fixes, or news..."
-            className="w-full px-3.5 py-2.5 rounded-xl border border-white/[0.06] bg-white/[0.04] text-sm text-white placeholder:text-slate-600 focus:outline-none focus:border-sky-500/40 resize-y"
+            className="w-full px-3.5 py-2.5 rounded-xl border border-white/[0.06] bg-white/[0.04] text-sm text-slate-900 placeholder:text-slate-600 focus:outline-none focus:border-sky-500/40 resize-y"
           />
         </div>
 
@@ -146,7 +146,7 @@ export default function NewsPage() {
           <select
             value={form.tag}
             onChange={(e) => setForm({ ...form, tag: e.target.value as Announcement["tag"] })}
-            className="px-3 py-2 rounded-xl border border-white/[0.06] bg-[#0c1222] text-sm text-white focus:outline-none focus:border-sky-500/40"
+            className="px-3 py-2 rounded-xl border border-white/[0.06] bg-slate-50 text-sm text-slate-900 focus:outline-none focus:border-sky-500/40"
           >
             {TAGS.map((tag) => (
               <option key={tag.value} value={tag.value}>{tag.label}</option>
@@ -163,7 +163,7 @@ export default function NewsPage() {
           <button
             type="submit"
             disabled={saving}
-            className="ml-auto rounded-xl bg-sky-500 px-5 py-2.5 text-sm font-semibold text-white hover:bg-sky-400 disabled:opacity-60"
+            className="ml-auto rounded-xl bg-sky-500 px-5 py-2.5 text-sm font-semibold text-slate-900 hover:bg-sky-400 disabled:opacity-60"
           >
             {saving ? "Posting..." : "Post update"}
           </button>
@@ -175,7 +175,7 @@ export default function NewsPage() {
 
       <div className="card-premium rounded-2xl p-5 sm:p-6">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-sm font-semibold text-white">All updates</h2>
+          <h2 className="text-sm font-semibold text-slate-900">All updates</h2>
           <span className="text-[10px] text-slate-500">{announcements.length} total</span>
         </div>
 
@@ -203,7 +203,7 @@ export default function NewsPage() {
                       Delete
                     </button>
                   </div>
-                  <p className="text-sm font-semibold text-white">{item.title}</p>
+                  <p className="text-sm font-semibold text-slate-900">{item.title}</p>
                   <p className="mt-1 text-xs leading-relaxed text-slate-400 whitespace-pre-line">{item.body}</p>
                 </div>
               );

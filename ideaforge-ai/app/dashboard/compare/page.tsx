@@ -99,7 +99,7 @@ export default function ComparePage() {
             <path strokeLinecap="round" strokeLinejoin="round" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2z" />
           </svg>
         </div>
-        <h2 className="text-xl font-bold text-white">Not enough validated ideas</h2>
+        <h2 className="text-xl font-bold text-slate-900">Not enough validated ideas</h2>
         <p className="text-slate-400 text-sm mt-2">You need at least 2 validated ideas to compare.</p>
       </div>
     );
@@ -109,10 +109,10 @@ export default function ComparePage() {
     <div className="max-w-5xl mx-auto space-y-6 animate-slide-up">
       <motion.div className="relative rounded-3xl overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/10 via-teal-500/10 to-cyan-500/10" />
-        <div className="absolute inset-0 bg-[#0c1222]/80 backdrop-blur-xl" />
+        <div className="absolute inset-0 bg-slate-50/80 backdrop-blur-xl" />
         <div className="relative px-6 py-8 sm:px-10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-bold text-white">Compare Ideas</h1>
+            <h1 className="text-2xl font-bold text-slate-900">Compare Ideas</h1>
             <p className="text-sm text-slate-400 mt-1">Side-by-side analysis of your validated ideas</p>
           </div>
           <div className="flex items-center gap-2 flex-wrap">
@@ -146,12 +146,12 @@ export default function ComparePage() {
       <motion.div className="grid sm:grid-cols-2 gap-4" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
         {[0, 1].map((idx) => (
           <div key={idx}>
-            <label className="text-sm font-medium text-white mb-1 block">Idea {idx === 0 ? "A" : "B"}</label>
+            <label className="text-sm font-medium text-slate-900 mb-1 block">Idea {idx === 0 ? "A" : "B"}</label>
             <select value={selected[idx]} onChange={(e) => {
               const next = [...selected];
               next[idx] = e.target.value;
               setSelected(next);
-            }} className="w-full px-4 py-2.5 rounded-xl border border-white/[0.06] bg-white/[0.05] text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20">
+            }} className="w-full px-4 py-2.5 rounded-xl border border-white/[0.06] bg-white/[0.05] text-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20">
               {ideas.map((idea) => (
                 <option key={idea.id} value={idea.id} disabled={idea.id === selected[1 - idx]}>{idea.title}</option>
               ))}
@@ -164,7 +164,7 @@ export default function ComparePage() {
         <>
           <div className="grid lg:grid-cols-2 gap-4">
             <motion.div className="card-base rounded-2xl p-6" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
-              <h3 className="text-sm font-semibold text-white mb-4">Radar Comparison</h3>
+              <h3 className="text-sm font-semibold text-slate-900 mb-4">Radar Comparison</h3>
               <ResponsiveContainer width="100%" height={320}>
                 <RadarChart data={radarData}>
                   <PolarGrid stroke="rgba(255,255,255,0.06)" className="dark:stroke-white/10" />
@@ -178,7 +178,7 @@ export default function ComparePage() {
               </ResponsiveContainer>
             </motion.div>
             <motion.div className="card-base rounded-2xl p-6" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }}>
-              <h3 className="text-sm font-semibold text-white mb-4">Score Breakdown</h3>
+              <h3 className="text-sm font-semibold text-slate-900 mb-4">Score Breakdown</h3>
               <ResponsiveContainer width="100%" height={320}>
                 <BarChart data={barData}>
                   <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.06)" className="dark:stroke-white/10" />
@@ -196,7 +196,7 @@ export default function ComparePage() {
             <table className="w-full text-sm">
               <thead className="bg-white/[0.03]">
                 <tr>
-                  <th className="text-left px-4 py-3 font-medium text-white">Metric</th>
+                  <th className="text-left px-4 py-3 font-medium text-slate-900">Metric</th>
                   <th className="text-center px-4 py-3 font-medium text-sky-400">{ideaA.title}</th>
                   <th className="text-center px-4 py-3 font-medium text-violet-400">{ideaB.title}</th>
                 </tr>
@@ -207,9 +207,9 @@ export default function ComparePage() {
                   const b = ideaB.report![row.key as keyof typeof ideaB.report] as number;
                   return (
                     <tr key={row.key} className="border-t border-white/[0.06] hover:bg-white/[0.02] transition-colors">
-                      <td className="px-4 py-3 font-medium text-white">{row.label}</td>
-                      <td className={`text-center px-4 py-3 font-semibold ${a > b ? "text-emerald-400" : a < b ? "text-red-500" : "text-white"}`}>{a}{row.key === "riskScore" || row.key === "executionComplexity" ? "" : "%"}</td>
-                      <td className={`text-center px-4 py-3 font-semibold ${b > a ? "text-emerald-400" : b < a ? "text-red-500" : "text-white"}`}>{b}{row.key === "riskScore" || row.key === "executionComplexity" ? "" : "%"}</td>
+                      <td className="px-4 py-3 font-medium text-slate-900">{row.label}</td>
+                      <td className={`text-center px-4 py-3 font-semibold ${a > b ? "text-emerald-400" : a < b ? "text-red-500" : "text-slate-900"}`}>{a}{row.key === "riskScore" || row.key === "executionComplexity" ? "" : "%"}</td>
+                      <td className={`text-center px-4 py-3 font-semibold ${b > a ? "text-emerald-400" : b < a ? "text-red-500" : "text-slate-900"}`}>{b}{row.key === "riskScore" || row.key === "executionComplexity" ? "" : "%"}</td>
                     </tr>
                   );
                 })}

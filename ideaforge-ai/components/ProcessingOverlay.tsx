@@ -45,12 +45,12 @@ export default function ProcessingOverlay({
     <div className="max-w-xl mx-auto text-center py-12">
       <div className="mb-8">
         <div className="w-20 h-20 rounded-3xl bg-gradient-to-br from-sky-500 to-violet-500 flex items-center justify-center mx-auto mb-5 shadow-xl shadow-sky-500/25 relative">
-          <svg className="w-10 h-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+          <svg className="w-10 h-10 text-slate-900" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
           </svg>
           <div className="absolute inset-0 rounded-3xl animate-ping opacity-20 bg-gradient-to-br from-sky-500 to-violet-500" />
         </div>
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">{title}</h2>
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-slate-900 mb-2">{title}</h2>
         {subtitle && <p className="text-gray-500 dark:text-gray-400 text-sm">{subtitle}</p>}
       </div>
 

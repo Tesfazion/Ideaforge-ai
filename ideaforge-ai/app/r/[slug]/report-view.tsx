@@ -133,7 +133,7 @@ function ScoreCircle({
           y="45"
           textAnchor="middle"
           dominantBaseline="central"
-          className="text-lg font-bold fill-current text-white"
+          className="text-lg font-bold fill-current text-slate-900"
         >
           {score}
         </text>
@@ -184,7 +184,7 @@ function DimensionBar({ dim }: { dim: NineDimension }) {
               />
             </svg>
           </div>
-          <span className="text-sm font-medium text-white">{dim.name}</span>
+          <span className="text-sm font-medium text-slate-900">{dim.name}</span>
         </div>
         <div className="flex items-center gap-2">
           <span className="text-xs text-slate-500 italic hidden sm:block">
@@ -287,7 +287,7 @@ export default function ReportView({
   }, [report.viabilityScore]);
 
   return (
-    <div className="min-h-screen bg-[#060a13]">
+    <div className="min-h-screen bg-white">
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-sky-500/5 rounded-full blur-3xl" />
         <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-violet-500/5 rounded-full blur-3xl" />
@@ -302,7 +302,7 @@ export default function ReportView({
         >
           <Link
             href="/"
-            className="inline-flex items-center gap-2 text-sm text-slate-500 hover:text-white transition-colors"
+            className="inline-flex items-center gap-2 text-sm text-slate-500 hover:text-slate-900 transition-colors"
           >
             <svg
               className="w-4 h-4"
@@ -329,7 +329,7 @@ export default function ReportView({
           className="card-base rounded-2xl p-6 sm:p-8 text-center"
         >
           <div
-            className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-white text-sm font-semibold ${verdict.color} mb-4`}
+            className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-slate-900 text-sm font-semibold ${verdict.color} mb-4`}
           >
             <svg
               className="w-4 h-4"
@@ -346,10 +346,10 @@ export default function ReportView({
             </svg>
             {verdict.text}
           </div>
-          <h1 className="text-3xl sm:text-4xl font-bold text-white mb-2">
+          <h1 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-2">
             {idea.title}
           </h1>
-          <p className="text-6xl sm:text-7xl font-bold text-white mb-1">
+          <p className="text-6xl sm:text-7xl font-bold text-slate-900 mb-1">
             {report.viabilityScore}
             <span className="text-2xl text-slate-500">/100</span>
           </p>
@@ -370,7 +370,7 @@ export default function ReportView({
               />
             </svg>
             <span className="text-xs text-slate-400">
-              Confidence: <span className="text-white font-semibold">{report.confidence}%</span>
+              Confidence: <span className="text-slate-900 font-semibold">{report.confidence}%</span>
             </span>
           </div>
 
@@ -418,7 +418,7 @@ export default function ReportView({
                   />
                 </svg>
               </div>
-              <h2 className="text-base font-semibold text-white">
+              <h2 className="text-base font-semibold text-slate-900">
                 Nine-Dimension Index
               </h2>
             </div>
@@ -460,7 +460,7 @@ export default function ReportView({
                   />
                 </svg>
               </div>
-              <h2 className="text-base font-semibold text-white">
+              <h2 className="text-base font-semibold text-slate-900">
                 SWOT Analysis
               </h2>
             </div>
@@ -564,7 +564,7 @@ export default function ReportView({
                 </svg>
               </div>
               <div>
-                <h2 className="text-base font-semibold text-white">
+                <h2 className="text-base font-semibold text-slate-900">
                   Skeptic Analysis
                 </h2>
                 <p className="text-[10px] text-slate-500 uppercase tracking-wider">
@@ -721,7 +721,7 @@ export default function ReportView({
                   />
                 </svg>
               </div>
-              <h2 className="text-base font-semibold text-white">
+              <h2 className="text-base font-semibold text-slate-900">
                 Market Sizing (TAM / SAM / SOM)
               </h2>
             </div>
@@ -731,7 +731,7 @@ export default function ReportView({
                 <p className="text-[10px] uppercase tracking-wider text-sky-400 font-semibold mb-1">
                   TAM
                 </p>
-                <p className="text-xl font-bold text-white">
+                <p className="text-xl font-bold text-slate-900">
                   {parsedMarketSizing.tamValue || "N/A"}
                 </p>
                 <p className="text-xs text-slate-300 mt-1 leading-relaxed">
@@ -742,7 +742,7 @@ export default function ReportView({
                 <p className="text-[10px] uppercase tracking-wider text-violet-400 font-semibold mb-1">
                   SAM
                 </p>
-                <p className="text-xl font-bold text-white">
+                <p className="text-xl font-bold text-slate-900">
                   {parsedMarketSizing.samValue || "N/A"}
                 </p>
                 <p className="text-xs text-slate-300 mt-1 leading-relaxed">
@@ -753,7 +753,7 @@ export default function ReportView({
                 <p className="text-[10px] uppercase tracking-wider text-emerald-400 font-semibold mb-1">
                   SOM
                 </p>
-                <p className="text-xl font-bold text-white">
+                <p className="text-xl font-bold text-slate-900">
                   {parsedMarketSizing.somValue || "N/A"}
                 </p>
                 <p className="text-xs text-slate-300 mt-1 leading-relaxed">
@@ -799,7 +799,7 @@ export default function ReportView({
                   />
                 </svg>
               </div>
-              <h2 className="text-base font-semibold text-white">
+              <h2 className="text-base font-semibold text-slate-900">
                 Verified Sources
               </h2>
             </div>
@@ -828,7 +828,7 @@ export default function ReportView({
                     </svg>
                   </div>
                   <div className="min-w-0">
-                    <p className="text-xs font-medium text-white truncate max-w-[200px]">
+                    <p className="text-xs font-medium text-slate-900 truncate max-w-[200px]">
                       {source.title}
                     </p>
                     <p className="text-[10px] text-slate-400 truncate max-w-[200px]">
@@ -877,7 +877,7 @@ export default function ReportView({
             </svg>
             Generated by AI
           </div>
-          <h2 className="text-xl font-bold text-white">
+          <h2 className="text-xl font-bold text-slate-900">
             Validate your own idea in 30 seconds
           </h2>
           <p className="text-sm text-slate-400 max-w-md mx-auto">
@@ -886,7 +886,7 @@ export default function ReportView({
           </p>
           <Link
             href="/register"
-            className="inline-flex items-center gap-2 gradient-btn text-white px-6 py-3 rounded-xl text-sm font-semibold transition-all"
+            className="inline-flex items-center gap-2 gradient-btn text-slate-900 px-6 py-3 rounded-xl text-sm font-semibold transition-all"
           >
             Start Validating for Free
             <svg

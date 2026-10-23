@@ -31,7 +31,7 @@ const stats = [
 
 export default function Stats() {
   return (
-    <section className="relative py-16 bg-[#060a13] border-y border-white/5 overflow-hidden">
+    <section className="relative py-16 bg-white border-y border-white/5 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           className="grid grid-cols-2 md:grid-cols-4 gap-8"

@@ -92,7 +92,7 @@ const item = {
 
 export default function Features() {
   return (
-    <section id="features" className="py-24 bg-[#060a13] relative">
+    <section id="features" className="py-24 bg-white relative">
       <div className="absolute inset-0 bg-gradient-to-b from-sky-500/[0.02] via-transparent to-transparent" />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         <motion.div
@@ -103,7 +103,7 @@ export default function Features() {
           transition={{ duration: 0.6 }}
         >
           <span className="inline-block text-xs font-semibold text-sky-400 bg-sky-500/10 border border-sky-500/20 px-3 py-1 rounded-full mb-5 tracking-wider uppercase">Features</span>
-          <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-tight">Everything you need to validate</h2>
+          <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 tracking-tight">Everything you need to validate</h2>
           <p className="text-slate-400 mt-3 max-w-2xl mx-auto">Go beyond simple scoring. Get a complete analysis toolkit that helps you understand, test, and refine your business idea.</p>
         </motion.div>
 
@@ -131,7 +131,7 @@ export default function Features() {
                     sizes="(max-width: 768px) 100vw, 33vw"
                     className="object-cover group-hover:scale-105 transition-transform duration-700"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#060a13] via-[#060a13]/40 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#ffffff] via-[#ffffff]/40 to-transparent" />
                   <div className="absolute bottom-3 left-3">
                     <div className={`w-10 h-10 rounded-xl bg-white/[0.08] backdrop-blur-md border border-white/[0.1] flex items-center justify-center ${f.iconColor}`}>
                       <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
@@ -149,7 +149,7 @@ export default function Features() {
                     </svg>
                   </div>
                 )}
-                <h3 className="text-base font-semibold text-white mb-2">{f.title}</h3>
+                <h3 className="text-base font-semibold text-slate-900 mb-2">{f.title}</h3>
                 <p className="text-sm text-slate-400 leading-relaxed">{f.desc}</p>
                 {!f.tall && (
                   <div className="mt-4 h-28 rounded-xl overflow-hidden relative">
@@ -161,7 +161,7 @@ export default function Features() {
                       sizes="(max-width: 768px) 100vw, 33vw"
                       className="object-cover opacity-60 group-hover:opacity-80 group-hover:scale-105 transition-all duration-700"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#060a13]/80 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#ffffff]/80 to-transparent" />
                   </div>
                 )}
               </div>

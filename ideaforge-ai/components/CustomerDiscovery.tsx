@@ -180,7 +180,7 @@ export default function CustomerDiscovery({
         className={`w-full py-3.5 px-5 rounded-xl text-sm font-semibold transition-all duration-300 flex items-center justify-center gap-2.5 ${
           loading
             ? "bg-sky-500/20 text-sky-300 cursor-wait border border-sky-500/20"
-            : "bg-gradient-to-r from-sky-600 to-violet-600 hover:from-sky-500 hover:to-violet-500 text-white shadow-lg shadow-sky-500/25 hover:shadow-sky-500/40"
+            : "bg-gradient-to-r from-sky-600 to-violet-600 hover:from-sky-500 hover:to-violet-500 text-slate-900 shadow-lg shadow-sky-500/25 hover:shadow-sky-500/40"
         }`}
       >
         {loading ? (
@@ -258,7 +258,7 @@ export default function CustomerDiscovery({
                     </svg>
                   </div>
                   <div>
-                    <h4 className="text-sm font-semibold text-white">Pain Points Found</h4>
+                    <h4 className="text-sm font-semibold text-slate-900">Pain Points Found</h4>
                     <p className="text-[11px] text-slate-500">{result.painPoints.length} real user complaints & requests</p>
                   </div>
                 </div>
@@ -298,7 +298,7 @@ export default function CustomerDiscovery({
                     </svg>
                   </div>
                   <div>
-                    <h4 className="text-sm font-semibold text-white">Demand Signals</h4>
+                    <h4 className="text-sm font-semibold text-slate-900">Demand Signals</h4>
                     <p className="text-[11px] text-slate-500">Evidence of market demand</p>
                   </div>
                 </div>
@@ -311,7 +311,7 @@ export default function CustomerDiscovery({
                           <span className={`text-[10px] font-medium px-1.5 py-0.5 rounded-md ${strength.bg} ${strength.color}`}>{strength.label}</span>
                           <span className="text-[10px] text-slate-600">{ds.sourceCount} sources</span>
                         </div>
-                        <p className="text-[13px] text-white font-medium mb-0.5">{ds.signal}</p>
+                        <p className="text-[13px] text-slate-900 font-medium mb-0.5">{ds.signal}</p>
                         <p className="text-[12px] text-slate-400">{ds.evidence}</p>
                       </motion.div>
                     );
@@ -329,7 +329,7 @@ export default function CustomerDiscovery({
                     </svg>
                   </div>
                   <div>
-                    <h4 className="text-sm font-semibold text-white">Competitor Mentions</h4>
+                    <h4 className="text-sm font-semibold text-slate-900">Competitor Mentions</h4>
                     <p className="text-[11px] text-slate-500">{result.competitorMentions.length} alternatives discussed by users</p>
                   </div>
                 </div>
@@ -339,7 +339,7 @@ export default function CustomerDiscovery({
                     return (
                       <motion.div key={i} initial={{ opacity: 0, x: -5 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.05 * i }} className="bg-white/[0.02] border border-white/[0.04] rounded-lg p-3">
                         <div className="flex items-center justify-between mb-1">
-                          <p className="text-[13px] text-white font-medium">{cm.name}</p>
+                          <p className="text-[13px] text-slate-900 font-medium">{cm.name}</p>
                           <div className="flex items-center gap-2">
                             <span className={`text-[10px] font-medium ${sentiment.color}`}>{sentiment.label}</span>
                             <span className="text-[10px] text-slate-600">x{cm.frequency}</span>
@@ -367,7 +367,7 @@ export default function CustomerDiscovery({
                     </svg>
                   </div>
                   <div>
-                    <h4 className="text-sm font-semibold text-white">Suggested Outreach</h4>
+                    <h4 className="text-sm font-semibold text-slate-900">Suggested Outreach</h4>
                     <p className="text-[11px] text-slate-500">AI-generated messages for customer interviews</p>
                   </div>
                 </div>
@@ -405,7 +405,7 @@ export default function CustomerDiscovery({
                     </svg>
                   </div>
                   <div>
-                    <h4 className="text-sm font-semibold text-white">Raw Sources</h4>
+                    <h4 className="text-sm font-semibold text-slate-900">Raw Sources</h4>
                     <p className="text-[11px] text-slate-500">{result.rawSources.length} results scanned across platforms</p>
                   </div>
                 </div>

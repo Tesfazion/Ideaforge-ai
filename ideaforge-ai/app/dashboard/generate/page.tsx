@@ -88,15 +88,15 @@ export default function GeneratePage() {
     <div className="max-w-3xl mx-auto space-y-6 animate-slide-up">
       <motion.div className="relative rounded-3xl overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-violet-500/10 via-fuchsia-500/10 to-sky-500/10" />
-        <div className="absolute inset-0 bg-[#0c1222]/80 backdrop-blur-xl" />
+        <div className="absolute inset-0 bg-slate-50/80 backdrop-blur-xl" />
         <div className="relative px-6 py-8 sm:px-10">
           <div className="flex items-center gap-3 mb-2">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-500 to-fuchsia-500 flex items-center justify-center shadow-lg shadow-violet-500/25">
-              <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <svg className="w-5 h-5 text-slate-900" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
               </svg>
             </div>
-            <h1 className="text-2xl font-bold text-white">AI Idea Generator</h1>
+            <h1 className="text-2xl font-bold text-slate-900">AI Idea Generator</h1>
           </div>
           <p className="text-sm text-slate-400">Describe your interests and our AI will generate business ideas for you</p>
         </div>
@@ -114,7 +114,7 @@ export default function GeneratePage() {
           />
           <div className="mt-2 flex flex-wrap gap-1.5">
             {SUGGESTED_PROMPTS.map((s) => (
-              <button key={s} type="button" onClick={() => setPrompt(s)} className="text-[11px] px-2.5 py-1 rounded-full bg-white/[0.05] border border-white/[0.06] text-slate-400 hover:text-white hover:border-violet-500/30 transition-colors">
+              <button key={s} type="button" onClick={() => setPrompt(s)} className="text-[11px] px-2.5 py-1 rounded-full bg-white/[0.05] border border-white/[0.06] text-slate-400 hover:text-slate-900 hover:border-violet-500/30 transition-colors">
                 {s}
               </button>
             ))}
@@ -135,7 +135,7 @@ export default function GeneratePage() {
             <button
               onClick={handleGenerate}
               disabled={streaming || !prompt.trim()}
-              className="w-full sm:w-auto gradient-btn text-white px-6 py-2.5 rounded-xl text-sm font-semibold disabled:opacity-50 flex items-center justify-center gap-2"
+              className="w-full sm:w-auto gradient-btn text-slate-900 px-6 py-2.5 rounded-xl text-sm font-semibold disabled:opacity-50 flex items-center justify-center gap-2"
             >
               {streaming ? (
                 <><div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" /> Generating...</>
@@ -201,7 +201,7 @@ export default function GeneratePage() {
               <div className="flex items-start justify-between gap-4 mb-3">
                 <div className="flex items-center gap-3">
                   <div className="w-8 h-8 rounded-lg bg-violet-500/15 flex items-center justify-center text-xs font-bold text-violet-400 shrink-0">{idx + 1}</div>
-                  <h3 className="text-lg font-bold text-white group-hover:text-violet-400 transition-colors">{idea.title}</h3>
+                  <h3 className="text-lg font-bold text-slate-900 group-hover:text-violet-400 transition-colors">{idea.title}</h3>
                 </div>
                 <div className="shrink-0 flex items-center gap-1.5 bg-violet-500/10 px-3 py-1 rounded-full">
                   <svg className="w-3.5 h-3.5 text-violet-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -233,7 +233,7 @@ export default function GeneratePage() {
                 <button
                   onClick={() => handleValidateIdea(idea, idx)}
                   disabled={validatingIdx !== null}
-                  className="gradient-btn text-white px-4 py-2 rounded-xl text-xs font-semibold disabled:opacity-50 flex items-center gap-1.5"
+                  className="gradient-btn text-slate-900 px-4 py-2 rounded-xl text-xs font-semibold disabled:opacity-50 flex items-center gap-1.5"
                 >
                   {validatingIdx === idx ? (
                     <><div className="w-3 h-3 border-2 border-white border-t-transparent rounded-full animate-spin" /> Saving...</>
@@ -254,7 +254,7 @@ export default function GeneratePage() {
               <path strokeLinecap="round" strokeLinejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
             </svg>
           </div>
-          <h3 className="text-lg font-semibold text-white mb-2">Tell us what excites you</h3>
+          <h3 className="text-lg font-semibold text-slate-900 mb-2">Tell us what excites you</h3>
           <p className="text-sm text-slate-400 max-w-md mx-auto">Describe your interests, skills, or problems you want to solve. Our AI will generate personalized business ideas with market analysis.</p>
         </motion.div>
       )}

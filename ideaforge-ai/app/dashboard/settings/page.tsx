@@ -128,7 +128,7 @@ export default function SettingsPage() {
   return (
     <div className="max-w-3xl mx-auto space-y-8 animate-slide-up">
       <div>
-        <h1 className="text-2xl font-bold text-white">AI Settings</h1>
+        <h1 className="text-2xl font-bold text-slate-900">AI Settings</h1>
         <p className="text-sm text-slate-400 mt-1">Bring your own API key to use Claude, GPT-4o, Gemini, Groq, and more.</p>
       </div>
 
@@ -176,10 +176,10 @@ export default function SettingsPage() {
           <select
             value={selectedProvider}
             onChange={(e) => handleProviderChange(e.target.value)}
-            className="w-full bg-white/[0.04] border border-white/[0.08] rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-sky-500/50 transition-colors"
+            className="w-full bg-white/[0.04] border border-white/[0.08] rounded-xl px-4 py-2.5 text-sm text-slate-900 focus:outline-none focus:border-sky-500/50 transition-colors"
           >
             {providers.map((p) => (
-              <option key={p.id} value={p.id} className="bg-[#0c1222]">
+              <option key={p.id} value={p.id} className="bg-slate-50">
                 {p.label}
               </option>
             ))}
@@ -199,10 +199,10 @@ export default function SettingsPage() {
           <select
             value={selectedModel}
             onChange={(e) => setSelectedModel(e.target.value)}
-            className="w-full bg-white/[0.04] border border-white/[0.08] rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-sky-500/50 transition-colors"
+            className="w-full bg-white/[0.04] border border-white/[0.08] rounded-xl px-4 py-2.5 text-sm text-slate-900 focus:outline-none focus:border-sky-500/50 transition-colors"
           >
             {currentProvider?.models.map((m) => (
-              <option key={m} value={m} className="bg-[#0c1222]">
+              <option key={m} value={m} className="bg-slate-50">
                 {m}
               </option>
             ))}
@@ -219,7 +219,7 @@ export default function SettingsPage() {
               value={apiKey}
               onChange={(e) => setApiKey(e.target.value)}
               placeholder={hasKey ? `Current: ${maskedKey}` : currentProvider ? `Paste your key (${currentProvider.keyPrefix}...)` : "Paste your API key"}
-              className="w-full bg-white/[0.04] border border-white/[0.08] rounded-xl px-4 py-2.5 pr-10 text-sm text-white placeholder:text-slate-500 focus:outline-none focus:border-sky-500/50 transition-colors font-mono"
+              className="w-full bg-white/[0.04] border border-white/[0.08] rounded-xl px-4 py-2.5 pr-10 text-sm text-slate-900 placeholder:text-slate-500 focus:outline-none focus:border-sky-500/50 transition-colors font-mono"
             />
             <button
               type="button"
@@ -239,7 +239,7 @@ export default function SettingsPage() {
           <button
             onClick={handleSave}
             disabled={!apiKey || saving}
-            className="px-5 py-2.5 rounded-xl bg-sky-500 text-white text-sm font-semibold hover:bg-sky-600 transition-colors disabled:opacity-50 flex items-center gap-2"
+            className="px-5 py-2.5 rounded-xl bg-sky-500 text-slate-900 text-sm font-semibold hover:bg-sky-600 transition-colors disabled:opacity-50 flex items-center gap-2"
           >
             {saving ? (
               <>

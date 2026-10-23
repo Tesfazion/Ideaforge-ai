@@ -48,10 +48,10 @@ export default async function Changelog() {
   return (
     <>
       <Navbar />
-      <main className="min-h-screen bg-[#060a13]">
+      <main className="min-h-screen bg-white">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
           <p className="text-xs font-semibold uppercase tracking-[0.16em] text-sky-300">Product updates</p>
-          <h1 className="mt-2 text-4xl font-bold text-white mb-2">Changelog</h1>
+          <h1 className="mt-2 text-4xl font-bold text-slate-900 mb-2">Changelog</h1>
           <p className="text-sm text-slate-400 mb-8">New versions, features, fixes, and news about IdeaForge.</p>
           <div className="space-y-4">
             {entries.map((entry) => (
@@ -63,7 +63,7 @@ export default async function Changelog() {
                   {entry.version && <span className="text-sm font-semibold text-sky-400">v{entry.version}</span>}
                   <span className="text-xs text-slate-500">{entry.date}</span>
                 </div>
-                <h2 className="text-sm font-semibold text-white">{entry.title}</h2>
+                <h2 className="text-sm font-semibold text-slate-900">{entry.title}</h2>
                 <p className="mt-1 text-sm text-slate-300 whitespace-pre-line">{entry.body}</p>
               </article>
             ))}

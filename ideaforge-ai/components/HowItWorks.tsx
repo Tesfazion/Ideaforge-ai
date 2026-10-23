@@ -56,7 +56,7 @@ const item = {
 
 export default function HowItWorks() {
   return (
-    <section id="how-it-works" className="py-24 bg-[#060a13] relative">
+    <section id="how-it-works" className="py-24 bg-white relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           className="text-center mb-16"
@@ -66,7 +66,7 @@ export default function HowItWorks() {
           transition={{ duration: 0.6 }}
         >
           <span className="inline-block text-xs font-semibold text-sky-400 bg-sky-500/10 border border-sky-500/20 px-3 py-1 rounded-full mb-5 tracking-wider uppercase">How It Works</span>
-          <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-tight">From idea to validation in minutes</h2>
+          <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 tracking-tight">From idea to validation in minutes</h2>
           <p className="text-slate-400 mt-3 max-w-2xl mx-auto">Four simple steps to validate, pivot, and launch your next big idea with AI-powered precision.</p>
         </motion.div>
 
@@ -93,18 +93,18 @@ export default function HowItWorks() {
                         sizes="(max-width: 1024px) 100vw, 50vw"
                         className="object-cover group-hover:scale-105 transition-transform duration-700"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#060a13] via-[#060a13]/30 to-transparent" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#ffffff] via-[#ffffff]/30 to-transparent" />
                       <div className="absolute inset-0 bg-sky-500/5 group-hover:bg-sky-500/10 transition-colors duration-500" />
                       <div className="absolute bottom-0 left-0 right-0 p-5">
                         <div className="flex items-center gap-3">
                           <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-sky-500 to-orange-600 flex items-center justify-center shadow-lg shadow-sky-500/25">
-                            <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                            <svg className="w-5 h-5 text-slate-900" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                               <path strokeLinecap="round" strokeLinejoin="round" d={step.icon} />
                             </svg>
                           </div>
                           <div>
                             <span className="text-xs font-mono text-sky-400">Step {step.num}</span>
-                            <h3 className="text-lg font-bold text-white">{step.title}</h3>
+                            <h3 className="text-lg font-bold text-slate-900">{step.title}</h3>
                           </div>
                         </div>
                       </div>
@@ -117,14 +117,14 @@ export default function HowItWorks() {
                         <span className="text-xs font-semibold text-sky-400 bg-sky-500/10 border border-sky-500/20 px-2.5 py-0.5 rounded-full">Step {step.num}</span>
                         <span className="text-[11px] text-slate-600 font-mono">{step.detail}</span>
                       </div>
-                      <h3 className="text-xl font-bold text-white mb-2">{step.title}</h3>
+                      <h3 className="text-xl font-bold text-slate-900 mb-2">{step.title}</h3>
                       <p className="text-slate-400 text-sm leading-relaxed">{step.desc}</p>
                     </div>
                   </div>
                 </div>
 
                 <div className="hidden lg:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
-                  <div className="w-9 h-9 rounded-full bg-[#060a13] border border-white/[0.1] flex items-center justify-center">
+                  <div className="w-9 h-9 rounded-full bg-white border border-white/[0.1] flex items-center justify-center">
                     <span className="text-xs font-bold text-sky-400">{step.num}</span>
                   </div>
                 </div>
