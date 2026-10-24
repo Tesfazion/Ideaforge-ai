@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useAuth } from "@/lib/auth";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useState } from "react";
+import ThemeToggle from "@/components/ThemeToggle";
 
 export default function Navbar() {
   const { user } = useAuth();
@@ -13,7 +14,7 @@ export default function Navbar() {
 
   return (
     <motion.nav className="fixed top-0 left-0 right-0 z-50">
-      <div className="absolute inset-0 bg-[#060a13]/80 backdrop-blur-xl border-b border-white/5" />
+      <div className="navbar-surface absolute inset-0 bg-[#060a13]/80 backdrop-blur-xl border-b border-white/5" />
       <motion.div className="absolute inset-0 bg-sky-500/5" style={{ opacity }} />
       <div className="relative max-w-7xl mx-auto px-3 sm:px-4 lg:px-8">
         <div className="flex items-center justify-between h-16">
@@ -31,6 +32,7 @@ export default function Navbar() {
           </div>
 
           <div className="hidden md:flex items-center gap-2">
+            <ThemeToggle />
             {user ? (
               <div className="flex items-center gap-2">
                 {user.plan === "pro" && (
@@ -58,6 +60,7 @@ export default function Navbar() {
           </div>
 
           <div className="flex items-center gap-1 md:hidden">
+            <ThemeToggle />
             <button onClick={() => setMobileOpen(!mobileOpen)} className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-white/5 transition-colors" aria-label="Toggle menu">
               {mobileOpen ? (
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>

@@ -2,6 +2,8 @@ import { NextRequest } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { getUserId } from "@/lib/jwt";
 import { validateIdeaStream } from "@/lib/ai";
+import { decrypt } from "@/lib/crypto";
+import type { AIConfig } from "@/lib/ai-providers";
 import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
 import { consumeToken, refundToken } from "@/lib/tokens";
 import { randomBytes } from "crypto";
@@ -41,6 +43,25 @@ export async function POST(
     return Response.json({ error: "Idea already validated" }, { status: 400 });
   }
 
+  const aiSettings = await prisma.user.findUnique({
+    where: { id: userId },
+    select: { apiKeyEncrypted: true, aiProvider: true, aiModel: true },
+  });
+  let aiConfig: AIConfig | undefined;
+  if (aiSettings?.apiKeyEncrypted && aiSettings.aiProvider) {
+    try {
+      aiConfig = {
+        apiKey: decrypt(aiSettings.apiKeyEncrypted, userId),
+        provider: aiSettings.aiProvider,
+        model: aiSettings.aiModel || "",
+      };
+    } catch {
+      return Response.json({ error: "Your saved AI key could not be read. Please save it again in AI Settings." }, { status: 500 });
+    }
+  } else if (!process.env.AI_API_KEY) {
+    return Response.json({ error: "AI validation is not configured. Add your provider and API key in AI Settings to continue." }, { status: 503 });
+  }
+
   let skepticMode = false;
   try {
     const body = await request.json();
@@ -72,12 +93,13 @@ export async function POST(
           (progressEvent) => {
             sendEvent({ type: "progress", ...progressEvent });
           },
-          skepticMode
+          skepticMode,
+          aiConfig
         );
 
         if (result.usedFallback) {
           await refundToken(userId);
-          sendEvent({ type: "error", message: "AI analysis unavailable. Token refunded. Please check your API key configuration." });
+          sendEvent({ type: "error", message: "Your AI provider could not complete this analysis. No report was saved and your validation credit was refunded. Check your provider key and model in AI Settings, then retry." });
           await prisma.idea.update({ where: { id: idea.id }, data: { status: "failed" } }).catch(() => {});
           controller.close();
           return;

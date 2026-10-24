@@ -2,6 +2,7 @@
 import { RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, ResponsiveContainer } from "recharts";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, Cell } from "recharts";
 import { PieChart, Pie, Cell as PieCell, Tooltip as PieTooltip, Legend } from "recharts";
+import { useChartTheme } from "@/lib/theme";
 
 function BarSkeleton() {
   return (
@@ -59,12 +60,13 @@ function ChartSkeleton() {
 }
 
 export function LazyRadarChart({ data }: { data: { subject: string; value: number }[] }) {
+  const palette = useChartTheme();
   return (
     <ResponsiveContainer width="100%" height={280}>
       <RadarChart data={data}>
-        <PolarGrid stroke="#E2E8F0" className="dark:stroke-gray-700" />
-        <PolarAngleAxis dataKey="subject" tick={{ fontSize: 11 }} stroke="#94A3B8" />
-        <PolarRadiusAxis angle={30} domain={[0, 100]} tick={{ fontSize: 10 }} stroke="#94A3B8" />
+        <PolarGrid stroke={palette.grid} />
+        <PolarAngleAxis dataKey="subject" tick={{ fontSize: 11, fill: palette.axis }} stroke={palette.axis} />
+        <PolarRadiusAxis angle={30} domain={[0, 100]} tick={{ fontSize: 10, fill: palette.axis }} stroke={palette.axis} />
         <Radar name="Score" dataKey="value" stroke="#6366F1" fill="#6366F1" fillOpacity={0.3} />
       </RadarChart>
     </ResponsiveContainer>
@@ -72,12 +74,13 @@ export function LazyRadarChart({ data }: { data: { subject: string; value: numbe
 }
 
 export function LazyBarChart({ data }: { data: { name: string; value: number; color: string }[] }) {
+  const palette = useChartTheme();
   return (
     <ResponsiveContainer width="100%" height={280}>
       <BarChart data={data}>
-        <XAxis dataKey="name" tick={{ fontSize: 11 }} stroke="#94A3B8" />
-        <YAxis domain={[0, 100]} stroke="#94A3B8" />
-        <Tooltip contentStyle={{ backgroundColor: "#1E293B", border: "1px solid #334155", borderRadius: "12px", fontSize: 12, color: "#F1F5F9" }} />
+        <XAxis dataKey="name" tick={{ fontSize: 11, fill: palette.axis }} stroke={palette.axis} />
+        <YAxis domain={[0, 100]} tick={{ fill: palette.axis }} stroke={palette.axis} />
+        <Tooltip contentStyle={{ backgroundColor: palette.tooltip, border: `1px solid ${palette.tooltipBorder}`, borderRadius: "12px", fontSize: 12, color: palette.text }} />
         <Bar dataKey="value" radius={[6, 6, 0, 0]}>
           {data.map((entry, i) => <Cell key={i} fill={entry.color} />)}
         </Bar>
@@ -87,28 +90,28 @@ export function LazyBarChart({ data }: { data: { name: string; value: number; co
 }
 
 export function LazyPieChart({ data, colors }: { data: { name: string; value: number }[]; colors: string[] }) {
-  const isDark = typeof document !== "undefined" && document.documentElement.classList.contains("dark");
+  const palette = useChartTheme();
   return (
     <ResponsiveContainer width="100%" height={200}>
       <PieChart>
         <Pie data={data} cx="50%" cy="50%" innerRadius={50} outerRadius={80} dataKey="value" paddingAngle={4}>
           {data.map((_, i) => <PieCell key={i} fill={colors[i]} />)}
         </Pie>
-        <PieTooltip contentStyle={{ backgroundColor: isDark ? "#1E293B" : "#fff", border: isDark ? "1px solid #334155" : "1px solid #E2E8F0", borderRadius: "12px", fontSize: 12, color: isDark ? "#F1F5F9" : "#0F172A" }} />
-        <Legend wrapperStyle={{ fontSize: 11 }} />
+        <PieTooltip contentStyle={{ backgroundColor: palette.tooltip, border: `1px solid ${palette.tooltipBorder}`, borderRadius: "12px", fontSize: 12, color: palette.text }} />
+        <Legend wrapperStyle={{ fontSize: 11, color: palette.text }} />
       </PieChart>
     </ResponsiveContainer>
   );
 }
 
 export function LazyDashboardBarChart({ data }: { data: { name: string; value: number }[] }) {
-  const isDark = typeof document !== "undefined" && document.documentElement.classList.contains("dark");
+  const palette = useChartTheme();
   return (
     <ResponsiveContainer width="100%" height={200}>
       <BarChart data={data}>
-        <XAxis dataKey="name" tick={{ fontSize: 11 }} stroke="#94A3B8" />
-        <YAxis allowDecimals={false} stroke="#94A3B8" />
-        <Tooltip contentStyle={{ backgroundColor: isDark ? "#1E293B" : "#fff", border: isDark ? "1px solid #334155" : "1px solid #E2E8F0", borderRadius: "12px", fontSize: 12, color: isDark ? "#F1F5F9" : "#0F172A" }} />
+        <XAxis dataKey="name" tick={{ fontSize: 11, fill: palette.axis }} stroke={palette.axis} />
+        <YAxis allowDecimals={false} tick={{ fill: palette.axis }} stroke={palette.axis} />
+        <Tooltip contentStyle={{ backgroundColor: palette.tooltip, border: `1px solid ${palette.tooltipBorder}`, borderRadius: "12px", fontSize: 12, color: palette.text }} />
         <Bar dataKey="value" fill="#6366F1" radius={[6, 6, 0, 0]} />
       </BarChart>
     </ResponsiveContainer>

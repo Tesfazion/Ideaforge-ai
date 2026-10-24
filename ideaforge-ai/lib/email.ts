@@ -11,28 +11,25 @@ let transporter: Transporter | null = null;
 
 function getTransporter(): Transporter {
   if (transporter) return transporter;
-  const host = process.env.MAILTRAP_SMTP_HOST || "bulk.smtp.mailtrap.io";
-  const port = Number(process.env.MAILTRAP_SMTP_PORT || 587);
-  const user = process.env.MAILTRAP_SMTP_USER || "apismtp@mailtrap.io";
-  const pass = process.env.MAILTRAP_API_TOKEN || "";
+  const user = process.env.GMAIL_USER;
+  const pass = process.env.GMAIL_APP_PASSWORD;
   transporter = createTransport({
-    host,
-    port,
-    secure: port === 465,
+    service: "gmail",
     auth: { user, pass },
   });
   return transporter;
 }
 
 export async function sendEmail(options: EmailOptions): Promise<boolean> {
-  const token = process.env.MAILTRAP_API_TOKEN;
-  if (!token) {
-    console.warn("MAILTRAP_API_TOKEN not set; skipping email");
+  const user = process.env.GMAIL_USER;
+  const pass = process.env.GMAIL_APP_PASSWORD;
+  if (!user || !pass) {
+    console.warn("GMAIL_USER/GMAIL_APP_PASSWORD not set; skipping email");
     return false;
   }
   try {
     const info = await getTransporter().sendMail({
-      from: process.env.MAILTRAP_FROM_EMAIL || "Private Person <hello@ideaforge.ai>",
+      from: process.env.GMAIL_FROM || user,
       to: options.to,
       subject: options.subject,
       text: options.text,
@@ -41,7 +38,7 @@ export async function sendEmail(options: EmailOptions): Promise<boolean> {
     console.log("Email sent:", info.messageId);
     return true;
   } catch (err) {
-    console.error("Mailtrap send error:", err instanceof Error ? err.message : err);
+    console.error("Gmail send error:", err instanceof Error ? err.message : err);
     return false;
   }
 }

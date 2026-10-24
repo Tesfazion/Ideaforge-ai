@@ -4,9 +4,11 @@ import { useAuth } from "@/lib/auth";
 import { api, Idea } from "@/lib/api";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, CartesianGrid } from "recharts";
 import { motion } from "framer-motion";
+import { useChartTheme } from "@/lib/theme";
 
 export default function InsightsPage() {
   const { token } = useAuth();
+  const chartPalette = useChartTheme();
   const [ideas, setIdeas] = useState<Idea[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -91,10 +93,10 @@ export default function InsightsPage() {
           {scoreByIndustry.length > 0 ? (
             <ResponsiveContainer width="100%" height={280}>
               <BarChart data={scoreByIndustry}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#E2E8F0" className="stroke-white/[0.06]" />
-                <XAxis dataKey="name" tick={{ fontSize: 10 }} stroke="#94A3B8" />
-                <YAxis domain={[0, 100]} stroke="#94A3B8" />
-                <Tooltip contentStyle={{ backgroundColor: "#1E293B", border: "1px solid #334155", borderRadius: "12px", fontSize: 12, color: "#F1F5F9" }} />
+                <CartesianGrid strokeDasharray="3 3" stroke={chartPalette.grid} />
+                <XAxis dataKey="name" tick={{ fontSize: 10, fill: chartPalette.axis }} stroke={chartPalette.axis} />
+                <YAxis domain={[0, 100]} tick={{ fill: chartPalette.axis }} stroke={chartPalette.axis} />
+                <Tooltip contentStyle={{ backgroundColor: chartPalette.tooltip, border: `1px solid ${chartPalette.tooltipBorder}`, borderRadius: "12px", fontSize: 12, color: chartPalette.text }} />
                 <Bar dataKey="avgScore" radius={[6, 6, 0, 0]}>
                   {scoreByIndustry.map((entry, i) => <Cell key={i} fill={["#6366F1", "#8B5CF6", "#22C55E", "#F59E0B", "#EF4444", "#EC4899"][i % 6]} />)}
                 </Bar>
@@ -108,10 +110,10 @@ export default function InsightsPage() {
           <h3 className="text-sm font-semibold text-white mb-4">Execution Complexity Distribution</h3>
           <ResponsiveContainer width="100%" height={280}>
             <BarChart data={executionData}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#E2E8F0" className="stroke-white/[0.06]" />
-              <XAxis dataKey="name" tick={{ fontSize: 11 }} stroke="#94A3B8" />
-              <YAxis allowDecimals={false} stroke="#94A3B8" />
-              <Tooltip contentStyle={{ backgroundColor: "#1E293B", border: "1px solid #334155", borderRadius: "12px", fontSize: 12, color: "#F1F5F9" }} />
+              <CartesianGrid strokeDasharray="3 3" stroke={chartPalette.grid} />
+              <XAxis dataKey="name" tick={{ fontSize: 11, fill: chartPalette.axis }} stroke={chartPalette.axis} />
+              <YAxis allowDecimals={false} tick={{ fill: chartPalette.axis }} stroke={chartPalette.axis} />
+              <Tooltip contentStyle={{ backgroundColor: chartPalette.tooltip, border: `1px solid ${chartPalette.tooltipBorder}`, borderRadius: "12px", fontSize: 12, color: chartPalette.text }} />
               <Bar dataKey="value" radius={[6, 6, 0, 0]}>
                 {executionData.map((entry) => <Cell key={entry.name} fill={entry.color} />)}
               </Bar>
@@ -124,10 +126,10 @@ export default function InsightsPage() {
         <h3 className="text-sm font-semibold text-white mb-4">Validation Success Rate by Market Scope</h3>
         <ResponsiveContainer width="100%" height={200}>
           <BarChart data={successByScope}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#E2E8F0" className="stroke-white/[0.06]" />
-            <XAxis dataKey="name" tick={{ fontSize: 11 }} stroke="#94A3B8" />
-            <YAxis domain={[0, 100]} stroke="#94A3B8" />
-            <Tooltip contentStyle={{ backgroundColor: "#1E293B", border: "1px solid #334155", borderRadius: "12px", fontSize: 12, color: "#F1F5F9" }} />
+            <CartesianGrid strokeDasharray="3 3" stroke={chartPalette.grid} />
+            <XAxis dataKey="name" tick={{ fontSize: 11, fill: chartPalette.axis }} stroke={chartPalette.axis} />
+            <YAxis domain={[0, 100]} tick={{ fill: chartPalette.axis }} stroke={chartPalette.axis} />
+            <Tooltip contentStyle={{ backgroundColor: chartPalette.tooltip, border: `1px solid ${chartPalette.tooltipBorder}`, borderRadius: "12px", fontSize: 12, color: chartPalette.text }} />
             <Bar dataKey="rate" fill="#6366F1" radius={[6, 6, 0, 0]} />
           </BarChart>
         </ResponsiveContainer>

@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "framer-motion";
 
 export default function CTA() {
@@ -14,21 +15,22 @@ export default function CTA() {
           transition={{ duration: 0.6 }}
         >
           <div className="absolute inset-0">
-          <img
+          <Image
             src="https://images.unsplash.com/photo-1535868463750-cf8f7569bd4e?w=1200&h=600&fit=crop&auto=format&q=80"
             alt=""
             aria-hidden="true"
-            className="w-full h-full object-cover"
-            loading="lazy"
-            decoding="async"
+            fill
+            unoptimized
+            sizes="(max-width: 768px) 100vw, 896px"
+            className="object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-br from-sky-900/90 via-orange-900/85 to-sky-950/90" />
+          <div className="cta-surface absolute inset-0" />
         </div>
           <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMSIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjA3KSIvPjwvc3ZnPg==')] opacity-40" />
           <div className="absolute top-0 left-1/4 w-64 h-64 bg-white/5 rounded-full blur-[80px]" />
           <div className="absolute bottom-0 right-1/4 w-48 h-48 bg-amber-500/10 rounded-full blur-[60px]" />
 
-          <div className="relative px-8 py-16 sm:px-14 sm:py-20 text-center">
+          <div className="cta-content relative px-8 py-16 sm:px-14 sm:py-20 text-center">
             <motion.h2
               className="text-3xl sm:text-4xl font-bold text-white tracking-tight"
               initial={{ opacity: 0, y: 15 }}

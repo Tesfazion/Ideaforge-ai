@@ -18,7 +18,7 @@ export default function Home() {
   return (
     <>
       <Navbar />
-      <main id="main-content">
+      <main id="main-content" className="marketing-page">
         <section id="hero">
           <Hero />
         </section>

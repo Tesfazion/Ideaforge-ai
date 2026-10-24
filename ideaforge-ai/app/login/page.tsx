@@ -80,6 +80,7 @@ export default function LoginPage() {
           <p className="text-center text-sm text-slate-400 mt-6">
             Don&apos;t have an account? <Link href="/register" className="text-sky-400 font-medium hover:underline">Sign up</Link>
           </p>
+          <p className="text-center text-sm mt-2"><Link href="/forgot-password" className="text-sky-400 hover:underline">Forgot password?</Link></p>
         </motion.div>
       </div>
     </div>

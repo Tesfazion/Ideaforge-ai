@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
@@ -20,15 +21,15 @@ function Counter({ end, suffix = "" }: { end: number; suffix?: string }) {
 }
 
 const DIMENSIONS = [
-  { name: "Problem Severity", score: 85, color: "#818cf8" },
-  { name: "Market Urgency", score: 78, color: "#818cf8" },
-  { name: "Market Size", score: 88, color: "#a78bfa" },
-  { name: "Competitive Moat", score: 72, color: "#a78bfa" },
-  { name: "Revenue Potential", score: 76, color: "#c084fc" },
-  { name: "Founder-Idea Fit", score: 90, color: "#c084fc" },
-  { name: "Time to Market", score: 82, color: "#e879f9" },
-  { name: "Scalability", score: 84, color: "#f59e0b" },
-  { name: "Ease of Replica", score: 68, color: "#f59e0b" },
+  { name: "Problem Severity", score: 85, color: "var(--brand-blue)" },
+  { name: "Market Urgency", score: 78, color: "var(--brand-blue)" },
+  { name: "Market Size", score: 88, color: "var(--brand-orange)" },
+  { name: "Competitive Moat", score: 72, color: "var(--brand-blue)" },
+  { name: "Revenue Potential", score: 76, color: "var(--brand-orange)" },
+  { name: "Founder-Idea Fit", score: 90, color: "var(--brand-blue)" },
+  { name: "Time to Market", score: 82, color: "var(--brand-orange)" },
+  { name: "Scalability", score: 84, color: "var(--brand-blue)" },
+  { name: "Ease of Replica", score: 68, color: "var(--brand-orange)" },
 ];
 
 const container = {
@@ -44,61 +45,22 @@ const item = {
   show: { opacity: 1, y: 0, transition: { type: "spring" as const, stiffness: 100 } }
 };
 
-function Particles() {
-  const [dots, setDots] = useState<{ id: number; x: number; y: number; size: number; duration: number; delay: number }[]>([]);
-  useEffect(() => {
-    const frame = requestAnimationFrame(() => {
-      setDots(Array.from({ length: 40 }, (_, i) => ({
-        id: i,
-        x: Math.random() * 100,
-        y: Math.random() * 100,
-        size: Math.random() * 2 + 1,
-        duration: Math.random() * 20 + 15,
-        delay: Math.random() * 10,
-      })));
-    });
-    return () => cancelAnimationFrame(frame);
-  }, []);
-  if (!dots.length) return <div className="absolute inset-0 overflow-hidden pointer-events-none" />;
-  return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      {dots.map((d) => (
-        <motion.div
-          key={d.id}
-          className="absolute rounded-full bg-white/[0.15]"
-          style={{ left: `${d.x}%`, top: `${d.y}%`, width: d.size, height: d.size }}
-          animate={{ y: [0, -30, 0], opacity: [0, 0.6, 0] }}
-          transition={{ duration: d.duration, delay: d.delay, repeat: Infinity, ease: "easeInOut" }}
-        />
-      ))}
-    </div>
-  );
-}
-
 export default function Hero() {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#060a13]">
       <div className="absolute inset-0">
-        <img
+        <Image
           src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&h=1080&fit=crop&auto=format&q=80"
           alt=""
           aria-hidden="true"
-          className="w-full h-full object-cover opacity-[0.15]"
-          loading="lazy"
-          decoding="async"
+          fill
+          unoptimized
+          priority
+          sizes="100vw"
+          className="object-cover opacity-[0.15]"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#060a13] via-[#060a13]/80 to-[#060a13]" />
+        <div className="hero-surface absolute inset-0" />
       </div>
-      <div className="absolute inset-0">
-        <div className="absolute top-1/4 left-1/4 w-16 h-16 sm:w-20 sm:h-20 md:w-32 md:h-32 bg-sky-600/20 rounded-full blur-[80px] animate-orb" />
-        <div className="absolute bottom-1/4 right-1/4 w-12 h-12 sm:w-16 sm:h-16 md:w-32 md:h-32 bg-orange-600/15 rounded-full blur-[60px] animate-orb-delayed" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 sm:w-12 sm:h-12 md:w-24 md:h-24 bg-amber-500/10 rounded-full blur-[40px] animate-orb-slow" />
-      </div>
-
-      <Particles />
-
-      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wMykiLz48L3N2Zz4=')] opacity-60" />
-
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 sm:pt-32 pb-16 sm:pb-20">
         <motion.div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center" variants={container} initial="hidden" animate="show">
           <motion.div className="max-w-2xl" variants={item}>
@@ -164,8 +126,7 @@ export default function Hero() {
           </motion.div>
 
           <motion.div className="relative hidden lg:block" variants={item}>
-            <div className="absolute -inset-[1px] rounded-2xl bg-[conic-gradient(from_var(--angle),transparent_25%,#6366f1_50%,transparent_75%)] opacity-40 animate-[spin_6s_linear_infinite]" style={{ "--angle": "0deg" } as React.CSSProperties} />
-            <div className="relative rounded-2xl overflow-hidden border border-white/10 bg-[#0c1222]/90 backdrop-blur-xl p-6 shadow-2xl shadow-sky-500/5">
+            <div className="relative rounded-2xl overflow-hidden border border-white/10 bg-[#0c1222]/90 backdrop-blur-xl p-6 shadow-2xl">
               <div className="flex items-center gap-2 mb-5">
                 <div className="flex gap-1.5">
                   <div className="w-2.5 h-2.5 rounded-full bg-red-500/80" />

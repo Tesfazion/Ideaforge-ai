@@ -39,21 +39,29 @@ export default function FAQ() {
   }, [search, activeCategory]);
 
   return (
-    <section className="py-24 bg-[#060a13]">
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="faq-section py-24">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+       <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
         <motion.div
-          className="text-center mb-12"
+          className="faq-intro self-start lg:sticky lg:top-28"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <span className="inline-block text-xs font-semibold text-sky-400 bg-sky-500/10 border border-sky-500/20 px-3 py-1 rounded-full mb-5 tracking-wider uppercase">FAQ</span>
-          <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-tight">Frequently asked questions</h2>
+          <span className="section-kicker">FAQ</span>
+          <h2 className="mt-4 text-3xl sm:text-4xl font-bold tracking-tight">Frequently asked questions</h2>
+          <p className="faq-copy mt-4 max-w-md text-base leading-7">Quick answers about validation, reports, pricing, and how IdeaForge handles your ideas.</p>
+          <div className="faq-contact mt-8 rounded-xl border p-5">
+            <p className="text-sm font-semibold">Need a hand?</p>
+            <p className="faq-copy mt-1 text-sm leading-6">Talk with our team about the best way to validate your idea.</p>
+            <Link href="/contact" className="faq-contact-link mt-4 inline-flex items-center gap-2 text-sm font-semibold">Contact the team <span aria-hidden="true">→</span></Link>
+          </div>
         </motion.div>
 
+        <div className="min-w-0">
         <motion.div
-          className="mb-6 flex flex-col sm:flex-row gap-3"
+          className="mb-5 flex flex-col gap-3"
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -71,7 +79,7 @@ export default function FAQ() {
               className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-white/[0.06] bg-white/[0.03] text-sm text-white placeholder-slate-500 focus:outline-none focus:border-sky-500/30 focus:ring-1 focus:ring-sky-500/20 transition-all"
             />
           </div>
-          <div className="flex gap-1.5">
+          <div className="flex flex-wrap gap-1.5">
             {categories.map((c) => (
               <button
                 key={c.id}
@@ -88,14 +96,14 @@ export default function FAQ() {
           </div>
         </motion.div>
 
-        <div className="space-y-2">
+        <div className="faq-list space-y-2">
           <AnimatePresence mode="popLayout">
             {filtered.map((faq) => {
               const originalIndex = faqs.indexOf(faq);
               return (
                 <motion.div
                   key={faq.q}
-                  className="rounded-xl border border-white/[0.06] bg-white/[0.02] overflow-hidden transition-colors hover:border-white/10"
+                  className="faq-item overflow-hidden rounded-xl border transition-colors"
                   layout
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -148,20 +156,22 @@ export default function FAQ() {
         </div>
 
         <motion.div
-          className="text-center mt-10 pt-8 border-t border-white/5"
+          className="faq-more mt-8 border-t pt-6 text-center"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ delay: 0.2 }}
         >
           <p className="text-sm text-slate-500 mb-3">Still have questions?</p>
-          <Link href="/register" className="inline-flex items-center gap-2 text-sm font-semibold text-sky-400 hover:text-sky-300 transition-colors">
+          <Link href="/register" className="faq-contact-link inline-flex items-center gap-2 text-sm font-semibold transition-colors">
             Get in touch with our team
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
             </svg>
           </Link>
         </motion.div>
+        </div>
+       </div>
       </div>
     </section>
   );

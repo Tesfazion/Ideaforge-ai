@@ -1,9 +1,28 @@
 "use client";
 import { useMemo } from "react";
+import { useIsDarkTheme } from "@/lib/theme";
+
+function useInkColor() {
+  const isDark = useIsDarkTheme();
+  return isDark ? "#f8fafc" : "#172033";
+}
+
+function useMutedColor() {
+  const isDark = useIsDarkTheme();
+  return isDark ? "#94a3b8" : "#64748b";
+}
+
+function useTrackColor() {
+  const isDark = useIsDarkTheme();
+  return isDark ? "rgba(255,255,255,0.05)" : "rgba(15,23,42,0.08)";
+}
 
 export function AnimatedRing({ value, max = 100, size = 120, strokeWidth = 8, color = "#6366F1", sublabel }: {
   value: number; max?: number; size?: number; strokeWidth?: number; color?: string; sublabel?: string;
 }) {
+  const ink = useInkColor();
+  const muted = useMutedColor();
+  const track = useTrackColor();
   const radius = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
   const pct = Math.min(value / max, 1);
@@ -12,16 +31,16 @@ export function AnimatedRing({ value, max = 100, size = 120, strokeWidth = 8, co
     <div className="flex flex-col items-center gap-2">
       <div className="relative" style={{ width: size, height: size }}>
         <svg width={size} height={size} className="-rotate-90">
-          <circle cx={size / 2} cy={size / 2} r={radius} fill="none" stroke="rgba(255,255,255,0.04)" strokeWidth={strokeWidth} />
+          <circle cx={size / 2} cy={size / 2} r={radius} fill="none" stroke={track} strokeWidth={strokeWidth} />
           <circle cx={size / 2} cy={size / 2} r={radius} fill="none" stroke={color} strokeWidth={strokeWidth}
             strokeDasharray={circumference} strokeDashoffset={offset} strokeLinecap="round"
             className="transition-all duration-1000 ease-out" style={{ filter: `drop-shadow(0 0 6px ${color}40)` }} />
         </svg>
         <div className="absolute inset-0 flex items-center justify-center">
-          <span className="text-2xl font-bold text-white">{Math.round(pct * 100)}%</span>
+          <span className="text-2xl font-bold" style={{ color: ink }}>{Math.round(pct * 100)}%</span>
         </div>
       </div>
-      {sublabel && <p className="text-[10px] text-slate-500">{sublabel}</p>}
+      {sublabel && <p className="text-[10px]" style={{ color: muted }}>{sublabel}</p>}
     </div>
   );
 }
@@ -43,19 +62,21 @@ export function MiniSparkline({ data, color = "#6366F1" }: { data: number[]; col
 
 export function ScoreRing({ score, size = 48 }: { score: number; size?: number }) {
   const color = score >= 80 ? "#22C55E" : score >= 60 ? "#6366F1" : score >= 40 ? "#F59E0B" : "#EF4444";
+  const ink = useInkColor();
+  const track = useTrackColor();
   const radius = (size - 6) / 2;
   const circumference = 2 * Math.PI * radius;
   const offset = circumference * (1 - score / 100);
   return (
     <div className="relative" style={{ width: size, height: size }}>
       <svg width={size} height={size} className="-rotate-90">
-        <circle cx={size / 2} cy={size / 2} r={radius} fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth={3} />
+        <circle cx={size / 2} cy={size / 2} r={radius} fill="none" stroke={track} strokeWidth={3} />
         <circle cx={size / 2} cy={size / 2} r={radius} fill="none" stroke={color} strokeWidth={3}
           strokeDasharray={circumference} strokeDashoffset={offset} strokeLinecap="round"
           style={{ filter: `drop-shadow(0 0 4px ${color}50)` }} />
       </svg>
       <div className="absolute inset-0 flex items-center justify-center">
-        <span className="text-xs font-bold text-white">{score}</span>
+        <span className="text-xs font-bold" style={{ color: ink }}>{score}</span>
       </div>
     </div>
   );

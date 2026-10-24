@@ -4,11 +4,13 @@ import { useAuth } from "@/lib/auth";
 import { api, Idea } from "@/lib/api";
 import { RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, ResponsiveContainer, Legend, Tooltip, BarChart, Bar, XAxis, YAxis, CartesianGrid } from "recharts";
 import { motion } from "framer-motion";
+import { useChartTheme } from "@/lib/theme";
 
 type CompRow = { label: string; key: string };
 
 export default function ComparePage() {
   const { token } = useAuth();
+  const chartPalette = useChartTheme();
   const [ideas, setIdeas] = useState<Idea[]>([]);
   const [selected, setSelected] = useState<string[]>(["", ""]);
   const [loading, setLoading] = useState(true);
@@ -167,13 +169,13 @@ export default function ComparePage() {
               <h3 className="text-sm font-semibold text-white mb-4">Radar Comparison</h3>
               <ResponsiveContainer width="100%" height={320}>
                 <RadarChart data={radarData}>
-                  <PolarGrid stroke="rgba(255,255,255,0.06)" className="dark:stroke-white/10" />
-                  <PolarAngleAxis dataKey="subject" tick={{ fontSize: 11 }} stroke="rgba(148,163,184,0.5)" />
-                  <PolarRadiusAxis angle={30} domain={[0, 100]} stroke="rgba(148,163,184,0.5)" />
+                  <PolarGrid stroke={chartPalette.grid} />
+                  <PolarAngleAxis dataKey="subject" tick={{ fontSize: 11, fill: chartPalette.axis }} stroke={chartPalette.axis} />
+                  <PolarRadiusAxis angle={30} domain={[0, 100]} tick={{ fill: chartPalette.axis }} stroke={chartPalette.axis} />
                    <Radar name={ideaA.title} dataKey="A" stroke="#6366F1" fill="#6366F1" fillOpacity={0.3} />
                    <Radar name={ideaB.title} dataKey="B" stroke="#A855F7" fill="#A855F7" fillOpacity={0.3} />
-                  <Legend wrapperStyle={{ fontSize: 12 }} />
-                  <Tooltip contentStyle={{ backgroundColor: "#1E293B", border: "1px solid #334155", borderRadius: "12px", fontSize: 12, color: "#F1F5F9" }} />
+                  <Legend wrapperStyle={{ fontSize: 12, color: chartPalette.text }} />
+                  <Tooltip contentStyle={{ backgroundColor: chartPalette.tooltip, border: `1px solid ${chartPalette.tooltipBorder}`, borderRadius: "12px", fontSize: 12, color: chartPalette.text }} />
                 </RadarChart>
               </ResponsiveContainer>
             </motion.div>
@@ -181,10 +183,10 @@ export default function ComparePage() {
               <h3 className="text-sm font-semibold text-white mb-4">Score Breakdown</h3>
               <ResponsiveContainer width="100%" height={320}>
                 <BarChart data={barData}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.06)" className="dark:stroke-white/10" />
-                  <XAxis dataKey="name" tick={{ fontSize: 11 }} stroke="rgba(148,163,184,0.5)" />
-                  <YAxis domain={[0, 100]} stroke="rgba(148,163,184,0.5)" />
-                  <Tooltip contentStyle={{ backgroundColor: "#1E293B", border: "1px solid #334155", borderRadius: "12px", fontSize: 12, color: "#F1F5F9" }} />
+                  <CartesianGrid strokeDasharray="3 3" stroke={chartPalette.grid} />
+                  <XAxis dataKey="name" tick={{ fontSize: 11, fill: chartPalette.axis }} stroke={chartPalette.axis} />
+                  <YAxis domain={[0, 100]} tick={{ fill: chartPalette.axis }} stroke={chartPalette.axis} />
+                  <Tooltip contentStyle={{ backgroundColor: chartPalette.tooltip, border: `1px solid ${chartPalette.tooltipBorder}`, borderRadius: "12px", fontSize: 12, color: chartPalette.text }} />
                   <Bar dataKey="A" fill="#6366F1" radius={[4, 4, 0, 0]} />
                   <Bar dataKey="B" fill="#A855F7" radius={[4, 4, 0, 0]} />
                 </BarChart>

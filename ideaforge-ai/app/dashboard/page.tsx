@@ -3,7 +3,7 @@ import { useEffect, useState, useCallback, useMemo } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useAuth } from "@/lib/auth";
-import { api, Idea, Announcement } from "@/lib/api";
+import { api, Idea } from "@/lib/api";
 import dynamic from "next/dynamic";
 import { motion, AnimatePresence } from "framer-motion";
 import { AnimatedRing, MiniSparkline, ScoreRing, ContributionGrid } from "@/components/DashboardWidgets";
@@ -28,31 +28,12 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true);
   const [retryingId, setRetryingId] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<"overview" | "ideas" | "analytics">("overview");
-  const [latestNews, setLatestNews] = useState<Announcement | null>(null);
-  const [newsDismissed, setNewsDismissed] = useState(false);
 
   useEffect(() => {
     if (token) {
       api.getIdeas(token).then((d) => setIdeas(d.ideas)).catch(() => {}).finally(() => setLoading(false));
     }
   }, [token]);
-
-  useEffect(() => {
-    if (!token) return;
-    api.getAnnouncements(token)
-      .then((d) => {
-        const news = d.announcements[0] ?? null;
-        setLatestNews(news);
-        setNewsDismissed(news ? localStorage.getItem(`ideaforge_news_${news.id}`) === "1" : false);
-      })
-      .catch(() => {});
-  }, [token]);
-
-  const dismissNews = () => {
-    if (!latestNews) return;
-    localStorage.setItem(`ideaforge_news_${latestNews.id}`, "1");
-    setNewsDismissed(true);
-  };
 
   const filtered = useMemo(() => ideas.filter((i) => {
     if (filter === "validated" && i.status !== "validated") return false;
@@ -149,8 +130,8 @@ export default function DashboardPage() {
   );
 
   return (
-    <div className="max-w-[1400px] mx-auto space-y-6">
-      <motion.div variants={scaleIn} initial="hidden" animate="show" className="relative rounded-2xl overflow-hidden">
+    <div className="dashboard-overview max-w-[1400px] mx-auto space-y-6">
+      <motion.div variants={scaleIn} initial="hidden" animate="show" className="dashboard-welcome relative rounded-2xl overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-sky-500/[0.10] via-sky-400/[0.04] to-transparent" />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#060a13]/40" />
         <div className="absolute inset-0 bg-[#0c1222]/60 backdrop-blur-2xl" />
@@ -183,32 +164,6 @@ export default function DashboardPage() {
         </div>
       </motion.div>
 
-      {latestNews && !newsDismissed && (
-        <motion.section
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="relative overflow-hidden rounded-2xl border border-sky-400/20 bg-sky-500/[0.07] p-5 sm:p-6"
-        >
-          <div className="flex flex-wrap items-center gap-2">
-            <span className="inline-flex items-center gap-1.5 rounded-md bg-sky-500/20 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-sky-200">
-              <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.069-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" /></svg>
-              {latestNews.tag}
-            </span>
-            {latestNews.version && <span className="text-xs font-semibold text-sky-300">v{latestNews.version}</span>}
-            <span className="text-[10px] text-slate-500">{new Date(latestNews.createdAt).toLocaleDateString()}</span>
-          </div>
-          <h2 className="mt-2 pr-8 text-base font-semibold text-white">{latestNews.title}</h2>
-          <p className="mt-1 max-w-3xl text-sm leading-relaxed text-slate-400">{latestNews.body}</p>
-          <Link href="/dashboard/news" className="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-sky-300 hover:text-sky-200 transition-colors">
-            All updates
-            <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-          </Link>
-          <button onClick={dismissNews} aria-label="Dismiss update" className="absolute right-3 top-3 rounded-lg p-1.5 text-slate-500 hover:bg-white/[0.06] hover:text-slate-300 transition-colors">
-            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
-          </button>
-        </motion.section>
-      )}
-
       <section className="card-premium rounded-2xl border border-sky-400/15 p-5 sm:p-6">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
@@ -221,9 +176,9 @@ export default function DashboardPage() {
         {plan === "free" && <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-white/10"><div className="h-full rounded-full bg-sky-400 transition-all" style={{ width: `${Math.min(100, Math.max(0, ((user?.monthlyTokens ?? 5) - (user?.tokens ?? 0)) / Math.max(1, user?.monthlyTokens ?? 5) * 100))}%` }} /></div>}
       </section>
 
-      <div className="flex items-center gap-1 p-1 rounded-xl bg-white/[0.03] border border-white/[0.04] w-fit">
+      <div className="dashboard-tabs flex items-center gap-1 p-1 rounded-xl w-fit">
         {tabs.map((tab) => (
-          <button key={tab.id} onClick={() => setActiveTab(tab.id)} className={`flex items-center gap-2 px-4 py-2 rounded-lg text-[13px] font-medium transition-all ${activeTab === tab.id ? "bg-white/[0.08] text-white shadow-sm" : "text-slate-500 hover:text-slate-300 hover:bg-white/[0.04]"}`}>
+          <button key={tab.id} onClick={() => setActiveTab(tab.id)} className={`dashboard-tab flex items-center gap-2 px-4 py-2 rounded-lg text-[13px] font-medium transition-all ${activeTab === tab.id ? "is-active" : ""}`}>
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d={tab.icon} /></svg>
             {tab.label}
           </button>
@@ -237,8 +192,8 @@ export default function DashboardPage() {
               {[
                 { label: "Total Ideas", value: ideas.length, sub: `${stats.validated} validated`, icon: "M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10", color: "from-sky-500 to-sky-600" },
                 { label: "Validated", value: stats.validated, sub: `${stats.failed} failed`, icon: "M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z", color: "from-sky-500 to-sky-600" },
-                { label: plan === "free" ? "Credits left" : "Win Rate", value: plan === "free" ? (user?.tokens ?? 0) : stats.winRate, displayValue: plan === "free" ? `${user?.tokens ?? 0}` : `${stats.winRate}%`, sub: plan === "free" ? "resets monthly" : "success rate", icon: "M13 10V3L4 14h7v7l9-11h-7", color: "from-sky-500 to-sky-600" },
-                { label: "Avg Score", value: stats.avgScore, displayValue: `${stats.avgScore}%`, sub: `Peak: ${stats.topScore}%`, icon: "M13 7h8m0 0v8m0-8l-8 8-4-4-6 6", color: "from-sky-500 to-sky-600" },
+                { label: plan === "free" ? "Credits left" : "Win Rate", value: plan === "free" ? (user?.tokens ?? 0) : stats.winRate, displayValue: plan === "free" ? `${user?.tokens ?? 0}` : ideas.length ? `${stats.winRate}%` : "—", sub: plan === "free" ? "resets monthly" : "success rate", icon: "M13 10V3L4 14h7v7l9-11h-7", color: "from-sky-500 to-sky-600" },
+                { label: "Avg Score", value: stats.avgScore, displayValue: ideas.length ? `${stats.avgScore}%` : "—", sub: ideas.length ? `Peak: ${stats.topScore}%` : "After your first report", icon: "M13 7h8m0 0v8m0-8l-8 8-4-4-6 6", color: "from-sky-500 to-sky-600" },
               ].map((stat) => (
                 <motion.div key={stat.label} variants={fadeUp} className="card-premium rounded-xl p-4 lg:p-5 group">
                   <div className="flex items-start justify-between mb-3">
@@ -254,6 +209,24 @@ export default function DashboardPage() {
               ))}
             </motion.div>
 
+            {ideas.length === 0 ? (
+              <section className="dashboard-empty card-premium rounded-2xl p-6 sm:p-8 lg:p-10">
+                <div className="dashboard-empty-copy max-w-2xl">
+                  <span className="dashboard-eyebrow">Your workspace is ready</span>
+                  <h2>Turn your first idea into a clear next step.</h2>
+                  <p>Get a structured review of your market, customers, competition, and risks. Your reports and progress will appear here.</p>
+                  <div className="mt-6 flex flex-wrap gap-3">
+                    <Link href="/dashboard/new" className="gradient-btn rounded-xl px-5 py-3 text-sm font-semibold text-white">Validate your first idea</Link>
+                    <Link href="/dashboard/generate" className="dashboard-secondary-action rounded-xl px-5 py-3 text-sm font-semibold">Explore ideas with AI</Link>
+                  </div>
+                </div>
+                <div className="dashboard-steps grid sm:grid-cols-3 gap-3 mt-8">
+                  <div><span>01</span><strong>Describe</strong><p>Share the business idea you want to explore.</p></div>
+                  <div><span>02</span><strong>Review</strong><p>See market signals, strengths, and key risks.</p></div>
+                  <div><span>03</span><strong>Decide</strong><p>Use your report to plan a practical next step.</p></div>
+                </div>
+              </section>
+            ) : (
             <div className="grid lg:grid-cols-3 gap-4 lg:gap-6">
               <div className="lg:col-span-2 space-y-4">
                 <motion.div className="card-premium rounded-xl p-5" variants={fadeUp} initial="hidden" animate="show">
@@ -409,6 +382,7 @@ export default function DashboardPage() {
                 </>)}
               </div>
             </div>
+            )}
           </motion.div>
         )}
 

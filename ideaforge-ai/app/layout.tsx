@@ -90,9 +90,10 @@ const productSchema = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" data-theme="dark" data-scroll-behavior="smooth" className={`dark ${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
+    <html lang="en" data-scroll-behavior="smooth" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`} suppressHydrationWarning>
       <head>
         <link rel="icon" href="/favicon.png" sizes="1024x1024" type="image/png" />
+        <script dangerouslySetInnerHTML={{ __html: `try { const theme = localStorage.getItem("ideaforge-theme") === "light" ? "light" : "dark"; document.documentElement.classList.toggle("light", theme === "light"); document.documentElement.classList.toggle("dark", theme === "dark"); document.documentElement.dataset.theme = theme; } catch {}` }} />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}

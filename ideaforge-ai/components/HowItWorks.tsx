@@ -93,7 +93,7 @@ export default function HowItWorks() {
                         sizes="(max-width: 1024px) 100vw, 50vw"
                         className="object-cover group-hover:scale-105 transition-transform duration-700"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#060a13] via-[#060a13]/30 to-transparent" />
+                      <div className="workflow-image-surface absolute inset-0" />
                       <div className="absolute inset-0 bg-sky-500/5 group-hover:bg-sky-500/10 transition-colors duration-500" />
                       <div className="absolute bottom-0 left-0 right-0 p-5">
                         <div className="flex items-center gap-3">
@@ -103,8 +103,8 @@ export default function HowItWorks() {
                             </svg>
                           </div>
                           <div>
-                            <span className="text-xs font-mono text-sky-400">Step {step.num}</span>
-                            <h3 className="text-lg font-bold text-white">{step.title}</h3>
+                            <span className="workflow-image-label text-xs font-mono text-sky-400">Step {step.num}</span>
+                            <h3 className="workflow-image-text text-lg font-bold text-white">{step.title}</h3>
                           </div>
                         </div>
                       </div>

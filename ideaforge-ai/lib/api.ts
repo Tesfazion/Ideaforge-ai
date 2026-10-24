@@ -64,7 +64,12 @@ export function streamValidate(token: string, ideaId: string, onEvent: (event: S
     signal: controller.signal,
   }).then(async (res) => {
     if (!res.ok) {
-      onEvent({ type: "error", message: "Failed to start validation" });
+      let message = "Failed to start validation";
+      try {
+        const data = await res.json() as { error?: string };
+        if (data.error) message = data.error;
+      } catch {}
+      onEvent({ type: "error", message });
       return;
     }
     const reader = res.body?.getReader();
@@ -218,27 +223,7 @@ export const api = {
     request<{ report: Report; idea: { id: string; title: string; status: string } }>(`/api/reports/${ideaId}`, { token }),
   emailReport: (token: string, ideaId: string, format: "csv" | "doc") =>
     request<{ message: string }>(`/api/reports/${ideaId}/email`, { method: "POST", body: JSON.stringify({ format }), token }),
-  getAnnouncements: (token: string, all = false) =>
-    request<{ announcements: Announcement[] }>(`/api/announcements${all ? "?all=1" : ""}`, { token }),
-  createAnnouncement: (
-    token: string,
-    body: { title: string; body: string; version?: string; tag?: Announcement["tag"]; pinned?: boolean; published?: boolean }
-  ) => request<{ announcement: Announcement }>("/api/announcements", { method: "POST", body: JSON.stringify(body), token }),
-  deleteAnnouncement: (token: string, id: string) =>
-    request<{ message: string }>(`/api/announcements/${id}`, { method: "DELETE", token }),
 };
-
-export interface Announcement {
-  id: string;
-  title: string;
-  body: string;
-  version: string;
-  tag: "release" | "news" | "update" | "fix";
-  pinned: boolean;
-  published: boolean;
-  createdAt: string;
-  updatedAt: string;
-}
 
 export interface User {
   id: string; name: string; email: string; plan: string; verified: boolean; createdAt?: string; tokens: number; monthlyTokens: number; onboardingComplete?: boolean;

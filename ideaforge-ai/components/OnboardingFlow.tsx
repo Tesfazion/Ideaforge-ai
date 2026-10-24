@@ -120,7 +120,7 @@ export default function OnboardingFlow({ open, onComplete }: OnboardingFlowProps
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95, y: 20 }}
         transition={{ type: "spring", stiffness: 300, damping: 30 }}
-        className="relative w-full max-w-lg bg-[#0c1222] border border-white/[0.06] rounded-2xl shadow-2xl shadow-black/60 overflow-hidden"
+        className="relative w-full max-w-lg bg-white border border-slate-200 rounded-2xl shadow-2xl overflow-hidden dark:bg-slate-900 dark:border-slate-700"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}

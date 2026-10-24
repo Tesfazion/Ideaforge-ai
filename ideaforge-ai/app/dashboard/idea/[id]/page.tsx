@@ -125,6 +125,7 @@ export default function ReportPage() {
   const [report, setReport] = useState<Report | null>(null);
   const [ideaTitle, setIdeaTitle] = useState("");
   const [status, setStatus] = useState<"loading" | "processing" | "streaming" | "error" | "done">("loading");
+  const [validationError, setValidationError] = useState("");
   const [downloading, setDownloading] = useState(false);
   const [emailFormat, setEmailFormat] = useState<"csv" | "doc">("csv");
   const [emailSending, setEmailSending] = useState(false);
@@ -214,6 +215,7 @@ export default function ReportPage() {
         setReport((event as { report: Report }).report);
         setStatus("done");
       } else if (event.type === "error") {
+        setValidationError(event.message || "The validation could not be completed. Please check AI Settings and retry.");
         setStatus("error");
       }
     });
@@ -225,12 +227,15 @@ export default function ReportPage() {
   const handleRetry = useCallback(async () => {
     if (!token) return;
     setRetrying(true);
+    setValidationError("");
     try {
       await api.retryIdea(token, id as string);
       setStatus("processing");
       hasStartedStream.current = false;
       setStreamSteps([]);
-    } catch {} finally { setRetrying(false); }
+    } catch (error) {
+      setValidationError(error instanceof Error ? error.message : "Could not restart validation. Please try again.");
+    } finally { setRetrying(false); }
   }, [token, id]);
 
   const handleGeneratePivots = useCallback(async () => {
@@ -351,7 +356,8 @@ export default function ReportPage() {
           </svg>
         </div>
         <h2 className="text-xl font-bold text-white">Validation Failed</h2>
-        <p className="text-slate-400 text-sm mt-2 mb-6">The AI analysis encountered an error. You can retry at no additional cost.</p>
+        <p className="text-slate-400 text-sm mt-2 mb-3">{validationError || "The AI analysis could not be completed. Any validation credit used for this attempt has been refunded."}</p>
+        <p className="text-slate-500 text-xs mb-6">Check your provider and model in <Link href="/dashboard/settings" className="text-sky-400 underline underline-offset-2">AI Settings</Link>, then try again.</p>
         <div className="flex gap-3 justify-center">
           <button onClick={handleRetry} disabled={retrying}
             className="gradient-btn text-white px-5 py-2.5 rounded-xl text-sm font-semibold inline-flex items-center gap-2 disabled:opacity-50 transition-all">
