@@ -1,35 +1,89 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
+import AuthShell from "@/components/AuthShell";
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState("");
   const [msg, setMsg] = useState("");
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+
   async function submit(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
+    setMsg("");
+    setError("");
     try {
-      const r = await fetch("/api/auth/forgot-password", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ email }) });
+      const r = await fetch("/api/auth/forgot-password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
       const d = await r.json();
-      setMsg(d.message || d.error || "Done");
-    } catch {
-      setMsg("Failed");
+      if (!r.ok) throw new Error(d.error || "Could not send the reset link");
+      setMsg(d.message || "If that address exists, a reset link is on its way.");
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Something went wrong");
     } finally {
       setLoading(false);
     }
   }
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#060a13]">
-      <div className="w-full max-w-md p-6 rounded-2xl bg-[#0c1222] border border-white/[0.06]">
-        <h1 className="text-xl font-bold text-white mb-4">Forgot password</h1>
-        <form onSubmit={submit} className="space-y-4">
-          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@example.com" className="w-full px-4 py-2.5 rounded-xl bg-white/[0.05] border border-white/[0.06] text-white text-sm" required />
-          <button disabled={loading} className="w-full py-2.5 rounded-xl text-sm font-semibold text-white bg-sky-500 hover:bg-sky-400 disabled:opacity-50">{loading ? "Sending..." : "Send reset link"}</button>
+    <AuthShell
+      title="Reset your password"
+      subtitle="Enter the email on your account and we'll send you a reset link."
+      footer={
+        <p className="text-center text-sm text-copy">
+          Remembered it?{" "}
+          <Link href="/login" className="font-semibold text-brand-ink hover:text-brand-strong">
+            Back to sign in
+          </Link>
+        </p>
+      }
+    >
+      {msg ? (
+        <div className="rounded-lg border px-4 py-3.5 text-sm"
+             style={{
+               borderColor: "var(--success-line)",
+               backgroundColor: "var(--success-soft)",
+               color: "var(--success-ink)",
+             }}>
+          {msg}
+        </div>
+      ) : (
+        <form onSubmit={submit} className="space-y-5">
+          <div className="field">
+            <label htmlFor="email" className="label">Work email</label>
+            <input
+              id="email"
+              type="email"
+              required
+              autoComplete="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="input"
+              placeholder="you@company.com"
+            />
+          </div>
+
+          {error && (
+            <p role="alert" className="rounded-lg border px-4 py-3 text-sm"
+               style={{
+                 borderColor: "var(--danger-line)",
+                 backgroundColor: "var(--danger-soft)",
+                 color: "var(--danger-ink)",
+               }}>
+              {error}
+            </p>
+          )}
+
+          <button type="submit" disabled={loading} className="btn btn-primary btn-block">
+            {loading ? "Sending…" : "Send reset link"}
+          </button>
         </form>
-        {msg && <p className="mt-3 text-sm text-slate-400">{msg}</p>}
-        <p className="mt-4 text-sm"><Link href="/login" className="text-sky-400">Back to login</Link></p>
-      </div>
-    </div>
+      )}
+    </AuthShell>
   );
 }

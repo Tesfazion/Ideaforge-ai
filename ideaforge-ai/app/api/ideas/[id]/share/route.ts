@@ -18,14 +18,14 @@ export async function POST(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const userId = getUserId(request);
+    const userId = await getUserId(request);
     if (!userId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const ip = getClientIp(request);
     const rateKey = `share:${userId}:${ip}`;
-    const { allowed, remaining, resetIn } = checkRateLimit(rateKey, {
+    const { allowed, remaining, resetIn } = await checkRateLimit(rateKey, {
       windowMs: 3600000,
       maxRequests: 10,
     });

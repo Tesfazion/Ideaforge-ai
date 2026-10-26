@@ -1,11 +1,22 @@
 "use client";
 import { useState } from "react";
+import Link from "next/link";
+
+type PreviewResult = {
+  viabilityScore: number;
+  marketScore: number;
+  competitorScore: number;
+  monetizationScore: number;
+  riskScore: number;
+  message: string;
+  usedFallback: boolean;
+};
 
 export default function PreviewScore() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<{ viabilityScore: number; marketScore: number; competitorScore: number; monetizationScore: number; riskScore: number; message: string; usedFallback: boolean } | null>(null);
+  const [result, setResult] = useState<PreviewResult | null>(null);
   const [error, setError] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -31,78 +42,150 @@ export default function PreviewScore() {
     }
   };
 
+  const tone =
+    result && result.viabilityScore >= 60
+      ? "badge badge-success"
+      : result && result.viabilityScore >= 40
+        ? "badge badge-warning"
+        : "badge badge-danger";
+
   return (
-    <section className="py-16 bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-800/50">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-10">
-          <h2 className="text-3xl font-bold text-gray-900 dark:text-white">Get Your Instant Preview Score</h2>
-          <p className="mt-3 text-gray-500 dark:text-gray-400">No sign-up required. See your viability score in seconds.</p>
+    <section className="section bg-surface" id="preview">
+      <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
+        <div className="text-center">
+          <span className="eyebrow">Free preview</span>
+          <h2 className="mt-4 text-3xl font-bold tracking-tight text-ink sm:text-4xl">
+            Get an instant preview score
+          </h2>
+          <p className="mx-auto mt-3 max-w-xl text-base leading-relaxed text-copy">
+            No account required. Describe your idea and see how it scores before you sign up.
+          </p>
         </div>
 
-        <div className="card-base glass-card rounded-2xl p-6 sm:p-8 border border-gray-200 dark:border-gray-700">
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-900 dark:text-gray-200 mb-1.5">Idea Title</label>
-              <input type="text" required value={title} onChange={(e) => setTitle(e.target.value)} placeholder="e.g. AI-Powered Fitness Coach" suppressHydrationWarning
-                className="w-full px-4 py-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 transition-colors placeholder:text-gray-400" />
+        <div className="card mt-10 p-6 sm:p-8">
+          <form onSubmit={handleSubmit} className="space-y-5">
+            <div className="field">
+              <label htmlFor="preview-title" className="label">Idea title</label>
+              <input
+                id="preview-title"
+                type="text"
+                required
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                placeholder="e.g. AI-powered fitness coach"
+                suppressHydrationWarning
+                className="input"
+              />
             </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-900 dark:text-gray-200 mb-1.5">Brief Description</label>
-              <textarea required rows={3} value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Describe your idea in 2-3 sentences..."
-                className="w-full px-4 py-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 transition-colors resize-none placeholder:text-gray-400" />
+
+            <div className="field">
+              <label htmlFor="preview-description" className="label">Brief description</label>
+              <textarea
+                id="preview-description"
+                required
+                rows={3}
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                placeholder="Describe your idea in two or three sentences…"
+                className="textarea resize-none"
+              />
+              <p className="helper">Include who it is for and how it makes money.</p>
             </div>
-            <button type="submit" disabled={loading} suppressHydrationWarning
-              className="w-full gradient-btn text-white font-semibold py-3 rounded-xl text-sm disabled:opacity-50 flex items-center justify-center gap-2">
+
+            <button type="submit" disabled={loading} className="btn btn-primary btn-block">
               {loading ? (
-                <><div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" /> Analyzing...</>
+                <>
+                  <span className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" aria-hidden="true" />
+                  Analyzing…
+                </>
               ) : (
-                <><svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg> Get Free Preview Score</>
+                <>
+                  <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                  Get free preview score
+                </>
               )}
             </button>
           </form>
 
           {error && (
-            <div className="mt-4 bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/20 text-red-700 dark:text-red-400 text-sm px-4 py-3 rounded-xl">{error}</div>
+            <div
+              role="alert"
+              className="mt-5 rounded-lg border px-4 py-3 text-sm"
+              style={{
+                borderColor: "var(--danger-line)",
+                backgroundColor: "var(--danger-soft)",
+                color: "var(--danger-ink)",
+              }}
+            >
+              {error}
+            </div>
           )}
 
           {result && (
-            <div className="mt-6 animate-slide-up">
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
+            <div className="animate-slide-up mt-8 border-t border-line pt-8">
+              <div className="flex flex-col items-center gap-8 sm:flex-row sm:justify-center">
                 <div className="text-center">
-                  <div className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-white text-sm font-semibold mb-2 ${result.viabilityScore >= 60 ? "bg-emerald-500" : result.viabilityScore >= 40 ? "bg-amber-500" : "bg-red-500"}`}>
-                    {result.viabilityScore >= 60 ? "Promising" : result.viabilityScore >= 40 ? "Needs Work" : "High Risk"}
-                  </div>
-                  <p className="text-5xl font-bold text-gray-900 dark:text-white">{result.viabilityScore}<span className="text-xl text-gray-400">/100</span></p>
-                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Viability Score</p>
+                  <span className={`${tone} mb-3`}>
+                    {result.viabilityScore >= 60 ? "Promising" : result.viabilityScore >= 40 ? "Needs work" : "High risk"}
+                  </span>
+                  <p className="font-heading text-5xl font-bold tracking-tight text-ink">
+                    {result.viabilityScore}
+                    <span className="text-xl font-medium text-muted">/100</span>
+                  </p>
+                  <p className="mt-1 text-xs text-muted">Viability score</p>
                 </div>
-                <div className="flex flex-wrap justify-center gap-4">
+
+                <div className="flex flex-wrap justify-center gap-5">
                   {[
-                    { label: "Market", score: result.marketScore, color: "#6366F1" },
-                    { label: "Competition", score: result.competitorScore, color: "#8B5CF6" },
-                    { label: "Monetization", score: result.monetizationScore, color: "#22C55E" },
-                    { label: "Safety", score: 100 - result.riskScore, color: "#F59E0B" },
+                    { label: "Market", score: result.marketScore, color: "var(--brand-blue)" },
+                    { label: "Competition", score: result.competitorScore, color: "var(--brand-blue)" },
+                    { label: "Monetization", score: result.monetizationScore, color: "var(--brand-orange)" },
+                    { label: "Safety", score: 100 - result.riskScore, color: "var(--success)" },
                   ].map((item) => (
                     <div key={item.label} className="flex flex-col items-center">
-                      <svg width="70" height="70">
-                        <circle cx="35" cy="35" r="28" fill="none" stroke="#E2E8F0" className="dark:stroke-gray-700" strokeWidth="5" />
-                        <circle cx="35" cy="35" r="28" fill="none" stroke={item.color} strokeWidth="5"
-                          strokeDasharray={2 * Math.PI * 28} strokeDashoffset={2 * Math.PI * 28 * (1 - item.score / 100)}
-                          strokeLinecap="round" transform="rotate(-90 35 35)" className="transition-all duration-1000" />
-                        <text x="35" y="35" textAnchor="middle" dominantBaseline="central" className="text-sm font-bold fill-current text-gray-900 dark:text-white">{item.score}</text>
+                      <svg width="70" height="70" aria-hidden="true">
+                        <circle cx="35" cy="35" r="28" fill="none" stroke="var(--line)" strokeWidth="5" />
+                        <circle
+                          cx="35"
+                          cy="35"
+                          r="28"
+                          fill="none"
+                          stroke={item.color}
+                          strokeWidth="5"
+                          strokeDasharray={2 * Math.PI * 28}
+                          strokeDashoffset={2 * Math.PI * 28 * (1 - item.score / 100)}
+                          strokeLinecap="round"
+                          transform="rotate(-90 35 35)"
+                          className="transition-all duration-700"
+                        />
+                        <text
+                          x="35"
+                          y="35"
+                          textAnchor="middle"
+                          dominantBaseline="central"
+                          className="fill-current font-heading text-sm font-bold"
+                          style={{ color: "var(--ink)" }}
+                        >
+                          {item.score}
+                        </text>
                       </svg>
-                      <span className="text-[10px] text-gray-500 dark:text-gray-400 mt-1">{item.label}</span>
+                      <span className="mt-1 text-[10px] font-medium text-muted">{item.label}</span>
                     </div>
                   ))}
                 </div>
               </div>
-              <p className="text-center text-xs text-gray-500 dark:text-gray-400 mt-4">{result.message}</p>
-              <div className="text-center mt-4">
-                <a href="/register" className="gradient-btn text-white px-6 py-2.5 rounded-xl text-sm font-semibold inline-flex items-center gap-2">
-                  Sign Up to Unlock Full Report
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+
+              <p className="mt-5 text-center text-xs leading-relaxed text-muted">{result.message}</p>
+
+              <div className="mt-5 text-center">
+                <Link href="/register" className="btn btn-primary">
+                  Unlock the full report
+                  <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
                   </svg>
-                </a>
+                </Link>
               </div>
             </div>
           )}

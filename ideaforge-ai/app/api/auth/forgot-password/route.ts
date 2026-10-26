@@ -1,20 +1,9 @@
-﻿import { NextRequest, NextResponse } from "next/server";
-import jwt from "jsonwebtoken";
+import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
 import { sendEmail } from "@/lib/email";
-
-function getSecret(): string {
-  const secret = process.env.JWT_SECRET;
-  if (!secret) {
-    throw new Error("JWT_SECRET environment variable is required.");
-  }
-  if (secret.length < 16) {
-    throw new Error("JWT_SECRET must be at least 16 characters.");
-  }
-  return secret;
-}
+import { signPasswordResetToken } from "@/lib/jwt";
 
 const forgotPasswordSchema = z.object({
   email: z.string().email(),
@@ -23,7 +12,7 @@ const forgotPasswordSchema = z.object({
 export async function POST(request: NextRequest) {
   try {
     const ip = getClientIp(request);
-    const rl = checkRateLimit(`forgot-password:${ip}`, { windowMs: 60000, maxRequests: 5 });
+    const rl = await checkRateLimit(`forgot-password:${ip}`, { windowMs: 60000, maxRequests: 5 });
     if (!rl.allowed) {
       return NextResponse.json({ error: "Too many attempts. Try again later." }, { status: 429 });
     }
@@ -42,11 +31,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ message: "If an account exists with that email, a reset link has been sent." });
     }
 
-    const resetToken = jwt.sign(
-      { userId: user.id, type: "password_reset" },
-      getSecret(),
-      { expiresIn: "1h" }
-    );
+    const resetToken = await signPasswordResetToken(user.id);
 
     const resetUrl = `${process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"}/reset-password?token=${resetToken}`;
 

@@ -30,6 +30,8 @@ async function findUser(subscription: Stripe.Subscription): Promise<{ id: string
 }
 
 export async function POST(request: NextRequest) {
+  let claimedEventId: string | null = null;
+  let event: Stripe.Event;
   try {
     if (!process.env.STRIPE_SECRET_KEY) {
       return NextResponse.json({ error: "Stripe not configured" }, { status: 503 });
@@ -42,7 +44,6 @@ export async function POST(request: NextRequest) {
     }
 
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, { apiVersion: "2026-08-26.dahlia" });
-    let event: Stripe.Event;
     try {
       event = stripe.webhooks.constructEvent(body, sig, webhookSecret);
     } catch (err: unknown) {
@@ -52,15 +53,33 @@ export async function POST(request: NextRequest) {
 
     console.log(`[Stripe Webhook] Received event: ${event.type} (${event.id})`);
 
-    // Idempotency: check if event already processed
-    const existing = await prisma.contactInquiry.findFirst({
-      where: { company: `stripe_event:${event.id}` },
-      select: { id: true },
-    }).catch(() => null);
-    if (existing) {
-      console.log(`[Stripe Webhook] Event ${event.id} already processed, skipping`);
-      return NextResponse.json({ received: true });
+    const claimed = await prisma.stripeWebhookEvent.createMany({
+      data: { id: event.id, type: event.type },
+      skipDuplicates: true,
+    });
+    if (claimed.count === 0) {
+      const existingEvent = await prisma.stripeWebhookEvent.findUnique({
+        where: { id: event.id },
+        select: { processedAt: true, createdAt: true },
+      });
+      if (existingEvent?.processedAt) {
+        console.log(`[Stripe Webhook] Event ${event.id} already processed, skipping`);
+        return NextResponse.json({ received: true });
+      }
+
+      const retryClaim = await prisma.stripeWebhookEvent.updateMany({
+        where: {
+          id: event.id,
+          processedAt: null,
+          createdAt: { lt: new Date(Date.now() - 5 * 60 * 1000) },
+        },
+        data: { createdAt: new Date() },
+      });
+      if (retryClaim.count === 0) {
+        return NextResponse.json({ error: "Event processing is in progress" }, { status: 503 });
+      }
     }
+    claimedEventId = event.id;
 
     switch (event.type) {
       case "checkout.session.completed": {
@@ -70,13 +89,18 @@ export async function POST(request: NextRequest) {
 
         if (!userId) {
           console.warn("[Stripe Webhook] checkout.session.completed missing userId in metadata");
+          await prisma.stripeWebhookEvent.update({
+            where: { id: event.id },
+            data: { processedAt: new Date() },
+          });
+          claimedEventId = null;
           return NextResponse.json({ received: true });
         }
 
         const user = await prisma.user.findUnique({ where: { id: userId } });
         if (!user) {
           console.error(`[Stripe Webhook] User not found: ${userId}`);
-          return NextResponse.json({ received: true });
+          throw new Error(`User not found for checkout session: ${userId}`);
         }
 
         const tokens = plan in MONTHLY_TOKENS ? MONTHLY_TOKENS[plan] : 5;
@@ -99,7 +123,7 @@ export async function POST(request: NextRequest) {
         const user = await findUser(subscription);
         if (!user) {
           console.warn(`[Stripe Webhook] No user found for subscription ${subscription.id}`);
-          return NextResponse.json({ received: true });
+          throw new Error(`User not found for subscription: ${subscription.id}`);
         }
 
         const priceId = subscription.items.data[0]?.price?.id;
@@ -129,7 +153,7 @@ export async function POST(request: NextRequest) {
         const user = await findUser(subscription);
         if (!user) {
           console.warn(`[Stripe Webhook] No user found for deleted subscription ${subscription.id}`);
-          return NextResponse.json({ received: true });
+          throw new Error(`User not found for subscription: ${subscription.id}`);
         }
 
         await prisma.user.update({
@@ -156,7 +180,7 @@ export async function POST(request: NextRequest) {
         const user = await findUser(subscription);
         if (!user) {
           console.warn(`[Stripe Webhook] No user found for invoice ${invoice.id}`);
-          return NextResponse.json({ received: true });
+          throw new Error(`User not found for invoice: ${invoice.id}`);
         }
 
         const priceId = subscription.items.data[0]?.price?.id;
@@ -194,18 +218,17 @@ export async function POST(request: NextRequest) {
         console.log(`[Stripe Webhook] Unhandled event type: ${event.type}`);
     }
 
-    // Mark event as processed for idempotency
-    await prisma.contactInquiry.create({
-      data: {
-        email: "stripe@webhook.local",
-        company: `stripe_event:${event.id}`,
-        message: event.type,
-      },
-    }).catch(() => {});
+    await prisma.stripeWebhookEvent.update({
+      where: { id: event.id },
+      data: { processedAt: new Date() },
+    });
 
     return NextResponse.json({ received: true });
   } catch (err: unknown) {
     console.error("[Stripe Webhook] Handler error:", err instanceof Error ? err.message : "unknown error");
+    if (claimedEventId) {
+      await prisma.stripeWebhookEvent.deleteMany({ where: { id: claimedEventId } });
+    }
     return NextResponse.json({ error: "Webhook handler failed" }, { status: 500 });
   }
 }

@@ -4,7 +4,7 @@ import { useIsDarkTheme } from "@/lib/theme";
 
 function useInkColor() {
   const isDark = useIsDarkTheme();
-  return isDark ? "#f8fafc" : "#172033";
+  return isDark ? "#f8fafc" : "#0b1220";
 }
 
 function useMutedColor() {
@@ -14,10 +14,10 @@ function useMutedColor() {
 
 function useTrackColor() {
   const isDark = useIsDarkTheme();
-  return isDark ? "rgba(255,255,255,0.05)" : "rgba(15,23,42,0.08)";
+  return isDark ? "rgba(255,255,255,0.10)" : "rgba(15,23,42,0.08)";
 }
 
-export function AnimatedRing({ value, max = 100, size = 120, strokeWidth = 8, color = "#6366F1", sublabel }: {
+export function AnimatedRing({ value, max = 100, size = 120, strokeWidth = 8, color = "#007ACC", sublabel }: {
   value: number; max?: number; size?: number; strokeWidth?: number; color?: string; sublabel?: string;
 }) {
   const ink = useInkColor();
@@ -34,19 +34,19 @@ export function AnimatedRing({ value, max = 100, size = 120, strokeWidth = 8, co
           <circle cx={size / 2} cy={size / 2} r={radius} fill="none" stroke={track} strokeWidth={strokeWidth} />
           <circle cx={size / 2} cy={size / 2} r={radius} fill="none" stroke={color} strokeWidth={strokeWidth}
             strokeDasharray={circumference} strokeDashoffset={offset} strokeLinecap="round"
-            className="transition-all duration-1000 ease-out" style={{ filter: `drop-shadow(0 0 6px ${color}40)` }} />
+            className="transition-all duration-700 ease-out" />
         </svg>
         <div className="absolute inset-0 flex items-center justify-center">
-          <span className="text-2xl font-bold" style={{ color: ink }}>{Math.round(pct * 100)}%</span>
+          <span className="font-heading text-2xl font-bold" style={{ color: ink }}>{Math.round(pct * 100)}%</span>
         </div>
       </div>
-      {sublabel && <p className="text-[10px]" style={{ color: muted }}>{sublabel}</p>}
+      {sublabel && <p className="text-[11px] font-medium" style={{ color: muted }}>{sublabel}</p>}
     </div>
   );
 }
 
-export function MiniSparkline({ data, color = "#6366F1" }: { data: number[]; color?: string }) {
-  if (data.length < 2) return <div className="w-16 h-6" />;
+export function MiniSparkline({ data, color = "#007ACC" }: { data: number[]; color?: string }) {
+  if (data.length < 2) return <div className="h-6 w-16" />;
   const max = Math.max(...data, 1);
   const min = Math.min(...data, 0);
   const range = max - min || 1;
@@ -54,14 +54,14 @@ export function MiniSparkline({ data, color = "#6366F1" }: { data: number[]; col
   const h = 24;
   const points = data.map((v, i) => `${(i / (data.length - 1)) * w},${h - ((v - min) / range) * h}`).join(" ");
   return (
-    <svg width={w} height={h} className="overflow-visible">
-      <polyline points={points} fill="none" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    <svg width={w} height={h} className="overflow-visible" aria-hidden="true">
+      <polyline points={points} fill="none" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" opacity={0.85} />
     </svg>
   );
 }
 
 export function ScoreRing({ score, size = 48 }: { score: number; size?: number }) {
-  const color = score >= 80 ? "#22C55E" : score >= 60 ? "#6366F1" : score >= 40 ? "#F59E0B" : "#EF4444";
+  const color = score >= 80 ? "#12824f" : score >= 60 ? "#007ACC" : score >= 40 ? "#b06a12" : "#c02b2b";
   const ink = useInkColor();
   const track = useTrackColor();
   const radius = (size - 6) / 2;
@@ -69,22 +69,22 @@ export function ScoreRing({ score, size = 48 }: { score: number; size?: number }
   const offset = circumference * (1 - score / 100);
   return (
     <div className="relative" style={{ width: size, height: size }}>
-      <svg width={size} height={size} className="-rotate-90">
+      <svg width={size} height={size} className="-rotate-90" aria-hidden="true">
         <circle cx={size / 2} cy={size / 2} r={radius} fill="none" stroke={track} strokeWidth={3} />
         <circle cx={size / 2} cy={size / 2} r={radius} fill="none" stroke={color} strokeWidth={3}
-          strokeDasharray={circumference} strokeDashoffset={offset} strokeLinecap="round"
-          style={{ filter: `drop-shadow(0 0 4px ${color}50)` }} />
+          strokeDasharray={circumference} strokeDashoffset={offset} strokeLinecap="round" />
       </svg>
       <div className="absolute inset-0 flex items-center justify-center">
-        <span className="text-xs font-bold" style={{ color: ink }}>{score}</span>
+        <span className="text-xs font-bold tabular-nums" style={{ color: ink }}>{score}</span>
       </div>
     </div>
   );
 }
 
 export function ContributionGrid({ ideas }: { ideas: { createdAt: string }[] }) {
+  const isDark = useIsDarkTheme();
   const weeks = 16;
-  const cellSize = 14;
+  const cellSize = 13;
 
   const grid = useMemo(() => {
     const today = new Date();
@@ -113,12 +113,13 @@ export function ContributionGrid({ ideas }: { ideas: { createdAt: string }[] }) 
     return cells;
   }, [ideas]);
 
+  const empty = isDark ? "rgba(255,255,255,0.07)" : "#eef2f7";
   const getColor = (count: number) => {
-    if (count === 0) return "bg-white/[0.03]";
-    if (count === 1) return "bg-sky-500/30";
-    if (count === 2) return "bg-sky-500/50";
-    if (count === 3) return "bg-sky-500/70";
-    return "bg-sky-500/90";
+    if (count === 0) return empty;
+    if (count === 1) return "rgba(0,122,204,0.28)";
+    if (count === 2) return "rgba(0,122,204,0.48)";
+    if (count === 3) return "rgba(0,122,204,0.7)";
+    return "#007acc";
   };
 
   return (
@@ -127,10 +128,12 @@ export function ContributionGrid({ ideas }: { ideas: { createdAt: string }[] }) 
         {grid.map((week, wi) => (
           <div key={wi} className="flex flex-col gap-[3px]">
             {week.map((cell, di) => (
-              <div key={di}
-                className={`${getColor(cell.count)} rounded-[3px] transition-colors hover:ring-1 hover:ring-white/20`}
-                style={{ width: cellSize, height: cellSize }}
-                title={`${cell.date.toLocaleDateString()}: ${cell.count} idea${cell.count !== 1 ? "s" : ""}`} />
+              <div
+                key={di}
+                className="rounded-[3px] transition-transform hover:scale-110"
+                style={{ width: cellSize, height: cellSize, backgroundColor: getColor(cell.count) }}
+                title={`${cell.date.toLocaleDateString()}: ${cell.count} idea${cell.count !== 1 ? "s" : ""}`}
+              />
             ))}
           </div>
         ))}

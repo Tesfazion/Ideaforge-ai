@@ -68,15 +68,16 @@ export default function FAQ() {
           transition={{ delay: 0.1 }}
         >
           <div className="relative flex-1">
-            <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
               <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
             <input
               type="text"
               placeholder="Search questions..."
+              aria-label="Search frequently asked questions"
               value={search}
               onChange={(e) => { setSearch(e.target.value); setOpen(null); }}
-              className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-white/[0.06] bg-white/[0.03] text-sm text-white placeholder-slate-500 focus:outline-none focus:border-sky-500/30 focus:ring-1 focus:ring-sky-500/20 transition-all"
+              className="input pl-10"
             />
           </div>
           <div className="flex flex-wrap gap-1.5">
@@ -84,10 +85,10 @@ export default function FAQ() {
               <button
                 key={c.id}
                 onClick={() => { setActiveCategory(c.id); setOpen(null); }}
-                className={`px-3 py-2 rounded-lg text-xs font-medium transition-all whitespace-nowrap ${
+                className={`px-3 py-2 rounded-lg text-xs font-semibold transition-colors whitespace-nowrap border ${
                   activeCategory === c.id
-                    ? "bg-sky-500/10 text-sky-400 border border-sky-500/20"
-                    : "text-slate-500 border border-white/[0.06] hover:text-slate-300 hover:border-white/10"
+                    ? "bg-brand-soft text-brand-ink border-brand-line"
+                    : "text-muted border-line hover:text-ink hover:border-line-strong"
                 }`}
               >
                 {c.label}
@@ -114,9 +115,9 @@ export default function FAQ() {
                     onClick={() => setOpen(open === originalIndex ? null : originalIndex)}
                     className="w-full flex items-center justify-between px-5 py-4 text-left"
                   >
-                    <span className="text-sm font-medium text-slate-200 pr-4">{faq.q}</span>
+                    <span className="text-sm font-medium text-ink pr-4">{faq.q}</span>
                     <motion.svg
-                      className="w-4 h-4 text-slate-500 shrink-0"
+                      className="w-4 h-4 text-muted shrink-0"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -136,7 +137,7 @@ export default function FAQ() {
                         transition={{ duration: 0.2 }}
                         className="overflow-hidden"
                       >
-                        <div className="px-5 pb-4 text-sm text-slate-400 leading-relaxed">{faq.a}</div>
+                        <div className="px-5 pb-4 text-sm text-copy leading-relaxed">{faq.a}</div>
                       </motion.div>
                     )}
                   </AnimatePresence>
@@ -146,7 +147,7 @@ export default function FAQ() {
           </AnimatePresence>
           {filtered.length === 0 && (
             <motion.p
-              className="text-center text-sm text-slate-500 py-8"
+              className="text-center text-sm text-muted py-8"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
             >
@@ -162,7 +163,7 @@ export default function FAQ() {
           viewport={{ once: true }}
           transition={{ delay: 0.2 }}
         >
-          <p className="text-sm text-slate-500 mb-3">Still have questions?</p>
+          <p className="text-sm text-muted mb-3">Still have questions?</p>
           <Link href="/register" className="faq-contact-link inline-flex items-center gap-2 text-sm font-semibold transition-colors">
             Get in touch with our team
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>

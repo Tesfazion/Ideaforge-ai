@@ -21,13 +21,13 @@ export default function MobileCTA() {
       animate={{ y: show ? 0 : 100 }}
       transition={{ type: "spring", stiffness: 300, damping: 30 }}
     >
-      <div className="bg-[#0c1222]/95 backdrop-blur-xl border-t border-white/10 px-3 sm:px-4 py-3 safe-area-pb">
+      <div className="border-t border-line bg-surface px-3 py-3 shadow-[0_-4px_16px_rgba(11,18,32,0.06)] safe-area-pb sm:px-4">
         <Link
           href="/register"
-          className="gradient-btn text-white w-full py-3 rounded-xl text-sm font-semibold flex items-center justify-center gap-2"
+          className="btn btn-primary btn-block"
         >
-          Start Validating Free
-          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          Start validating free
+          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
             <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
           </svg>
         </Link>

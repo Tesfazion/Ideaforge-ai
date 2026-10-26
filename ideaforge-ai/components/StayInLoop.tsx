@@ -3,10 +3,18 @@
 import { useState } from "react";
 import { SUNSHINE } from "@/lib/site";
 
-export default function StayInLoop({ compact = false }: { compact?: boolean }) {
+export default function StayInLoop({
+  compact = false,
+  tone = "light",
+}: {
+  compact?: boolean;
+  tone?: "light" | "dark";
+}) {
   const [email, setEmail] = useState("");
   const [state, setState] = useState<"idle" | "loading" | "done">("idle");
   const [error, setError] = useState("");
+
+  const dark = tone === "dark";
 
   const subscribe = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -33,29 +41,63 @@ export default function StayInLoop({ compact = false }: { compact?: boolean }) {
   };
 
   return (
-    <div className={compact ? "" : "mt-5"}>
-      {!compact && <p className="text-xs font-semibold text-slate-400 mb-2">Stay in the loop</p>}
-      {!compact && <p className="text-xs text-slate-500 mb-3">Get IdeaForge product updates. For company news, visit {SUNSHINE.name}.</p>}
-      <form onSubmit={subscribe} className="flex gap-1.5">
+    <div className={compact ? "" : dark ? "" : "mt-5"}>
+      {!compact && (
+        <p className={`text-xs font-semibold ${dark ? "text-[#e6ecf4]" : "text-ink"}`}>
+          Stay in the loop
+        </p>
+      )}
+      {!compact && (
+        <p className={`mt-1 text-xs leading-relaxed ${dark ? "text-[#8b98ab]" : "text-muted"}`}>
+          Product updates, research notes, and new validation models. No noise.
+        </p>
+      )}
+
+      <form onSubmit={subscribe} className="mt-3 flex gap-2">
+        <label htmlFor="stay-in-loop-email" className="sr-only">
+          Your email address for product updates
+        </label>
         <input
+          id="stay-in-loop-email"
           type="email"
-          aria-label="Your email address for product updates"
           placeholder="Your email address"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
-          className="flex-1 px-3 py-1.5 rounded-lg border border-white/[0.06] bg-white/[0.03] text-xs text-white placeholder-slate-600 focus:outline-none focus:border-sky-500/30 transition-colors min-w-0"
+          aria-invalid={error ? "true" : undefined}
+          className={`min-w-0 flex-1 px-3 py-2 text-xs ${dark ? "footer-input" : "input"}`}
         />
         <button
           type="submit"
           disabled={state === "loading"}
-          className="px-3 py-1.5 rounded-lg bg-sky-500/10 border border-sky-500/20 text-sky-400 text-xs font-medium hover:bg-sky-500/20 transition-colors whitespace-nowrap disabled:opacity-60"
+          className={`whitespace-nowrap rounded-[0.625rem] px-3.5 py-2 text-xs font-semibold transition-colors disabled:opacity-60 ${
+            dark
+              ? "bg-brand-strong text-white hover:bg-brand-strong-hover"
+              : "btn btn-primary btn-sm"
+          }`}
         >
-          {state === "loading" ? "..." : state === "done" ? "Subscribed" : "Subscribe"}
+          {state === "loading" ? "…" : state === "done" ? "Subscribed" : "Subscribe"}
         </button>
       </form>
-      {error && <p className="text-xs text-red-400 mt-1">{error}</p>}
-      {!compact && <a href={SUNSHINE.url} target="_blank" rel="noopener noreferrer" className="mt-3 inline-block text-xs font-medium text-sky-400 hover:text-sky-300 transition-colors">Visit {SUNSHINE.name}</a>}
+
+      {error && <p className="mt-1.5 text-xs font-medium text-[#f2a3a3]">{error}</p>}
+      {state === "done" && !error && (
+        <p className="mt-1.5 text-xs font-medium text-[#7fce9f]">Thanks — check your inbox to confirm.</p>
+      )}
+
+      {!compact && (
+        <a
+          href={SUNSHINE.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={`mt-3 inline-flex items-center gap-1.5 text-xs font-medium transition-colors ${
+            dark ? "text-[#f0a768] hover:text-[#ffc08f]" : "text-brand-ink hover:text-brand"
+          }`}
+        >
+          Visit {SUNSHINE.name}
+          <span aria-hidden="true">→</span>
+        </a>
+      )}
     </div>
   );
 }

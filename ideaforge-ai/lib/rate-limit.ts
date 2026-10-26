@@ -1,36 +1,41 @@
-const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
-
-setInterval(() => {
-  const now = Date.now();
-  for (const [key, entry] of rateLimitMap) {
-    if (now > entry.resetAt) rateLimitMap.delete(key);
-  }
-}, 60000);
+import { prisma } from "@/lib/prisma";
+import { createHash } from "crypto";
 
 export interface RateLimitConfig {
   windowMs: number;
   maxRequests: number;
 }
 
-export function checkRateLimit(
+export async function checkRateLimit(
   key: string,
   config: RateLimitConfig = { windowMs: 60000, maxRequests: 10 }
-): { allowed: boolean; remaining: number; resetIn: number } {
-  const now = Date.now();
-  const entry = rateLimitMap.get(key);
-
-  if (!entry || now > entry.resetAt) {
-    rateLimitMap.set(key, { count: 1, resetAt: now + config.windowMs });
-    return { allowed: true, remaining: config.maxRequests - 1, resetIn: config.windowMs };
+): Promise<{ allowed: boolean; remaining: number; resetIn: number }> {
+  const hashedKey = createHash("sha256").update(key).digest("hex");
+  if (Math.random() < 0.01) {
+    await prisma.rateLimit.deleteMany({ where: { resetAt: { lt: new Date() } } });
   }
+  const [entry] = await prisma.$queryRaw<{ count: number; resetAt: Date }[]>`
+    INSERT INTO "RateLimit" ("key", "count", "resetAt")
+    VALUES (${hashedKey}, 1, NOW() + (${config.windowMs} * INTERVAL '1 millisecond'))
+    ON CONFLICT ("key") DO UPDATE SET
+      "count" = CASE
+        WHEN "RateLimit"."resetAt" <= NOW() THEN 1
+        ELSE "RateLimit"."count" + 1
+      END,
+      "resetAt" = CASE
+        WHEN "RateLimit"."resetAt" <= NOW()
+          THEN NOW() + (${config.windowMs} * INTERVAL '1 millisecond')
+        ELSE "RateLimit"."resetAt"
+      END
+    RETURNING "count", "resetAt"
+  `;
 
-  if (entry.count >= config.maxRequests) {
-    const resetIn = Math.ceil((entry.resetAt - now) / 1000);
-    return { allowed: false, remaining: 0, resetIn };
-  }
-
-  entry.count++;
-  return { allowed: true, remaining: config.maxRequests - entry.count, resetIn: Math.ceil((entry.resetAt - now) / 1000) };
+  const resetIn = Math.max(0, Math.ceil((entry.resetAt.getTime() - Date.now()) / 1000));
+  return {
+    allowed: entry.count <= config.maxRequests,
+    remaining: Math.max(0, config.maxRequests - entry.count),
+    resetIn,
+  };
 }
 
 export function getClientIp(request: Request): string {

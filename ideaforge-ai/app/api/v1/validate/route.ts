@@ -61,7 +61,7 @@ export async function POST(request: NextRequest) {
     const { userId, keyId } = authResult;
 
     const ip = getClientIp(request);
-    const rl = checkRateLimit(`api-validate:${keyId}:${ip}`, {
+    const rl = await checkRateLimit(`api-validate:${keyId}:${ip}`, {
       windowMs: 3600000,
       maxRequests: 20,
     });

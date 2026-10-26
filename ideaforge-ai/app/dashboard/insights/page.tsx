@@ -66,7 +66,7 @@ export default function InsightsPage() {
   return (
     <div className="max-w-6xl mx-auto space-y-6 animate-slide-up">
       <motion.div className="relative rounded-3xl overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-sky-500/10 via-violet-500/10 to-orange-500/10" />
+        <div className="absolute inset-0 bg-gradient-to-r from-sky-500/10 via-sky-400/5 to-orange-500/10" />
         <div className="absolute inset-0 bg-[#0c1222]/80 backdrop-blur-xl" />
         <div className="relative px-6 py-8 sm:px-10">
           <h1 className="text-2xl font-bold text-white mb-1">Insights & Analytics</h1>
@@ -98,7 +98,7 @@ export default function InsightsPage() {
                 <YAxis domain={[0, 100]} tick={{ fill: chartPalette.axis }} stroke={chartPalette.axis} />
                 <Tooltip contentStyle={{ backgroundColor: chartPalette.tooltip, border: `1px solid ${chartPalette.tooltipBorder}`, borderRadius: "12px", fontSize: 12, color: chartPalette.text }} />
                 <Bar dataKey="avgScore" radius={[6, 6, 0, 0]}>
-                  {scoreByIndustry.map((entry, i) => <Cell key={i} fill={["#6366F1", "#8B5CF6", "#22C55E", "#F59E0B", "#EF4444", "#EC4899"][i % 6]} />)}
+                  {scoreByIndustry.map((entry, i) => <Cell key={i} fill={["#007ACC", "#EF842B", "#22C55E", "#F59E0B", "#EF4444", "#62AEE3"][i % 6]} />)}
                 </Bar>
               </BarChart>
             </ResponsiveContainer>
@@ -130,7 +130,7 @@ export default function InsightsPage() {
             <XAxis dataKey="name" tick={{ fontSize: 11, fill: chartPalette.axis }} stroke={chartPalette.axis} />
             <YAxis domain={[0, 100]} tick={{ fill: chartPalette.axis }} stroke={chartPalette.axis} />
             <Tooltip contentStyle={{ backgroundColor: chartPalette.tooltip, border: `1px solid ${chartPalette.tooltipBorder}`, borderRadius: "12px", fontSize: 12, color: chartPalette.text }} />
-            <Bar dataKey="rate" fill="#6366F1" radius={[6, 6, 0, 0]} />
+            <Bar dataKey="rate" fill="#007ACC" radius={[6, 6, 0, 0]} />
           </BarChart>
         </ResponsiveContainer>
       </motion.div>

@@ -24,11 +24,11 @@ function escapeHtml(value: string): string {
 }
 
 export async function POST(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
-  const userId = getUserId(request);
+  const userId = await getUserId(request);
   if (!userId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const { id: ideaId } = await params;
-  const rateLimit = checkRateLimit(`report-email:${userId}:${getClientIp(request)}`, { windowMs: 3600000, maxRequests: 3 });
+  const rateLimit = await checkRateLimit(`report-email:${userId}:${getClientIp(request)}`, { windowMs: 3600000, maxRequests: 3 });
   if (!rateLimit.allowed) return NextResponse.json({ error: "Please wait before emailing another report." }, { status: 429 });
 
   const parsed = bodySchema.safeParse(await request.json().catch(() => null));

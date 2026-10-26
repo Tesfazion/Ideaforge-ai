@@ -13,7 +13,7 @@ const contactSchema = z.object({
 export async function POST(request: NextRequest) {
   try {
     const ip = getClientIp(request);
-    const rl = checkRateLimit(`contact:${ip}`, { windowMs: 300000, maxRequests: 3 });
+    const rl = await checkRateLimit(`contact:${ip}`, { windowMs: 300000, maxRequests: 3 });
     if (!rl.allowed) {
       return NextResponse.json({ error: "Too many submissions. Try again later." }, { status: 429 });
     }

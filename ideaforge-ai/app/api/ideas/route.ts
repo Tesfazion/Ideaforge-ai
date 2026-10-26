@@ -9,14 +9,12 @@ import { join } from "path";
 const UPLOAD_DIR = process.env.VERCEL ? join("/tmp", "ideaforge-uploads") : join(process.cwd(), "uploads");
 
 async function ensureUploadDir() {
-  try {
-    await mkdir(UPLOAD_DIR, { recursive: true });
-  } catch {}
+  await mkdir(UPLOAD_DIR, { recursive: true });
 }
 
 export async function GET(request: NextRequest) {
   try {
-    const userId = getUserId(request);
+    const userId = await getUserId(request);
     if (!userId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
@@ -34,7 +32,7 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const userId = getUserId(request);
+    const userId = await getUserId(request);
     if (!userId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }

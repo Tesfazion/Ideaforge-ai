@@ -10,7 +10,7 @@ const subscribeSchema = z.object({
 export async function POST(request: NextRequest) {
   try {
     const ip = getClientIp(request);
-    const rl = checkRateLimit(`newsletter:${ip}`, { windowMs: 60000, maxRequests: 5 });
+    const rl = await checkRateLimit(`newsletter:${ip}`, { windowMs: 60000, maxRequests: 5 });
     if (!rl.allowed) {
       return NextResponse.json({ error: "Too many requests. Try again later." }, { status: 429 });
     }

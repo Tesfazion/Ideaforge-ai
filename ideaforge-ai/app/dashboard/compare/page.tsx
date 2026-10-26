@@ -110,7 +110,7 @@ export default function ComparePage() {
   return (
     <div className="max-w-5xl mx-auto space-y-6 animate-slide-up">
       <motion.div className="relative rounded-3xl overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/10 via-teal-500/10 to-cyan-500/10" />
+        <div className="absolute inset-0 bg-gradient-to-r from-sky-500/10 via-sky-400/5 to-orange-500/10" />
         <div className="absolute inset-0 bg-[#0c1222]/80 backdrop-blur-xl" />
         <div className="relative px-6 py-8 sm:px-10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
@@ -172,8 +172,8 @@ export default function ComparePage() {
                   <PolarGrid stroke={chartPalette.grid} />
                   <PolarAngleAxis dataKey="subject" tick={{ fontSize: 11, fill: chartPalette.axis }} stroke={chartPalette.axis} />
                   <PolarRadiusAxis angle={30} domain={[0, 100]} tick={{ fill: chartPalette.axis }} stroke={chartPalette.axis} />
-                   <Radar name={ideaA.title} dataKey="A" stroke="#6366F1" fill="#6366F1" fillOpacity={0.3} />
-                   <Radar name={ideaB.title} dataKey="B" stroke="#A855F7" fill="#A855F7" fillOpacity={0.3} />
+                  <Radar name={ideaA.title} dataKey="A" stroke="#007ACC" fill="#007ACC" fillOpacity={0.3} />
+                  <Radar name={ideaB.title} dataKey="B" stroke="#EF842B" fill="#EF842B" fillOpacity={0.3} />
                   <Legend wrapperStyle={{ fontSize: 12, color: chartPalette.text }} />
                   <Tooltip contentStyle={{ backgroundColor: chartPalette.tooltip, border: `1px solid ${chartPalette.tooltipBorder}`, borderRadius: "12px", fontSize: 12, color: chartPalette.text }} />
                 </RadarChart>
@@ -187,8 +187,8 @@ export default function ComparePage() {
                   <XAxis dataKey="name" tick={{ fontSize: 11, fill: chartPalette.axis }} stroke={chartPalette.axis} />
                   <YAxis domain={[0, 100]} tick={{ fill: chartPalette.axis }} stroke={chartPalette.axis} />
                   <Tooltip contentStyle={{ backgroundColor: chartPalette.tooltip, border: `1px solid ${chartPalette.tooltipBorder}`, borderRadius: "12px", fontSize: 12, color: chartPalette.text }} />
-                  <Bar dataKey="A" fill="#6366F1" radius={[4, 4, 0, 0]} />
-                  <Bar dataKey="B" fill="#A855F7" radius={[4, 4, 0, 0]} />
+                  <Bar dataKey="A" fill="#007ACC" radius={[4, 4, 0, 0]} />
+                  <Bar dataKey="B" fill="#EF842B" radius={[4, 4, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </motion.div>
@@ -200,7 +200,7 @@ export default function ComparePage() {
                 <tr>
                   <th className="text-left px-4 py-3 font-medium text-white">Metric</th>
                   <th className="text-center px-4 py-3 font-medium text-sky-400">{ideaA.title}</th>
-                  <th className="text-center px-4 py-3 font-medium text-violet-400">{ideaB.title}</th>
+                  <th className="text-center px-4 py-3 font-medium text-orange-400">{ideaB.title}</th>
                 </tr>
               </thead>
               <tbody>

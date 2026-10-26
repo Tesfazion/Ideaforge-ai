@@ -1,20 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
-
-function getSecret(): string {
-  const secret = process.env.JWT_SECRET;
-  if (!secret) {
-    throw new Error("JWT_SECRET environment variable is required.");
-  }
-  if (secret.length < 16) {
-    throw new Error("JWT_SECRET must be at least 16 characters.");
-  }
-  return secret;
-}
+import { verifyPasswordResetToken } from "@/lib/jwt";
 
 const resetPasswordSchema = z.object({
   token: z.string().min(1),
@@ -24,7 +13,7 @@ const resetPasswordSchema = z.object({
 export async function POST(request: NextRequest) {
   try {
     const ip = getClientIp(request);
-    const rl = checkRateLimit(`reset-password:${ip}`, { windowMs: 60000, maxRequests: 5 });
+    const rl = await checkRateLimit(`reset-password:${ip}`, { windowMs: 60000, maxRequests: 5 });
     if (!rl.allowed) {
       return NextResponse.json({ error: "Too many attempts. Try again later." }, { status: 429 });
     }
@@ -37,18 +26,18 @@ export async function POST(request: NextRequest) {
 
     const { token, newPassword } = parsed.data;
 
-    let decoded: { userId: string; type: string };
+    let userId: string | null;
     try {
-      decoded = jwt.verify(token, getSecret()) as { userId: string; type: string };
+      userId = await verifyPasswordResetToken(token);
     } catch {
       return NextResponse.json({ error: "Invalid or expired reset token" }, { status: 400 });
     }
 
-    if (decoded.type !== "password_reset") {
+    if (!userId) {
       return NextResponse.json({ error: "Invalid token type" }, { status: 400 });
     }
 
-    const user = await prisma.user.findUnique({ where: { id: decoded.userId } });
+    const user = await prisma.user.findUnique({ where: { id: userId } });
     if (!user) {
       return NextResponse.json({ error: "Invalid or expired reset token" }, { status: 400 });
     }

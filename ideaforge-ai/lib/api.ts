@@ -6,13 +6,14 @@ interface RequestOptions extends RequestInit {
 
 async function request<T>(endpoint: string, options: RequestOptions = {}): Promise<T> {
   const { token, ...fetchOptions } = options;
+  void token;
   const headers: Record<string, string> = {};
   if (!(fetchOptions.body instanceof FormData)) {
     headers["Content-Type"] = "application/json";
   }
-  if (token) headers["Authorization"] = `Bearer ${token}`;
   const res = await fetch(`${API_URL}${endpoint}`, {
     ...fetchOptions,
+    credentials: "same-origin",
     headers: { ...headers, ...(fetchOptions.headers as Record<string, string>) },
   });
   let data: ({ error?: string } & Record<string, unknown>) = {};
@@ -58,9 +59,9 @@ export interface PivotSuggestion {
 export function streamValidate(token: string, ideaId: string, onEvent: (event: SSEProgressEvent) => void): () => void {
   const controller = new AbortController();
 
+  void token;
   fetch(`/api/ideas/${ideaId}/validate-stream`, {
     method: "POST",
-    headers: { Authorization: `Bearer ${token}` },
     signal: controller.signal,
   }).then(async (res) => {
     if (!res.ok) {
@@ -105,9 +106,9 @@ export function streamPivotSuggestions(
 ): () => void {
   const controller = new AbortController();
 
+  void token;
   fetch(`/api/ideas/${ideaId}/pivot-suggestions`, {
     method: "POST",
-    headers: { Authorization: `Bearer ${token}` },
     signal: controller.signal,
   }).then(async (res) => {
     if (!res.ok) {
@@ -148,9 +149,10 @@ export function streamGenerateIdeas(
 ): () => void {
   const controller = new AbortController();
 
+  void token;
   fetch(`/api/ideas/generate-ideas`, {
     method: "POST",
-    headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ prompt, industry }),
     signal: controller.signal,
   }).then(async (res) => {
@@ -198,11 +200,11 @@ export const api = {
       "/api/auth/check-email", { method: "POST", body: JSON.stringify({ email }) }
     ),
   register: (body: { name: string; email: string; password: string }) =>
-    request<{ token: string; user: User }>("/api/auth/register", { method: "POST", body: JSON.stringify(body) }),
+    request<{ user: User }>("/api/auth/register", { method: "POST", body: JSON.stringify(body) }),
   login: (body: { email: string; password: string }) =>
-    request<{ token: string; user: User }>("/api/auth/login", { method: "POST", body: JSON.stringify(body) }),
-  getMe: (token: string) =>
-    request<{ user: User }>("/api/auth/me", { token }),
+    request<{ user: User }>("/api/auth/login", { method: "POST", body: JSON.stringify(body) }),
+  getMe: () => request<{ user: User }>("/api/auth/me"),
+  logout: () => request<{ success: boolean }>("/api/auth/logout", { method: "POST" }),
   upgrade: (token: string) =>
     request<{ user: User }>("/api/auth/upgrade", { method: "POST", token }),
   createCheckoutSession: (token: string, body: { plan: "pro" | "enterprise"; priceId?: string }) =>

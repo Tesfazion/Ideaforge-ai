@@ -1,21 +1,60 @@
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
+import PageShell, { PageHeader, ProseSection } from "@/components/PageShell";
+
+const RIGHTS = [
+  "Access — request a copy of the personal data we hold about you",
+  "Rectification — correct any inaccurate information",
+  "Erasure — request deletion of your data",
+  "Restriction — limit how we process your data",
+  "Objection — object to processing based on legitimate interests",
+  "Portability — receive your data in a machine-readable format",
+];
 
 export default function GDPR() {
   return (
-    <>
-      <Navbar />
-      <main className="min-h-screen bg-[#060a13]">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
-          <h1 className="text-4xl font-bold text-white mb-6">GDPR Compliance</h1>
-          <p className="text-slate-400 mb-4">IdeaForge is committed to protecting your personal data in accordance with the General Data Protection Regulation (GDPR).</p>
-          <h2 className="text-xl font-semibold text-white mt-8 mb-3">Your Rights</h2>
-          <p className="text-slate-400 mb-4">Under GDPR, you have the right to access, rectify, erase, restrict processing, object to processing, and data portability.</p>
-          <h2 className="text-xl font-semibold text-white mt-8 mb-3">Contact</h2>
-          <p className="text-slate-400">For GDPR-related requests, email tesfazion428@gmail.com.</p>
-        </div>
-      </main>
-      <Footer />
-    </>
+    <PageShell>
+      <PageHeader
+        eyebrow="Legal"
+        title="GDPR compliance"
+        description="IdeaForge is committed to protecting your personal data in accordance with the General Data Protection Regulation."
+      />
+
+      <ProseSection title="Your rights">
+        <p>Under GDPR you have the right to:</p>
+        <ul className="mt-2 space-y-2">
+          {RIGHTS.map((right) => (
+            <li key={right} className="flex gap-2.5">
+              <svg
+                className="mt-1 h-3.5 w-3.5 shrink-0 text-brand-strong"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2.5}
+                aria-hidden="true"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+              </svg>
+              <span>{right}</span>
+            </li>
+          ))}
+        </ul>
+      </ProseSection>
+
+      <ProseSection title="Lawful basis">
+        <p>
+          We process account and report data to perform our contract with you, and aggregate
+          analytics on the basis of legitimate interest in improving the product.
+        </p>
+      </ProseSection>
+
+      <ProseSection title="Contact">
+        <p>
+          For GDPR-related requests, email{" "}
+          <a href="mailto:tesfazion428@gmail.com" className="font-medium text-link hover:underline">
+            tesfazion428@gmail.com
+          </a>
+          . We respond within 30 days.
+        </p>
+      </ProseSection>
+    </PageShell>
   );
 }

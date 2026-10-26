@@ -3,6 +3,8 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import { api, User } from "./api";
 
+const COOKIE_SESSION = "cookie-session";
+
 interface AuthContextType {
   user: User | null;
   token: string | null;
@@ -15,67 +17,50 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-function setCookie(name: string, value: string, days: number) {
-  if (typeof document === "undefined") return;
-  const expires = new Date(Date.now() + days * 864e5).toUTCString();
-  document.cookie = `${name}=${encodeURIComponent(value)}; expires=${expires}; path=/; SameSite=Lax`;
-}
-
-function deleteCookie(name: string) {
-  if (typeof document === "undefined") return;
-  document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/`;
-}
-
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const saved = localStorage.getItem("ideaforge_token");
-    if (saved) {
-      api.getMe(saved)
-        .then((data) => { setToken(saved); setUser(data.user); })
-        .catch(() => { localStorage.removeItem("ideaforge_token"); deleteCookie("ideaforge_token"); })
-        .finally(() => setLoading(false));
-    } else {
-      queueMicrotask(() => setLoading(false));
+    try {
+      localStorage.removeItem("ideaforge_token");
+    } catch (error) {
+      console.warn("Unable to clear a legacy browser token:", error);
     }
+    api.getMe()
+      .then((data) => { setToken(COOKIE_SESSION); setUser(data.user); })
+      .catch(() => { setToken(null); setUser(null); })
+      .finally(() => setLoading(false));
   }, []);
 
   const login = async (email: string, password: string) => {
     const data = await api.login({ email, password });
-    localStorage.setItem("ideaforge_token", data.token);
-    setCookie("ideaforge_token", data.token, 7);
-    setToken(data.token);
+    setToken(COOKIE_SESSION);
     setUser(data.user);
   };
 
   const register = async (name: string, email: string, password: string) => {
     const data = await api.register({ name, email, password });
-    localStorage.setItem("ideaforge_token", data.token);
-    setCookie("ideaforge_token", data.token, 7);
-    setToken(data.token);
+    setToken(COOKIE_SESSION);
     setUser(data.user);
   };
 
   const logout = () => {
-    localStorage.removeItem("ideaforge_token");
-    deleteCookie("ideaforge_token");
+    void api.logout().catch((error: unknown) => {
+      console.error("Logout request failed:", error instanceof Error ? error.message : "unknown error");
+    });
     setToken(null);
     setUser(null);
   };
 
   const refreshUser = async () => {
-    const currentToken = token || localStorage.getItem("ideaforge_token");
-    if (currentToken) {
+    if (token) {
       try {
-        const data = await api.getMe(currentToken);
-        setToken(currentToken);
+        const data = await api.getMe();
+        setToken(COOKIE_SESSION);
         setUser(data.user);
       } catch {
-        localStorage.removeItem("ideaforge_token");
-        deleteCookie("ideaforge_token");
         setToken(null);
         setUser(null);
       }

@@ -55,22 +55,19 @@ const testimonials = [
 
 const container = {
   hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: { staggerChildren: 0.1, delayChildren: 0.1 }
-  }
+  show: { opacity: 1, transition: { staggerChildren: 0.07, delayChildren: 0.05 } },
 };
 
 const item = {
-  hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0, transition: { type: "spring" as const, stiffness: 100 } }
+  hidden: { opacity: 0, y: 14 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.4 } },
 };
 
 function Stars({ rating }: { rating: number }) {
   return (
-    <div className="flex gap-0.5 mb-4">
+    <div className="mb-4 flex gap-0.5" aria-label={`${rating} out of 5`}>
       {Array.from({ length: rating }).map((_, i) => (
-        <svg key={i} className="w-3.5 h-3.5 text-amber-400 fill-current" viewBox="0 0 20 20">
+        <svg key={i} className="h-3.5 w-3.5 fill-[var(--brand-orange)] text-[var(--brand-orange)]" viewBox="0 0 20 20" aria-hidden="true">
           <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
         </svg>
       ))}
@@ -78,87 +75,64 @@ function Stars({ rating }: { rating: number }) {
   );
 }
 
-function TestimonialCard({ t }: { t: typeof testimonials[0] }) {
+function TestimonialBody({ t }: { t: (typeof testimonials)[0] }) {
   return (
-    <div className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-6 transition-all duration-300 hover:border-white/10 hover:bg-white/[0.04] min-w-[300px] sm:min-w-0 snap-center">
+    <>
       <Stars rating={t.rating} />
-      <p className="text-sm text-slate-400 leading-relaxed mb-5">&quot;{t.text}&quot;</p>
+      <p className="mb-5 text-sm leading-relaxed text-copy">&ldquo;{t.text}&rdquo;</p>
       <div className="flex items-center gap-3">
-        <div className="relative w-10 h-10 rounded-full overflow-hidden border border-white/10">
-          <Image
-            src={t.avatar}
-            alt={t.name}
-            fill
-            unoptimized
-            sizes="40px"
-            className="object-cover"
-          />
-        </div>
-        <div>
-          <p className="text-sm font-semibold text-white">{t.name}</p>
-          <p className="text-xs text-slate-500">{t.role} at {t.company}</p>
-        </div>
+        <span className="relative h-10 w-10 overflow-hidden rounded-full border border-line">
+          <Image src={t.avatar} alt={t.name} fill unoptimized sizes="40px" className="object-cover" />
+        </span>
+        <span>
+          <span className="block text-sm font-semibold text-ink">{t.name}</span>
+          <span className="block text-xs text-muted">{t.role} at {t.company}</span>
+        </span>
       </div>
-    </div>
+    </>
   );
 }
 
 export default function Testimonials() {
   return (
-    <section className="py-24 bg-[#060a13] relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-orange-500/[0.02] via-transparent to-transparent" />
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+    <section className="section bg-surface">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
-          className="text-center mb-12"
-          initial={{ opacity: 0, y: 20 }}
+          className="mx-auto mb-12 max-w-2xl text-center"
+          initial={{ opacity: 0, y: 14 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.45 }}
         >
-          <span className="inline-block text-xs font-semibold text-sky-400 bg-sky-500/10 border border-sky-500/20 px-3 py-1 rounded-full mb-5 tracking-wider uppercase">Testimonials</span>
-          <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-tight">Loved by entrepreneurs</h2>
-          <p className="text-slate-400 mt-3">Rated 4.9/5 from 2,400+ reviews</p>
+          <span className="eyebrow">Customer stories</span>
+          <h2 className="mt-4 text-3xl font-bold tracking-tight text-ink sm:text-4xl">
+            Trusted by founders and product teams
+          </h2>
+          <p className="mt-3 flex items-center justify-center gap-2 text-base text-copy">
+            <span className="font-semibold text-ink">4.9 / 5</span>
+            <span className="text-muted">from 2,400+ reviews</span>
+          </p>
         </motion.div>
 
-        <div className="md:hidden overflow-x-auto pb-4 -mx-4 px-4 snap-x snap-mandatory scrollbar-hide">
-          <motion.div
-            className="flex gap-3"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-          >
-            {testimonials.map((t) => (
-              <TestimonialCard key={t.name} t={t} />
-            ))}
-          </motion.div>
+        {/* Mobile carousel */}
+        <div className="-mx-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-4 md:hidden scrollbar-hide">
+          {testimonials.map((t) => (
+            <div key={t.name} className="testimonial-card min-w-[300px] snap-center p-6">
+              <TestimonialBody t={t} />
+            </div>
+          ))}
         </div>
 
-        <motion.div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-4" variants={container} initial="hidden" whileInView="show" viewport={{ once: true }}>
+        <motion.div
+          className="hidden gap-4 md:grid md:grid-cols-2 lg:grid-cols-3"
+          variants={container}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true }}
+        >
           {testimonials.map((t) => (
-            <motion.div
-              key={t.name}
-              className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-6 transition-all duration-300 hover:border-white/10 hover:bg-white/[0.04]"
-              variants={item}
-              whileHover={{ y: -2, transition: { type: "spring", stiffness: 400 } }}
-            >
-              <Stars rating={t.rating} />
-              <p className="text-sm text-slate-400 leading-relaxed mb-5">&quot;{t.text}&quot;</p>
-              <div className="flex items-center gap-3">
-                <div className="relative w-10 h-10 rounded-full overflow-hidden border border-white/10">
-                  <Image
-                    src={t.avatar}
-                    alt={t.name}
-                    fill
-                    unoptimized
-                    sizes="40px"
-                    className="object-cover"
-                  />
-                </div>
-                <div>
-                  <p className="text-sm font-semibold text-white">{t.name}</p>
-                  <p className="text-xs text-slate-500">{t.role} at {t.company}</p>
-                </div>
-              </div>
+            <motion.div key={t.name} variants={item} className="testimonial-card p-6">
+              <TestimonialBody t={t} />
             </motion.div>
           ))}
         </motion.div>

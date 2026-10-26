@@ -103,10 +103,10 @@ The app ships with authentication, a credit/quota system, a pricing & upgrade fl
 - **Streaming Progress** — Watch the AI brainstorm in real time
 
 ### Platform & Security
-- **JWT Authentication** — 7-day tokens with bcryptjs password hashing
+- **JWT Authentication** — 7-day HttpOnly, Secure production cookies with bcryptjs password hashing
 - **Credit/Quota System** — Explorer (5/month), Founder Pro (unlimited), Enterprise (unlimited + API access) — credits are only consumed on successful validation and refunded on failures
-- **Rate Limiting** — In-memory rate limiting on auth, validation, and contact endpoints
-- **Route Protection** — Next.js middleware proxy guarding `/dashboard` and authenticated `/api` routes
+- **Rate Limiting** — PostgreSQL-backed rate limiting shared across app instances
+- **Route Protection** — Next.js proxy guarding `/dashboard` and authenticated `/api` routes
 - **Newsletter Subscription** — Email capture with a working `/api/newsletter` endpoint
 - **Contact Inquiries** — Sales/contact form persisted to the database via `/api/contact`
 - **Public Pages** — About, Blog, Careers, Contact, Status, Changelog, Privacy Policy, Terms of Service, Cookie Policy, and GDPR pages
@@ -124,7 +124,7 @@ The app ships with authentication, a credit/quota system, a pricing & upgrade fl
 | **Database** | PostgreSQL + Prisma 6.19 ORM |
 | **AI** | OpenAI GPT-4o via OpenRouter (streaming via SSE) |
 | **Web Search** | Exa AI (optional, for verified sources) |
-| **Auth** | JWT (jsonwebtoken) + bcryptjs |
+| **Auth** | JWT (jose) + bcryptjs; HttpOnly cookies for browser sessions |
 | **Payments** | Stripe (checkout sessions + webhooks) |
 | **Export** | jsPDF + html2canvas |
 | **Animations** | Framer Motion |
@@ -159,7 +159,7 @@ IdeaForge is a single Next.js application — there is **no separate backend ser
 └──────────────────────────────────────────────────────┘
 ```
 
-- **proxy.ts** — Next.js middleware that protects `/dashboard` (redirects to `/login` if no token) and guards `/api/*` routes (requires `Bearer` token) unless the path is in the public list.
+- **proxy.ts** — Next.js proxy that protects `/dashboard` with the HttpOnly session cookie and guards authenticated `/api/*` routes.
 - **lib/ai.ts** — The validation engine: builds prompts, streams GPT-4o responses, parses structured JSON reports, and optionally enriches with Exa web search.
 - **lib/auth.tsx** — Client-side auth context (React provider) wrapping the app.
 - **lib/tokens.ts** — Credit/quota management with monthly refill logic.
@@ -189,8 +189,8 @@ npm install
 cp .env.example .env.local
 # Edit .env.local with your database URL and API keys (see Configuration)
 
-# 4. Set up the database
-npm run db:push
+# 4. Apply database migrations
+npm run db:migrate
 
 # 5. (Optional) Seed test data
 npm run db:seed
@@ -211,8 +211,8 @@ Create a `.env.local` file in the project root (`ideaforge-ai/`):
 # PostgreSQL Database
 DATABASE_URL="postgresql://postgres:YOUR_PASSWORD@localhost:8869/ideaforge?connect_timeout=10&sslmode=prefer"
 
-# JWT Secret (generate a strong random string for production)
-JWT_SECRET="your-strong-random-secret"
+# JWT Secret (use at least 32 random bytes in production)
+JWT_SECRET="replace-with-at-least-32-random-bytes"
 
 # AI Provider (OpenRouter or OpenAI)
 AI_API_KEY="your-openrouter-or-openai-api-key"
@@ -253,6 +253,8 @@ The Prisma schema (`prisma/schema.prisma`) uses PostgreSQL and defines four mode
 | **Idea** | Submitted business ideas with status tracking (pending / validated / failed) |
 | **Report** | Full validation reports — 9-dimension scores, SWOT, market sizing, GTM experiments, action plan, sources |
 | **ContactInquiry** | Contact form submissions (email, company, team size, message) |
+| **RateLimit** | Persistent per-key request counters and expiry |
+| **StripeWebhookEvent** | Stripe event idempotency and processing state |
 
 ### Local PostgreSQL Setup
 
@@ -262,9 +264,8 @@ If you have PostgreSQL running locally:
 # Create the database (if needed)
 createdb ideaforge
 
-# Update DATABASE_URL in .env.local, then:
-npm run db:push      # Push schema to database (dev)
-npm run db:generate  # Generate Prisma Client (auto on postinstall)
+# Update DATABASE_URL in .env.local, then create/apply a migration:
+npm run db:migrate:dev
 npm run db:seed      # Optional: seed test data
 npm run db:studio    # Optional: open Prisma Studio GUI
 ```
@@ -272,7 +273,7 @@ npm run db:studio    # Optional: open Prisma Studio GUI
 For production migrations:
 
 ```bash
-npm run db:migrate   # Runs prisma migrate deploy
+npm run db:migrate   # Runs prisma migrate deploy; use this in production
 ```
 
 ---
@@ -355,7 +356,7 @@ ideaforge-ai/
 │   ├── auth.tsx                      # Auth context & provider
 │   ├── jwt.ts                        # JWT sign/verify
 │   ├── prisma.ts                    # Prisma client singleton
-│   ├── rate-limit.ts                # In-memory rate limiter
+│   ├── rate-limit.ts                # PostgreSQL-backed rate limiter
 │   ├── tokens.ts                     # Credit/quota management
 │   └── stripe.ts                    # Stripe client
 ├── prisma/
@@ -375,7 +376,7 @@ ideaforge-ai/
 
 ## API Reference
 
-All authenticated endpoints require a `Bearer` token in the `Authorization` header (issued at login/register).
+Browser sessions use an HttpOnly cookie issued at login/register. API-key integrations use the `X-API-Key` header.
 
 ### Auth
 | Method | Endpoint | Auth | Description |
@@ -470,12 +471,12 @@ All authenticated endpoints require a `Bearer` token in the `Authorization` head
 
 ### Vercel (Recommended)
 
-The Next.js app lives in the ideaforge-ai/ subdirectory of this GitHub repository. Use a single Vercel project for this app (recommended name: ideaforge-ai) and set its **Root Directory** to ideaforge-ai in Project Settings > Build and Development Settings.
+The Next.js app lives in the `ideaforge-ai/` subdirectory of this repository. Use a single Vercel project for this app and set its **Root Directory** to `ideaforge-ai` in Project Settings > Build and Development Settings. Vercel will detect Next.js and use the app's `package.json` scripts.
 
 1. Connect the Tesfazion/Ideaforge-ai GitHub repository to the Vercel project.
 2. Configure a PostgreSQL database and the required environment variables in Vercel Project Settings > Environment Variables: DATABASE_URL, JWT_SECRET, AI_API_KEY, AI_BASE_URL, AI_MODEL, and NEXT_PUBLIC_APP_URL.
 3. Add optional integration values only when those features are enabled: EXA_API_KEY, RESEND_API_KEY, RESEND_FROM_EMAIL, and the STRIPE_* values. Keep secrets in Vercel, never in Git.
-4. Deploy. Vercel installs dependencies, generates Prisma Client through postinstall, and runs the Next.js production build.
+4. Apply production database migrations with `npm run db:migrate` from the app root, then deploy. Vercel installs dependencies, generates Prisma Client through postinstall, and runs the Next.js production build.
 
 #### If GitHub reports "Vercel - Deployment was blocked"
 
@@ -487,12 +488,6 @@ The GitHub check label alone does not include Vercel's detailed reason. Open the
 4. After correcting account access or project settings, trigger a new deployment or push a new commit. Editing application code cannot resolve an access block.
 
 If Vercel reports a build failure instead, inspect that deployment's Build Logs for the specific error.
-
-### Netlify
-
-The repository includes a root `netlify.toml` that sets the app's base directory to `ideaforge-ai`, runs `npm run build`, and publishes `.next`. The app's `.nvmrc` pins the build to Node.js 20, matching the GitHub Actions build. The configuration explicitly enables `@netlify/plugin-nextjs`, installed in the app's development dependencies, to generate the server functions, public assets, and routing needed to serve Next.js. Publishing the raw `.next` directory without this runtime produces a Netlify 404 even when the build succeeds.
-
-Connect the `main` branch in Netlify. The values in `netlify.toml` supply the base directory, build command, and publish directory; leave the Functions directory empty. Add the production environment variables listed in [Configuration](#configuration), including `DATABASE_URL`, `JWT_SECRET`, `AI_API_KEY`, `AI_BASE_URL`, `AI_MODEL`, and `NEXT_PUBLIC_APP_URL`. Add optional integration keys only when using those services. See [Netlify's Next.js guide](https://docs.netlify.com/frameworks/next-js/).
 
 ### Database Migrations (Production)
 
@@ -518,8 +513,9 @@ Any platform supporting Next.js and PostgreSQL works:
 | `npm run build` | Production build (`prisma generate` + `next build`) |
 | `npm run start` | Serve the production build |
 | `npm run lint` | Run ESLint |
-| `npm run db:push` | Push schema to database (dev) |
+| `npm run db:migrate:dev` | Create and apply a schema migration during development |
 | `npm run db:migrate` | Run production migrations |
+| `npm run test:integration` | Test auth and ideas APIs against a running app |
 | `npm run db:studio` | Open Prisma Studio GUI |
 | `npm run db:seed` | Seed test data |
 
@@ -527,7 +523,7 @@ Any platform supporting Next.js and PostgreSQL works:
 
 ## License
 
-MIT
+No open-source license has been selected. All rights remain reserved by the copyright holder.
 
 ---
 

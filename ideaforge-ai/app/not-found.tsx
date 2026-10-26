@@ -1,16 +1,25 @@
 import Link from "next/link";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 export default function NotFound() {
   return (
-    <div className="min-h-screen bg-[#060a13] flex items-center justify-center px-4">
-      <div className="text-center max-w-md">
-        <p className="text-7xl font-bold gradient-text mb-4">404</p>
-        <h1 className="text-2xl font-bold text-white mb-2">Page not found</h1>
-        <p className="text-sm text-slate-400 mb-6">The page you&apos;re looking for doesn&apos;t exist or has been moved.</p>
-        <Link href="/" className="gradient-btn text-white px-5 py-2.5 rounded-xl text-sm font-semibold inline-flex">
-          Back to home
-        </Link>
-      </div>
-    </div>
+    <>
+      <Navbar />
+      <main id="main-content" className="flex min-h-screen items-center justify-center bg-page px-4 pt-[7.5rem]">
+        <div className="max-w-md text-center">
+          <p className="font-heading text-6xl font-bold tracking-tight text-brand-strong">404</p>
+          <h1 className="mt-3 text-2xl font-bold tracking-tight text-ink">Page not found</h1>
+          <p className="mt-2 text-sm leading-relaxed text-copy">
+            The page you&apos;re looking for doesn&apos;t exist or has been moved.
+          </p>
+          <div className="mt-7 flex flex-wrap justify-center gap-3">
+            <Link href="/" className="btn btn-primary">Back to home</Link>
+            <Link href="/dashboard" className="btn btn-secondary">Go to dashboard</Link>
+          </div>
+        </div>
+      </main>
+      <Footer />
+    </>
   );
 }

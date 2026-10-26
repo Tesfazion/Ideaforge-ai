@@ -16,15 +16,16 @@ export function subscribeToTheme(onChange: () => void) {
 function getThemeSnapshot() {
   try {
     const savedTheme = localStorage.getItem("ideaforge-theme");
-    if (savedTheme) return savedTheme !== "light";
+    if (savedTheme) return savedTheme === "dark";
   } catch {
     // Fall back to the theme already applied to the document.
   }
   return document.documentElement.classList.contains("dark");
 }
 
+/* Light is the canonical IdeaForge theme, matching Sunshine Tech Solution. */
 function getServerThemeSnapshot() {
-  return true;
+  return false;
 }
 
 export function useIsDarkTheme() {

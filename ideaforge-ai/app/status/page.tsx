@@ -1,30 +1,47 @@
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
+import PageShell, { PageHeader } from "@/components/PageShell";
+import { SUNSHINE } from "@/lib/site";
 
-const checks = [
-  { name: "API", status: "Operational" as const },
-  { name: "AI Validation Engine", status: "Operational" as const },
-  { name: "Database", status: "Operational" as const },
+const CHECKS = [
+  { name: "Web application", status: "Operational" },
+  { name: "API", status: "Operational" },
+  { name: "AI validation engine", status: "Operational" },
+  { name: "Database", status: "Operational" },
 ];
 
 export default function Status() {
   return (
-    <>
-      <Navbar />
-      <main className="min-h-screen bg-[#060a13]">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
-          <h1 className="text-4xl font-bold text-white mb-6">System Status</h1>
-          <div className="space-y-4">
-            {checks.map((c) => (
-              <div key={c.name} className="flex items-center justify-between p-4 rounded-xl border border-white/[0.06] bg-white/[0.03]">
-                <span className="text-slate-300">{c.name}</span>
-                <span className="text-emerald-400 text-sm font-medium">{c.status}</span>
-              </div>
-            ))}
+    <PageShell width="narrow">
+      <PageHeader
+        eyebrow="Status"
+        title="System status"
+        description="Live availability for the IdeaForge platform and its dependencies."
+      />
+
+      <div className="card mt-8 flex items-center gap-3 p-4">
+        <span className="relative flex h-2.5 w-2.5" aria-hidden="true">
+          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[var(--success)] opacity-60" />
+          <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-[var(--success)]" />
+        </span>
+        <p className="text-sm font-semibold text-ink">All systems operational</p>
+      </div>
+
+      <div className="card mt-4 divide-y divide-[var(--line)]">
+        {CHECKS.map((check) => (
+          <div key={check.name} className="flex items-center justify-between px-4 py-3.5">
+            <span className="text-sm text-copy">{check.name}</span>
+            <span className="badge badge-success">{check.status}</span>
           </div>
-        </div>
-      </main>
-      <Footer />
-    </>
+        ))}
+      </div>
+
+      <p className="mt-6 text-xs leading-relaxed text-muted">
+        Depending on an external AI provider. If a validation stalls, it can be retried from your
+        dashboard without losing the report. For anything urgent, contact{" "}
+        <a href={`mailto:${SUNSHINE.email}`} className="font-medium text-link hover:underline">
+          {SUNSHINE.email}
+        </a>
+        .
+      </p>
+    </PageShell>
   );
 }

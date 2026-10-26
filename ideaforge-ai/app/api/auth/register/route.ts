@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
-import { signToken } from "@/lib/jwt";
+import { setAuthCookie, signToken } from "@/lib/jwt";
 import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
 
 const registerSchema = z.object({
@@ -13,8 +13,12 @@ const registerSchema = z.object({
 
 export async function POST(request: NextRequest) {
   try {
+    const origin = request.headers.get("origin");
+    if (origin && origin !== request.nextUrl.origin) {
+      return NextResponse.json({ error: "Invalid request origin" }, { status: 403 });
+    }
     const ip = getClientIp(request);
-    const rl = checkRateLimit(`register:${ip}`, { windowMs: 60000, maxRequests: 5 });
+    const rl = await checkRateLimit(`register:${ip}`, { windowMs: 60000, maxRequests: 5 });
     if (!rl.allowed) {
       return NextResponse.json({ error: "Too many attempts. Try again later." }, { status: 429 });
     }
@@ -36,18 +40,11 @@ export async function POST(request: NextRequest) {
     const user = await prisma.user.create({
       data: { name: name.trim(), email: normalizedEmail, password: hashed },
     });
-    const token = signToken(user.id);
+    const token = await signToken(user.id);
     const response = NextResponse.json({
-      token,
       user: { id: user.id, name: user.name, email: user.email, plan: user.plan, verified: user.verified, tokens: user.tokens, monthlyTokens: user.monthlyTokens, onboardingComplete: user.onboardingComplete },
     }, { status: 201 });
-    response.cookies.set("ideaforge_token", token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
-      path: "/",
-      maxAge: 7 * 24 * 60 * 60,
-    });
+    setAuthCookie(response, token);
     return response;
   } catch (err: unknown) {
     console.error("Register error:", err instanceof Error ? err.message : "unknown error");

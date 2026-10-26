@@ -207,13 +207,13 @@ export async function POST(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const userId = getUserId(request);
+  const userId = await getUserId(request);
   if (!userId) {
     return Response.json({ error: "Unauthorized" }, { status: 401 });
   }
 
   const ip = getClientIp(request);
-  const rl = checkRateLimit(`discover:${userId}:${ip}`, {
+  const rl = await checkRateLimit(`discover:${userId}:${ip}`, {
     windowMs: 3600000,
     maxRequests: 3,
   });

@@ -1,23 +1,56 @@
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
+import PageShell, { PageHeader, ProseSection } from "@/components/PageShell";
 
 export default function PrivacyPolicy() {
   return (
-    <>
-      <Navbar />
-      <main className="min-h-screen bg-[#060a13]">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
-          <h1 className="text-4xl font-bold text-white mb-6">Privacy Policy</h1>
-          <p className="text-slate-400 mb-4">We take your privacy seriously. This policy outlines how IdeaForge collects, uses, and protects your personal information.</p>
-          <h2 className="text-xl font-semibold text-white mt-8 mb-3">Data Collection</h2>
-          <p className="text-slate-400 mb-4">We collect account information, idea submissions, and usage analytics to improve our service. Your ideas are encrypted at rest and never shared with third parties without consent.</p>
-          <h2 className="text-xl font-semibold text-white mt-8 mb-3">Data Usage</h2>
-          <p className="text-slate-400 mb-4">Your data is used solely to provide and improve the IdeaForge platform. We do not sell or rent your personal information.</p>
-          <h2 className="text-xl font-semibold text-white mt-8 mb-3">Your Rights</h2>
-          <p className="text-slate-400">You may request access, correction, or deletion of your personal data at any time by contacting us at tesfazion428@gmail.com.</p>
-        </div>
-      </main>
-      <Footer />
-    </>
+    <PageShell>
+      <PageHeader
+        eyebrow="Legal"
+        title="Privacy policy"
+        description="How IdeaForge collects, uses, and protects your personal information."
+      />
+
+      <ProseSection title="Data we collect">
+        <p>
+          We collect account information (name and email), the ideas you submit for validation,
+          and aggregate usage analytics. Your ideas are encrypted at rest and in transit, and are
+          never shared with third parties without your consent.
+        </p>
+      </ProseSection>
+
+      <ProseSection title="How we use your data">
+        <p>
+          Your data is used solely to provide and improve the IdeaForge platform — generating
+          your reports, delivering them to you, and diagnosing failures. We do not sell or rent
+          your personal information.
+        </p>
+      </ProseSection>
+
+      <ProseSection title="Sub-processors">
+        <p>
+          IdeaForge uses third-party AI providers to generate analysis. When you supply your own
+          provider key in AI settings, requests are made with your key and your provider&apos;s
+          terms apply. Report delivery and payments are handled by established infrastructure and
+          payment providers.
+        </p>
+      </ProseSection>
+
+      <ProseSection title="Your rights">
+        <p>
+          You may request access to, correction of, or deletion of your personal data at any time
+          by emailing{" "}
+          <a href="mailto:tesfazion428@gmail.com" className="font-medium text-link hover:underline">
+            tesfazion428@gmail.com
+          </a>
+          . You can also delete individual ideas from your dashboard.
+        </p>
+      </ProseSection>
+
+      <ProseSection title="Retention">
+        <p>
+          We keep your account data for as long as your account is active. Deleting your account
+          removes your ideas and reports from production systems, subject to short-lived backups.
+        </p>
+      </ProseSection>
+    </PageShell>
   );
 }

@@ -1,6 +1,5 @@
 "use client";
 import Link from "next/link";
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
@@ -8,181 +7,210 @@ function Counter({ end, suffix = "" }: { end: number; suffix?: string }) {
   const [count, setCount] = useState(0);
   useEffect(() => {
     let start = 0;
-    const duration = 2000;
+    const duration = 1600;
     const step = (end / duration) * 16;
     const timer = setInterval(() => {
       start += step;
-      if (start >= end) { setCount(end); clearInterval(timer); }
-      else setCount(Math.floor(start));
+      if (start >= end) {
+        setCount(end);
+        clearInterval(timer);
+      } else setCount(Math.floor(start));
     }, 16);
     return () => clearInterval(timer);
   }, [end]);
-  return <>{count.toLocaleString()}{suffix}</>;
+  return (
+    <>
+      {count.toLocaleString()}
+      {suffix}
+    </>
+  );
 }
 
 const DIMENSIONS = [
-  { name: "Problem Severity", score: 85, color: "var(--brand-blue)" },
-  { name: "Market Urgency", score: 78, color: "var(--brand-blue)" },
-  { name: "Market Size", score: 88, color: "var(--brand-orange)" },
-  { name: "Competitive Moat", score: 72, color: "var(--brand-blue)" },
-  { name: "Revenue Potential", score: 76, color: "var(--brand-orange)" },
-  { name: "Founder-Idea Fit", score: 90, color: "var(--brand-blue)" },
-  { name: "Time to Market", score: 82, color: "var(--brand-orange)" },
-  { name: "Scalability", score: 84, color: "var(--brand-blue)" },
-  { name: "Ease of Replica", score: 68, color: "var(--brand-orange)" },
+  { name: "Problem severity", score: 85, accent: false },
+  { name: "Market urgency", score: 78, accent: false },
+  { name: "Market size", score: 88, accent: true },
+  { name: "Competitive moat", score: 72, accent: false },
+  { name: "Revenue potential", score: 76, accent: true },
+  { name: "Founder–idea fit", score: 90, accent: false },
+  { name: "Time to market", score: 82, accent: true },
+  { name: "Scalability", score: 84, accent: false },
+  { name: "Ease of replication", score: 68, accent: true },
 ];
 
-const container = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: { staggerChildren: 0.1, delayChildren: 0.2 }
-  }
-};
-
-const item = {
-  hidden: { opacity: 0, y: 30 },
-  show: { opacity: 1, y: 0, transition: { type: "spring" as const, stiffness: 100 } }
-};
+const TRUST_POINTS = ["No credit card required", "9-dimension analysis", "Report in 30 seconds"];
 
 export default function Hero() {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#060a13]">
-      <div className="absolute inset-0">
-        <Image
-          src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&h=1080&fit=crop&auto=format&q=80"
-          alt=""
-          aria-hidden="true"
-          fill
-          unoptimized
-          priority
-          sizes="100vw"
-          className="object-cover opacity-[0.15]"
-        />
-        <div className="hero-surface absolute inset-0" />
-      </div>
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 sm:pt-32 pb-16 sm:pb-20">
-        <motion.div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center" variants={container} initial="hidden" animate="show">
-          <motion.div className="max-w-2xl" variants={item}>
-            <motion.div
-              className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-500/10 border border-sky-500/20 text-sky-400 text-xs font-medium mb-8"
-              variants={item}
+    <section className="hero-surface relative overflow-hidden pt-[7.5rem] pb-16 sm:pb-20">
+      <div className="hero-grid pointer-events-none absolute inset-0" aria-hidden="true" />
+
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
+          {/* Copy */}
+          <div className="max-w-2xl">
+            <motion.span
+              className="eyebrow"
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4 }}
             >
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-              Trusted by 1,200+ founders
-            </motion.div>
+              Business idea validation
+            </motion.span>
 
             <motion.h1
-              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-[1.05] tracking-tight"
-              variants={item}
+              className="mt-5 text-[2.5rem] font-bold leading-[1.08] tracking-tight text-ink sm:text-5xl lg:text-[3.5rem]"
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.45, delay: 0.05 }}
             >
               Validate your idea
               <br />
-              <span className="inline-block bg-gradient-to-r from-sky-400 via-orange-400 to-amber-400 bg-[length:200%_auto] bg-clip-text text-transparent animate-shimmer">
-                before you build it.
-              </span>
+              <span className="text-brand-strong">before you build it.</span>
             </motion.h1>
 
-            <motion.p className="mt-6 text-base sm:text-lg text-slate-400 max-w-xl leading-relaxed" variants={item}>
-              Get a comprehensive 9-dimension AI analysis of any business idea in 30 seconds. Market research, SWOT, competitor mapping, risk assessment, and a 7-day action plan.
+            <motion.p
+              className="mt-6 max-w-xl text-base leading-relaxed text-copy sm:text-lg"
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.45, delay: 0.12 }}
+            >
+              Get a structured 9-dimension analysis of any business idea in 30 seconds —
+              market research, SWOT, competitor mapping, risk assessment, and a 7-day
+              action plan you can actually execute.
             </motion.p>
 
-            <motion.div className="mt-10 flex flex-col sm:flex-row gap-3 w-full sm:w-auto" variants={item}>
-              <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }} className="w-full sm:w-auto">
-                <Link href="/register" className="gradient-btn text-white px-7 py-3.5 rounded-xl text-sm font-semibold inline-flex items-center gap-2 justify-center w-full sm:w-auto">
-                  Start Validating Free
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+            <motion.div
+              className="mt-9 flex w-full flex-col gap-3 sm:w-auto sm:flex-row"
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.45, delay: 0.18 }}
+            >
+              <Link href="/register" className="btn btn-primary btn-lg">
+                Start validating free
+                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                </svg>
+              </Link>
+              <Link href="#how-it-works" className="btn btn-secondary btn-lg">
+                See how it works
+              </Link>
+            </motion.div>
+
+            <motion.ul
+              className="mt-8 flex flex-wrap gap-x-6 gap-y-2.5"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.4, delay: 0.26 }}
+            >
+              {TRUST_POINTS.map((point) => (
+                <li key={point} className="flex items-center gap-2 text-sm text-muted">
+                  <svg className="h-4 w-4 shrink-0 text-brand-strong" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.2} aria-hidden="true">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                   </svg>
-                </Link>
-              </motion.div>
-              <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }} className="w-full sm:w-auto">
-                <Link href="#how-it-works" className="px-7 py-3.5 rounded-xl text-sm font-semibold border border-white/10 text-slate-300 hover:bg-white/5 transition-colors inline-flex items-center gap-2 justify-center w-full sm:w-auto">
-                  See How It Works
-                </Link>
-              </motion.div>
-            </motion.div>
+                  {point}
+                </li>
+              ))}
+            </motion.ul>
 
-            <motion.div className="mt-12 flex flex-wrap gap-x-8 gap-y-3 text-sm text-slate-500" variants={item}>
-              <div className="flex items-center gap-2">
-                <svg className="w-4 h-4 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                </svg>
-                No credit card required
-              </div>
-              <div className="flex items-center gap-2">
-                <svg className="w-4 h-4 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                </svg>
-                <Counter end={2847} suffix="+" /> ideas validated
-              </div>
-              <div className="flex items-center gap-2">
-                <svg className="w-4 h-4 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                </svg>
-                9-dimension analysis
-              </div>
-            </motion.div>
-          </motion.div>
+            <motion.p
+              className="mt-8 text-sm text-muted"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.4, delay: 0.34 }}
+            >
+              <span className="font-semibold text-ink">
+                <Counter end={2847} suffix="+" />
+              </span>{" "}
+              ideas validated by founders and product teams.
+            </motion.p>
+          </div>
 
-          <motion.div className="relative hidden lg:block" variants={item}>
-            <div className="relative rounded-2xl overflow-hidden border border-white/10 bg-[#0c1222]/90 backdrop-blur-xl p-6 shadow-2xl">
-              <div className="flex items-center gap-2 mb-5">
-                <div className="flex gap-1.5">
-                  <div className="w-2.5 h-2.5 rounded-full bg-red-500/80" />
-                  <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/80" />
-                  <div className="w-2.5 h-2.5 rounded-full bg-green-500/80" />
+          {/* Product preview card */}
+          <motion.div
+            className="relative"
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
+            <div className="card overflow-hidden">
+              <div className="flex items-center justify-between border-b border-line bg-surface-alt px-5 py-3">
+                <div className="flex items-center gap-2">
+                  <span className="h-2 w-2 rounded-full bg-[#e2e8f0]" aria-hidden="true" />
+                  <span className="h-2 w-2 rounded-full bg-[#e2e8f0]" aria-hidden="true" />
+                  <span className="h-2 w-2 rounded-full bg-[#e2e8f0]" aria-hidden="true" />
+                  <span className="ml-2 text-xs font-semibold uppercase tracking-[0.08em] text-muted">
+                    Validation report
+                  </span>
                 </div>
-                <span className="text-xs text-slate-500 ml-2 font-mono">IdeaForge Analysis</span>
+                <span className="badge badge-success">Score 87</span>
               </div>
 
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-slate-300 font-medium">AI-Powered Tutoring Platform</span>
-                  <span className="text-xs px-2 py-0.5 rounded-md bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-semibold">Score: 87</span>
+              <div className="p-5 sm:p-6">
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.08em] text-muted">
+                      Idea under review
+                    </p>
+                    <h2 className="mt-1 text-base font-bold text-ink">AI-powered tutoring platform</h2>
+                  </div>
+                  <span className="badge badge-neutral whitespace-nowrap">SaaS · Education</span>
                 </div>
 
-                <div className="space-y-2 max-h-[220px] overflow-y-auto pr-1 scrollbar-thin">
-                  {DIMENSIONS.map((d) => (
-                    <div key={d.name} className="flex items-center gap-2.5">
-                      <span className="text-[11px] text-slate-500 w-24 shrink-0 truncate">{d.name}</span>
-                      <div className="flex-1 h-1.5 rounded-full bg-white/5 overflow-hidden">
+                <div className="mt-5 space-y-2.5">
+                  {DIMENSIONS.map((dimension, index) => (
+                    <div key={dimension.name} className="flex items-center gap-3">
+                      <span className="w-[7.5rem] shrink-0 truncate text-xs text-copy">{dimension.name}</span>
+                      <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-[#eaf0f6]">
                         <motion.div
                           className="h-full rounded-full"
-                          style={{ backgroundColor: d.color }}
+                          style={{
+                            backgroundColor: dimension.accent
+                              ? "var(--brand-orange)"
+                              : "var(--brand-blue)",
+                          }}
                           initial={{ width: 0 }}
-                          animate={{ width: `${d.score}%` }}
-                          transition={{ duration: 1.2, delay: 0.5, ease: "easeOut" }}
+                          animate={{ width: `${dimension.score}%` }}
+                          transition={{ duration: 0.9, delay: 0.4 + index * 0.05, ease: "easeOut" }}
                         />
                       </div>
-                      <span className="text-[11px] font-mono text-slate-400 w-7 text-right">{d.score}</span>
+                      <span className="w-7 shrink-0 text-right text-xs font-semibold tabular-nums text-ink">
+                        {dimension.score}
+                      </span>
                     </div>
                   ))}
                 </div>
 
-                <div className="border-t border-white/5 pt-4 mt-4">
-                  <div className="grid grid-cols-3 gap-3">
-                    <div className="rounded-xl bg-white/[0.03] border border-white/5 p-3 text-center">
-                      <p className="text-lg font-bold text-white">30s</p>
-                      <p className="text-[10px] text-slate-500 uppercase tracking-wider mt-0.5">Analysis Time</p>
+                <dl className="mt-6 grid grid-cols-3 gap-3 border-t border-line pt-5">
+                  {[
+                    { label: "Analysis time", value: "30s" },
+                    { label: "Dimensions", value: "9" },
+                    { label: "Confidence", value: "94%" },
+                  ].map((metric) => (
+                    <div key={metric.label} className="rounded-lg border border-line bg-surface-alt px-3 py-2.5 text-center">
+                      <dd className="text-lg font-bold text-ink">{metric.value}</dd>
+                      <dt className="mt-0.5 text-[10px] font-semibold uppercase tracking-[0.06em] text-muted">
+                        {metric.label}
+                      </dt>
                     </div>
-                    <div className="rounded-xl bg-white/[0.03] border border-white/5 p-3 text-center">
-                      <p className="text-lg font-bold text-white">9</p>
-                      <p className="text-[10px] text-slate-500 uppercase tracking-wider mt-0.5">Dimensions</p>
-                    </div>
-                    <div className="rounded-xl bg-white/[0.03] border border-white/5 p-3 text-center">
-                      <p className="text-lg font-bold text-emerald-400">94%</p>
-                      <p className="text-[10px] text-slate-500 uppercase tracking-wider mt-0.5">Accuracy</p>
-                    </div>
-                  </div>
-                </div>
+                  ))}
+                </dl>
               </div>
             </div>
 
-            <div className="absolute -bottom-3 -right-3 w-24 h-24 bg-sky-500/20 rounded-full blur-2xl" />
-            <div className="absolute -top-3 -left-3 w-20 h-20 bg-orange-500/15 rounded-full blur-2xl" />
+            <div className="card absolute -bottom-5 -left-4 hidden items-center gap-2.5 px-4 py-3 shadow-[var(--shadow-md)] sm:flex">
+              <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-soft text-brand-ink">
+                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </span>
+              <div>
+                <p className="text-xs font-semibold text-ink">7-day action plan</p>
+                <p className="text-[11px] text-muted">Generated with every report</p>
+              </div>
+            </div>
           </motion.div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

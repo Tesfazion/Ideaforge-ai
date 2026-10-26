@@ -20,7 +20,7 @@ function hashKey(key: string): string {
 
 export async function GET(request: NextRequest) {
   try {
-    const userId = getUserId(request);
+    const userId = await getUserId(request);
     if (!userId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
@@ -34,7 +34,7 @@ export async function GET(request: NextRequest) {
     }
 
     const ip = getClientIp(request);
-    const rl = checkRateLimit(`enterprise-keys:${userId}:${ip}`, {
+    const rl = await checkRateLimit(`enterprise-keys:${userId}:${ip}`, {
       windowMs: 3600000,
       maxRequests: 10,
     });
@@ -71,7 +71,7 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const userId = getUserId(request);
+    const userId = await getUserId(request);
     if (!userId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
@@ -85,7 +85,7 @@ export async function POST(request: NextRequest) {
     }
 
     const ip = getClientIp(request);
-    const rl = checkRateLimit(`enterprise-keys:${userId}:${ip}`, {
+    const rl = await checkRateLimit(`enterprise-keys:${userId}:${ip}`, {
       windowMs: 3600000,
       maxRequests: 10,
     });
@@ -145,7 +145,7 @@ export async function POST(request: NextRequest) {
 
 export async function DELETE(request: NextRequest) {
   try {
-    const userId = getUserId(request);
+    const userId = await getUserId(request);
     if (!userId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
@@ -159,7 +159,7 @@ export async function DELETE(request: NextRequest) {
     }
 
     const ip = getClientIp(request);
-    const rl = checkRateLimit(`enterprise-keys:${userId}:${ip}`, {
+    const rl = await checkRateLimit(`enterprise-keys:${userId}:${ip}`, {
       windowMs: 3600000,
       maxRequests: 10,
     });

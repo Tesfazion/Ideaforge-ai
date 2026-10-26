@@ -47,11 +47,11 @@ export default function SectionNav() {
         >
           <div className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${
             active === s.id
-              ? "bg-sky-400 scale-125 shadow-[0_0_6px_rgba(129,140,248,0.5)]"
-              : "bg-white/20 group-hover:bg-white/40"
+              ? "bg-brand scale-125"
+              : "bg-[var(--line-strong)] group-hover:bg-[var(--muted)]"
           }`} />
           <span className={`text-[11px] font-medium transition-colors duration-300 ${
-            active === s.id ? "text-sky-400" : "text-slate-600 group-hover:text-slate-400"
+            active === s.id ? "text-brand-ink" : "text-muted group-hover:text-copy"
           }`}>
             {s.label}
           </span>

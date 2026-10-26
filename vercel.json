@@ -1,6 +1,0 @@
-﻿{
-  "buildCommand": "cd ideaforge-ai && npm run build",
-  "outputDirectory": "ideaforge-ai/.next",
-  "installCommand": "cd ideaforge-ai && npm ci",
-  "framework": "nextjs"
-}

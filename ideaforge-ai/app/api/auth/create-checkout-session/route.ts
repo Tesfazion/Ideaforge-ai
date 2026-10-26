@@ -7,12 +7,12 @@ import { prisma } from "@/lib/prisma";
 export async function POST(request: NextRequest) {
   try {
     const ip = getClientIp(request);
-    const rl = checkRateLimit(`checkout:${ip}`, { windowMs: 60000, maxRequests: 10 });
+    const rl = await checkRateLimit(`checkout:${ip}`, { windowMs: 60000, maxRequests: 10 });
     if (!rl.allowed) {
       return NextResponse.json({ error: "Too many requests. Try again later." }, { status: 429 });
     }
 
-    const userId = getUserId(request);
+    const userId = await getUserId(request);
     if (!userId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }

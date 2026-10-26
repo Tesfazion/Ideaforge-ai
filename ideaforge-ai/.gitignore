@@ -11,3 +11,6 @@ prisma/dev.db
 prisma/dev.db-journal
 scripts/
 uploads/
+
+# Local artifacts and screenshots
+shots/

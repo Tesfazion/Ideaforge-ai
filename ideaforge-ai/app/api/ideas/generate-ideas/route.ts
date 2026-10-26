@@ -4,13 +4,13 @@ import { generateIdeas } from "@/lib/ai";
 import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
 
 export async function POST(request: NextRequest) {
-  const userId = getUserId(request);
+  const userId = await getUserId(request);
   if (!userId) {
     return Response.json({ error: "Unauthorized" }, { status: 401 });
   }
 
   const ip = getClientIp(request);
-  const rl = checkRateLimit(`generate:${userId}:${ip}`, { windowMs: 3600000, maxRequests: 10 });
+  const rl = await checkRateLimit(`generate:${userId}:${ip}`, { windowMs: 3600000, maxRequests: 10 });
   if (!rl.allowed) {
     return Response.json({ error: `Rate limit exceeded. Try again in ${rl.resetIn}s` }, { status: 429 });
   }

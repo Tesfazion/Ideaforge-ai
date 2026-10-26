@@ -16,7 +16,7 @@ Be concise and conservative. Score fairly. Return ONLY the JSON.`;
 export async function POST(request: NextRequest) {
   try {
     const ip = getClientIp(request);
-    const rl = checkRateLimit(`preview:${ip}`, { windowMs: 60000, maxRequests: 5 });
+    const rl = await checkRateLimit(`preview:${ip}`, { windowMs: 60000, maxRequests: 5 });
     if (!rl.allowed) {
       return NextResponse.json({ error: "Rate limit exceeded. Please wait before trying again." }, { status: 429 });
     }

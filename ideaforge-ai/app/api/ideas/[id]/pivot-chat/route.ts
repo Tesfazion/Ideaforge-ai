@@ -9,13 +9,13 @@ export async function POST(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const userId = getUserId(request);
+    const userId = await getUserId(request);
     if (!userId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const ip = getClientIp(request);
-    const rl = checkRateLimit(`pivot-chat:${userId}:${ip}`, { windowMs: 3600000, maxRequests: 20 });
+    const rl = await checkRateLimit(`pivot-chat:${userId}:${ip}`, { windowMs: 3600000, maxRequests: 20 });
     if (!rl.allowed) {
       return NextResponse.json({ error: `Rate limit exceeded. Try again in ${rl.resetIn}s` }, { status: 429 });
     }
